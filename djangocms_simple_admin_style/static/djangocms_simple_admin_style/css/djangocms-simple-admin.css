@@ -190,3 +190,11 @@ a.btn {
     color: var(--body-fg);
     border: 1px solid var(--dca-gray-lighter, #ddd);
 }
+
+body.cms-admin-sideframe #header { 
+    display: none;
+}
+
+body.cms-admin-sideframe .breadcrumbs {
+    margin-top: 46px;
+}
