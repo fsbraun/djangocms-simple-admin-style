@@ -12,7 +12,7 @@ It does only mildly adapt Django's admin style but changes fonts, colors, and so
 Documentation
 =============
 
-See ``REQUIREMENTS`` in the `setup.py <https://github.com/divio/djangocms-admin-style/blob/master/setup.py>`_
+See ``REQUIREMENTS`` in the `setup.py <https://github.com/fsbraun/djangocms-simple-admin-style/blob/master/setup.py>`_
 file for additional dependencies:
 
 Installation
@@ -41,7 +41,7 @@ To **compile CSS** run the following commands using **node 16**:
 For further options have a look at the ``gulpfile.js``.
 
 
-.. |pypi| image:: https://badge.fury.io/py/djangocms-admin-style.svg
+.. |pypi| image:: https://badge.fury.io/py/djangocms-simple-admin-style.svg
     :target: http://badge.fury.io/py/djangocms-simple-admin-style
 .. |django| image:: https://img.shields.io/badge/django-2.2%2B-blue.svg
     :target: https://www.djangoproject.com/
