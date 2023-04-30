@@ -161,14 +161,20 @@ th {
 }
 
 .aligned label {
-    /* float: unset; */
+    float: unset;
+    width: unset;
     display: inline-block;
     color: var(--body-fg);
     font-weight: 600;
 }
 
-.aligned .fieldBox > label:first-child {
+.aligned .fieldBox > label:first-child, .form-row > div > label {
     display: block;
+}
+
+.required label:not(.vCheckboxLabel):after, label.required:not(.vCheckboxLabel):after {
+    color: var(--delete-button-bg);
+    content: "*";
 }
 
 form .aligned p.help, form .aligned div.help {
@@ -191,6 +197,11 @@ a.btn {
     border: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
+.vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
+.colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField {
+    width: calc(100% - 10px);
+}
+
 body.cms-admin-sideframe #header {
     display: none;
 }
@@ -198,3 +209,4 @@ body.cms-admin-sideframe #header {
 body.cms-admin-sideframe .breadcrumbs {
     margin-top: 46px;
 }
+
