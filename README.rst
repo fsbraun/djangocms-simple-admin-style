@@ -4,9 +4,13 @@ django CMS Simple Admin Style
 
 |pypi| |django| |djangocms| |djangocms4|
 
-This is an alternative for the `django CMS Admin Style <https://github.com/django-cms/djangocms-admin-style>`_.
+This is a simple alternative for the `django CMS Admin Style <https://github.com/django-cms/djangocms-admin-style>`_. While django CMS admin style reoganizes Django's admin to uffer a unified user experience, this package has a much simpler objective:
 
-It does only mildly adapt Django's admin style but changes fonts, colors, and some form rendering to better fit into the django CMS look and feel.
+* Adjust colors to be consistent with django CMS.
+* Minimally adapt the css (e.g., add button borders) to keep the user interface consistent.
+* Exept this, Do not interfere with Django's admin styling
+
+Hence, it does only mildly adapt Django's admin style but changes fonts, colors, and some form rendering to better fit into the django CMS look and feel.
 
 
 Documentation
