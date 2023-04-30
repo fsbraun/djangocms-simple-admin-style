@@ -191,7 +191,7 @@ a.btn {
     border: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
-body.cms-admin-sideframe #header { 
+body.cms-admin-sideframe #header {
     display: none;
 }
 
