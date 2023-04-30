@@ -1,0 +1,145 @@
+:root, body {
+    --font-family-primary: Helvetica, Arial, sans-serif;
+}
+
+:root, :root[data-color-scheme="light"], :root[data-theme="light"] {
+    --primary: var(--dca-primary, #00bbff);
+    --secondary: var(--dca-white, #fff);
+    --accent: #f5dd5d;
+    --primary-fg: var(--dca-white, #fff);
+
+    --body-fg: var(--dca-gray-darkest, #333);
+    --body-bg: var(--dca-white, #fff);
+    --body-quiet-color: #666;
+    --body-loud-color: #000;
+
+    --header-color: var(--dca-black, #000);
+    --header-branding-color: var(--accent);
+    --header-bg: var(--secondary);
+    --header-link-color: var(--dca-primary, #00bbff);
+
+    --breadcrumbs-fg: #c4dce8;
+    --breadcrumbs-link-fg: var(--body-bg);
+    --breadcrumbs-bg: var(--primary);
+
+    --link-fg: var(--dca-primary, #00bbff);
+    --link-hover-color: #036;
+    --link-selected-fg: #5b80b2;
+
+    --hairline-color: #e8e8e8;
+    --border-color: #ccc;
+
+    --error-fg: #ba2121;
+
+    --message-success-bg: #dfd;
+    --message-warning-bg: #ffc;
+    --message-error-bg: #ffefef;
+
+    --darkened-bg: #f8f8f8; /* A bit darker than --body-bg */
+    --selected-bg: #e4e4e4; /* E.g. selected table cells */
+    --selected-row: #ffc;
+
+    --button-fg: var(--dca-gray-darker, #333);
+    --button-bg: var(--dca-white, #fff);
+    --button-hover-bg: var(-dca-gray-light, #999);
+    --default-button-fg: var(--dca-white, #fff);
+    --default-button-bg: var(--dca-primary, #00bbff);
+    --default-button-hover-bg: #205067;
+    --close-button-bg: #888; /* Previously #bbb, contrast 1.92 */
+    --close-button-hover-bg: #747474;
+    --delete-button-bg: #ba2121;
+    --delete-button-hover-bg: #a41515;
+
+    --object-tools-fg: var(--button-fg);
+    --object-tools-bg: var(--close-button-bg);
+    --object-tools-hover-bg: var(--close-button-hover-bg);
+}
+
+root[data-color-scheme="dark"], :root[data-theme="dark"] {
+    --primary:  var(--dca-primary, #58D1FC);
+
+}
+
+.dashboard #content {
+    width: calc(100% - 340px);
+}
+
+a.skip-to-content-link {
+    display: none;
+}
+
+h1 {
+    font-size: 1.4rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+}
+
+h3 {
+    font-size: 1rem;
+}
+
+h4, td, th, .module caption, .inline-group h2 {
+    font-size: 0.875rem;
+}
+
+h5, .small, .help, p.help, form p.help, div.help, form div.help, div.help li {
+    font-size: 0.75rem;
+}
+
+.mini {
+    font-size: 0.6815rem;
+}
+
+li, dt, dd {
+    font-size: 0.875rem;
+    line-height: 1.4rem;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background: 0 0;
+}
+
+a.section:link, a.section:visited {
+    color: var(--body-fg);
+}
+
+
+.object-tools a {
+    border-radius: 3px;
+}
+
+th {
+    font-weight: 400;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    font-weight: 600;
+}
+
+.aligned label {
+    /* float: unset; */
+    display: inline-block;
+    color: var(--body-fg);
+    font-weight: 600;
+}
+
+.aligned .fieldBox > label:first-child {
+    display: block;
+}
+
+form .aligned p.help, form .aligned div.help {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.aligned label + p, .aligned label + div.help, .aligned label + div.readonly,
+form .aligned input + p.help, form .aligned textarea + p.help, form .aligned select + p.help,
+form .aligned input + div.help, form .aligned textarea + div.help, form .aligned select + div.help {
+    margin-left: 0;
+}
+
+button {
+
+}
