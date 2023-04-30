@@ -1,29 +1,27 @@
 :root, body {
     --font-family-primary: Helvetica, Arial, sans-serif;
-}
 
-:root, :root[data-color-scheme="light"], :root[data-theme="light"] {
-    --primary: var(--dca-primary, #00bbff);
-    --secondary: var(--dca-white, #fff);
+    --primary: var(--dca-primary);
+    --secondary: var(--dca-white);
     --accent: #f5dd5d;
-    --primary-fg: var(--dca-white, #fff);
+    --primary-fg: var(--dca-white);
 
-    --body-fg: var(--dca-gray-darkest, #333);
-    --body-bg: var(--dca-white, #fff);
+    --body-fg: var(--dca-gray-darkest);
+    --body-bg: var(--dca-white);
     --body-quiet-color: #666;
     --body-loud-color: #000;
 
-    --header-color: var(--dca-black, #000);
+    --header-color: var(--dca-black);
     --header-branding-color: var(--accent);
     --header-bg: var(--secondary);
-    --header-link-color: var(--dca-primary, #00bbff);
+    --header-link-color: var(--dca-primary);
 
     --breadcrumbs-fg: #c4dce8;
     --breadcrumbs-link-fg: var(--body-bg);
     --breadcrumbs-bg: var(--primary);
 
-    --link-fg: var(--dca-primary, #00bbff);
-    --link-hover-color: #036;
+    --link-fg: var(--dca-primary);
+    --link-hover-color: #48abd9;
     --link-selected-fg: #5b80b2;
 
     --hairline-color: #e8e8e8;
@@ -39,25 +37,56 @@
     --selected-bg: #e4e4e4; /* E.g. selected table cells */
     --selected-row: #ffc;
 
-    --button-fg: var(--dca-gray-darker, #333);
-    --button-bg: var(--dca-white, #fff);
-    --button-hover-bg: var(-dca-gray-light, #999);
-    --default-button-fg: var(--dca-white, #fff);
-    --default-button-bg: var(--dca-primary, #00bbff);
-    --default-button-hover-bg: #205067;
+    --button-fg: var(--dca-gray-darker);
+    --button-bg: var(--dca-white);
+    --button-hover-bg: var(--dca-gray-lighter);
+    --default-button-fg: var(--dca-white);
+    --default-button-bg: var(--dca-primary);
+    --default-button-hover-bg: #48abd9;
     --close-button-bg: #888; /* Previously #bbb, contrast 1.92 */
     --close-button-hover-bg: #747474;
-    --delete-button-bg: #ba2121;
+    --delete-button-bg: #f00;
     --delete-button-hover-bg: #a41515;
 
-    --object-tools-fg: var(--button-fg);
-    --object-tools-bg: var(--close-button-bg);
-    --object-tools-hover-bg: var(--close-button-hover-bg);
+    --object-tools-fg: var(--body-fg);
+    --object-tools-bg: vaR(--dca-white);
+    --object-tools-hover-bg: var(--dca-gray-lighter);
+}
+
+:root, :root[data-color-scheme="light"], :root[data-theme="light"],
+html, html[data-color-scheme="light"], html[data-theme="light"] {
+   color-scheme: light;
+    --dca-light-mode: 1;
+    --dca-dark-mode: 0;
+    --dca-white: #FFFFFF;
+    --dca-black: #000000;
+    --dca-primary: #00bbff;
+    --dca-gray: #666;
+    --dca-gray-lightest: #f2f2f2;
+    --dca-gray-lighter: #ddd;
+    --dca-gray-light: #999;
+    --dca-gray-darker: #454545;
+    --dca-gray-darkest: #333;
+    --dca-gray-super-lightest: #f7f7f7;
 }
 
 root[data-color-scheme="dark"], :root[data-theme="dark"] {
-    --primary:  var(--dca-primary, #58D1FC);
+    color-scheme: dark;
+    --dca-light-mode: 0;
+    --dca-dark-mode: 1;
+    --dca-white: #2A2C2E;
+    --dca-black: #FFF;
+    --dca-primary: #58D1FC;
+    --dca-gray: #999; // $gray-light;
+    --dca-gray-lightest: #444; //$gray-darkest;
+    --dca-gray-lighter: #666; //$gray-darker;
+    --dca-gray-light: #888; // $gray-light;
+    --dca-gray-darker: #aaa; //$gray;
+    --dca-gray-darkest: #eee; // $gray-lighter;
+    --dca-gray-super-lightest: #333;
 
+    --active-brightness: 2;
+    --focus-brightness: 1.5;
 }
 
 .dashboard #content {
@@ -105,9 +134,22 @@ a.section:link, a.section:visited {
     color: var(--body-fg);
 }
 
+.submit-row {
+    background: var(--dca-white, #fff);
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    color: var(--dca-white, #fff);
+}
+
+.submit-row a.deletelink, .submit-row a.deletelink,
+.submit-row a.deletelink {
+    color: var(--dca-white, #fff);
+}
 
 .object-tools a {
     border-radius: 3px;
+    border: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
 th {
@@ -140,6 +182,11 @@ form .aligned input + div.help, form .aligned textarea + div.help, form .aligned
     margin-left: 0;
 }
 
-button {
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    border: 1px solid var(--dca-gray-lighter, #ddd);
+}
 
+a.btn {
+    color: var(--body-fg);
+    border: 1px solid var(--dca-gray-lighter, #ddd);
 }
