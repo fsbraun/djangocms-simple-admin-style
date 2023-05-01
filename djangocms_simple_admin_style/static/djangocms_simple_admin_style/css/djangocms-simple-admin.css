@@ -16,9 +16,9 @@
     --header-bg: var(--secondary);
     --header-link-color: var(--dca-primary);
 
-    --breadcrumbs-fg: #c4dce8;
-    --breadcrumbs-link-fg: var(--body-bg);
-    --breadcrumbs-bg: var(--primary);
+    --breadcrumbs-fg: #var(--dca-gray);
+    --breadcrumbs-link-fg: var(--dca-primary);
+    --breadcrumbs-bg: var(--dca-gray-lightest);
 
     --link-fg: var(--dca-primary);
     --link-hover-color: #48abd9;
@@ -152,6 +152,15 @@ a.section:link, a.section:visited {
     border: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
+.object-tools a.addlink {
+    color: var(--default-button-fg);
+    background-color: var(--default-button-bg);
+}
+
+.object-tools a.addlink:focus, .object-tools a.addlink:hover{
+    background-color: var(--default-button-hover-bg);
+}
+
 th {
     font-weight: 400;
 }
@@ -197,12 +206,37 @@ a.btn {
     border: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
-.vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
+input[type="text"], .vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
 .colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField {
     width: calc(100% - 10px);
 }
 
-body.cms-admin-sideframe #header {
+input, textarea, select, .form-row p, form .button {
+    font-family: unset;
+}
+
+div.form-row {
+    display: flex;
+    flex: 1 0 0%;
+}
+
+.form-row > div {
+    width: 100%;
+    max-width: 100%;
+}
+
+fieldset.collapse.collapsed .form-row {
+    display: none;
+}
+.select2 {
+    width: calc(100% - 40px) !important;
+}
+
+.colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField {
+    width: unset;
+}
+
+body.cms-admin-sideframe #header, body.cms-admin-modal #header {
     display: none;
 }
 
@@ -210,3 +244,11 @@ body.cms-admin-sideframe .breadcrumbs {
     margin-top: 46px;
 }
 
+body.cms-admin-modal .content {
+    margin-top: 36px;
+}
+body.cms-admin-modal .breadcrumbs,
+body.cms-admin-modal #toggle-nav-sidebar,
+body.cms-admin-modal #nav-sidebar {
+    display: none;
+}
