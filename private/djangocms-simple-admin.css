@@ -1,15 +1,17 @@
+/* Theming: Colors and fonts for dark and light skins */
+
 :root, body {
     --font-family-primary: Helvetica, Arial, sans-serif;
 
     --primary: var(--dca-primary);
     --secondary: var(--dca-white);
-    --accent: #f5dd5d;
+    --accent: var(--primary);
     --primary-fg: var(--dca-white);
 
     --body-fg: var(--dca-gray-darkest);
     --body-bg: var(--dca-white);
-    --body-quiet-color: #666;
-    --body-loud-color: #000;
+    /*--body-quiet-color: #666;*/
+    /*--body-loud-color: #000;*/
 
     --header-color: var(--dca-black);
     --header-branding-color: var(--accent);
@@ -21,39 +23,39 @@
     --breadcrumbs-bg: var(--dca-gray-lightest);
 
     --link-fg: var(--dca-primary);
-    --link-hover-color: #48abd9;
-    --link-selected-fg: #5b80b2;
+/*/   --link-hover-color: #48abd9;*/
+/*    --link-selected-fg: #5b80b2;*/
 
-    --hairline-color: #e8e8e8;
-    --border-color: #ccc;
+/*    --hairline-color: #e8e8e8;*/
+/*    --border-color: #ccc;*/
 
-    --error-fg: #ba2121;
+/*    --error-fg: #ba2121;*/
 
-    --message-success-bg: #dfd;
-    --message-warning-bg: #ffc;
-    --message-error-bg: #ffefef;
+/*    --message-success-bg: #dfd;*/
+/*    --message-warning-bg: #ffc;*/
+/*    --message-error-bg: #ffefef;*/
 
-    --darkened-bg: #f8f8f8; /* A bit darker than --body-bg */
-    --selected-bg: #e4e4e4; /* E.g. selected table cells */
-    --selected-row: #ffc;
+    --darkened-bg: var(--dca-gray-lightest); /* A bit darker than --body-bg */
+    /*--selected-bg: #e4e4e4; */
+    /*--selected-row: #ffc; */
 
     --button-fg: var(--dca-gray-darker);
     --button-bg: var(--dca-white);
     --button-hover-bg: var(--dca-gray-lighter);
     --default-button-fg: var(--dca-white);
     --default-button-bg: var(--dca-primary);
-    --default-button-hover-bg: #48abd9;
-    --close-button-bg: #888; /* Previously #bbb, contrast 1.92 */
-    --close-button-hover-bg: #747474;
-    --delete-button-bg: #f00;
-    --delete-button-hover-bg: #a41515;
+    /*--default-button-hover-bg: #48abd9;*/
+    /*--close-button-bg: #888; !* Previously #bbb, contrast 1.92 *!*/
+    /*--close-button-hover-bg: #747474;*/
+    /*--delete-button-bg: #f00;*/
+    /*--delete-button-hover-bg: #a41515;*/
 
     --object-tools-fg: var(--body-fg);
     --object-tools-bg: vaR(--dca-white);
     --object-tools-hover-bg: var(--dca-gray-lighter);
 }
 
-:root, :root[data-color-scheme="light"], :root[data-theme="light"],
+root, :root[data-color-scheme="light"], :root[data-theme="light"],
 html, html[data-color-scheme="light"], html[data-theme="light"] {
    color-scheme: light;
     --dca-light-mode: 1;
@@ -70,7 +72,28 @@ html, html[data-color-scheme="light"], html[data-theme="light"] {
     --dca-gray-super-lightest: #f7f7f7;
 }
 
-root[data-color-scheme="dark"], :root[data-theme="dark"] {
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+        --dca-light-mode: 0;
+        --dca-dark-mode: 1;
+        --dca-white: #2A2C2E;
+        --dca-black: #FFF;
+        --dca-primary: #58D1FC;
+        --dca-gray: #999;
+        --dca-gray-lightest: #444;
+        --dca-gray-lighter: #666;
+        --dca-gray-light: #888;
+        --dca-gray-darker: #aaa;
+        --dca-gray-darkest: #eee;
+        --dca-gray-super-lightest: #333;
+
+        --active-brightness: 2;
+        --focus-brightness: 1.5;
+    }
+}
+root[data-color-scheme="dark"], :root[data-theme="dark"],
+html[data-color-scheme="dark"], html[data-theme="dark"] {
     color-scheme: dark;
     --dca-light-mode: 0;
     --dca-dark-mode: 1;
@@ -89,13 +112,12 @@ root[data-color-scheme="dark"], :root[data-theme="dark"] {
     --focus-brightness: 1.5;
 }
 
+/* Full width dashboard */
+
 .dashboard #content {
     width: calc(100% - 340px);
 }
 
-a.skip-to-content-link {
-    display: none;
-}
 
 h1 {
     font-size: 1.4rem;
@@ -283,6 +305,12 @@ fieldset.collapse.collapsed .form-row {
 
 .colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField {
     width: unset;
+}
+
+/* Hide components not needed in sidebar or modal */
+
+body.cms-admin a.skip-to-content-link {
+    display: none;
 }
 
 body.cms-admin-sideframe #header, body.cms-admin-modal #header {
