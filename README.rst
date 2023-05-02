@@ -36,14 +36,6 @@ but you can still partially customize this page. Look at the source of
 ``templates/admin/base_site.html`` and override the templates that are included in various blocks. For example, you can add your own CSS in
 ``templates/admin/inc/extrastyle.html``.
 
-To **compile CSS** run the following commands using **node 16**:
-
-* ``nvm use``
-* ``npm install``
-* ``gulp``
-
-For further options have a look at the ``gulpfile.js``.
-
 
 .. |pypi| image:: https://badge.fury.io/py/djangocms-simple-admin-style.svg
     :target: http://badge.fury.io/py/djangocms-simple-admin-style
