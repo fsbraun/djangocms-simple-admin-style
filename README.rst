@@ -47,7 +47,7 @@ Contributions are highly welcome! Install the development environment by typing
     nvm use
     npm install
 
-Changes are made in the `private/djangocms-simple-admin.css` file. Minify the file using `. ./build` command.
+Changes are made in the `private/djangocms-simple-admin.css` file. Minify the file using `. ./minify-css` command.
 
 
 .. |pypi| image:: https://badge.fury.io/py/djangocms-simple-admin-style.svg
