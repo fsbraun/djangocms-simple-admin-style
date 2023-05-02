@@ -118,6 +118,7 @@ html[data-color-scheme="dark"], html[data-theme="dark"] {
     width: calc(100% - 340px);
 }
 
+/* Font sizes */
 
 h1 {
     font-size: 1.4rem;
@@ -147,6 +148,8 @@ li, dt, dd {
     font-size: 0.875rem;
     line-height: 1.4rem;
 }
+
+/* Colors */
 
 .module h2, .module caption, .inline-group h2 {
     background: var(--body-bg);
@@ -195,12 +198,7 @@ li, dt, dd {
     background-color: var(--default-button-hover-bg);
 }
 
-body.djangocms-simple-admin-style #page_form_lang_tabs input[type=button].language_button.selected {
-    color: var(--default-button-fg);
-    background-color: var(--default-button-bg);
-    border-color: var(--default-button-bg);
-}
-
+/* Tables */
 th {
     font-weight: 400;
 }
@@ -209,14 +207,30 @@ th {
     font-weight: 600;
 }
 
-.aligned label {
+.aligned label:not(.btn) {
     float: unset;
     width: unset;
-    display: block;
     color: var(--body-fg);
     font-weight: 600;
 }
 
+.aligned label.btn {  /* Some UI use the label as buttons for checkboxes */
+    display: inline-block;
+}
+
+/* User tools */
+
+#user-tools #logout-form button,
+#user-tools a:link, #user-tools a:visited {
+    color: var(--primary);
+}
+
+#logout-form button:active, #logout-form button:hover {
+    margin-bottom: 2px;
+    padding-bottom: 1px;
+}
+
+/* Forms */
 .flex-container {
     display: block;
 }
@@ -263,7 +277,7 @@ a.btn {
     border: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
-input[type="text"], .vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
+input[type="text"], input[type="url"], input[type="email"], .vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
 .colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField,
 .flex-container textarea {
     width: calc(100% - 10px);
@@ -279,12 +293,13 @@ input, textarea, select, .form-row p, form .button {
 
 div.form-row {
     display: flex;
-    flex: 1 0 0;
+    flex-wrap: wrap;
 }
 
 .form-row > div {
+    flex: 1 0 0;
     width: 100%;
-    max-width: 100%;
+    min-width: 463px;
 }
 
 fieldset.collapse.collapsed .form-row {
@@ -338,7 +353,6 @@ body.cms-admin-sideframe.djangocms-simple-admin-style {
     margin-top: 0;
 }
 
-
 /* Parler styles */
 
 .djangocms-simple-admin-style .parler-language-tabs span.current {
@@ -362,6 +376,7 @@ body.cms-admin-sideframe.djangocms-simple-admin-style {
 }
 
 /* Language tabs */
+
 #page_form_lang_tabs {
     border-bottom: 2px solid var(--primary);
 }
@@ -371,6 +386,12 @@ body.cms-admin-sideframe.djangocms-simple-admin-style {
     border-bottom: none;
     margin-bottom: 0;
     padding: 5px 15px 5px 15px;
+}
+
+.djangocms-simple-admin-style #page_form_lang_tabs input[type=button].language_button.selected {
+    color: var(--default-button-fg);
+    background-color: var(--default-button-bg);
+    border-color: var(--default-button-bg);
 }
 
 /* CMS buttons */
@@ -413,4 +434,11 @@ a.cms-btn-group:link, a.cms-btn-group, a.cms-btn-group:hover {
 .cms-btn-active {
     background-color: var(--dca-gray-lighter);
 
+}
+
+/* Django button */
+
+.delete-confirmation form .cancel-link,
+.delete-confirmation form input[type="submit"] {
+    color: var(--dca-white);
 }
