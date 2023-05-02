@@ -307,11 +307,15 @@ fieldset.collapse.collapsed .form-row {
 }
 
 .select2 {
-    width: calc(100% - 40px) !important;
+    width: calc(100% - 92px) !important;
 }
 
 .flex-container .related-widget-wrapper, .flex-container select, .flex-container .select2-container {
     width: 100%;
+}
+
+select[multiple] {
+    min-width: 200px;
 }
 
 .related-widget-wrappxer select {
