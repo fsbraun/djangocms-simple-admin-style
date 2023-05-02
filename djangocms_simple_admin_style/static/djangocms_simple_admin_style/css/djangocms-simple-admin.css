@@ -14,7 +14,7 @@
     --header-color: var(--dca-black);
     --header-branding-color: var(--accent);
     --header-bg: var(--secondary);
-    --header-link-color: var(--dca-primary);
+    --header-link-color: var(--body-fg);
 
     --breadcrumbs-fg: var(--dca-gray);
     --breadcrumbs-link-fg: var(--dca-primary);
@@ -127,10 +127,21 @@ li, dt, dd {
 }
 
 .module h2, .module caption, .inline-group h2 {
-    background: 0 0;
+    background: var(--body-bg);
+    color: var(--body-fg)
 }
 
-a.section:link, a.section:visited {
+#nav-sidebar .module caption {
+    background: var(--primary);
+}
+#nav-sidebar .section:link,
+#nav-sidebar .section:visited,
+#nav-sidebar .current-app .section:link,
+#nav-sidebar .current-app .section:visited {
+    color: var(--dca-white);
+}
+
+#nav-sidebar a {
     color: var(--body-fg);
 }
 
@@ -202,6 +213,19 @@ form .aligned p.help, form .aligned div.help {
     padding-left: 0;
 }
 
+form button {
+    margin: 2px 0;
+    padding: 5px 6px;
+    vertical-align: middle;
+    font-family: var(--font-family-primary);
+    font-weight: normal;
+    font-size: 0.8125rem;
+    background-color: var(--default-button-bg);
+    color: var(--default-button-fg);
+    border: 1px solid var(--default-button-bg);
+    border-radius: 3px;
+}
+
 .aligned label + p, .aligned label + div.help, .aligned label + div.readonly,
 form .aligned input + p.help, form .aligned textarea + p.help, form .aligned select + p.help,
 form .aligned input + div.help, form .aligned textarea + div.help, form .aligned select + div.help {
@@ -218,8 +242,13 @@ a.btn {
 }
 
 input[type="text"], .vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
-.colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField {
+.colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField,
+.flex-container textarea {
     width: calc(100% - 10px);
+}
+
+#changelist-search input[type="text"] {
+    width: unset;
 }
 
 input, textarea, select, .form-row p, form .button {
@@ -244,7 +273,7 @@ fieldset.collapse.collapsed .form-row {
     width: calc(100% - 40px) !important;
 }
 
-.related-widget-wrapper, select, .select2-container {
+.flex-container .related-widget-wrapper, .flex-container select, .flex-container .select2-container {
     width: 100%;
 }
 
@@ -260,8 +289,12 @@ body.cms-admin-sideframe #header, body.cms-admin-modal #header {
     display: none;
 }
 
-body.cms-admin-sideframe .breadcrumbs {
-    margin-top: 46px;
+body.cms-admin-sideframe #container {
+    padding-top: 46px;
+}
+
+body.cms-admin-sideframe #content > h1 {
+    display: none;
 }
 
 body.cms-admin-modal .content {
@@ -271,4 +304,8 @@ body.cms-admin-modal .breadcrumbs,
 body.cms-admin-modal #toggle-nav-sidebar,
 body.cms-admin-modal #nav-sidebar {
     display: none;
+}
+
+.cms-admin-sideframe.djangocms-simple-admin-style {
+    margin-top: 0 !important;
 }
