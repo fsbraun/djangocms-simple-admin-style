@@ -306,6 +306,6 @@ body.cms-admin-modal #nav-sidebar {
     display: none;
 }
 
-.cms-admin-sideframe.djangocms-simple-admin-style {
-    margin-top: 0 !important;
+body.cms-admin-sideframe.djangocms-simple-admin-style {
+    margin-top: 0;
 }
