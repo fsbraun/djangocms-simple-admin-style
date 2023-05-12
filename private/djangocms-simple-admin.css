@@ -306,12 +306,16 @@ fieldset.collapse.collapsed .form-row {
     display: none;
 }
 
-.select2 {
-    width: calc(100% - 92px) !important;
+.related-widget-wrapper {
+    width: 100%;
 }
 
-.flex-container .related-widget-wrapper, .flex-container select, .flex-container .select2-container {
-    width: 100%;
+select, .select2-container {
+    width: calc(100% - 92px);
+}
+
+.select2 {
+    width: calc(100% - 92px)  !important;  /* Overwrite inline style */
 }
 
 select[multiple] {
