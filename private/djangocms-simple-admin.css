@@ -450,3 +450,10 @@ a.cms-btn-group:link, a.cms-btn-group, a.cms-btn-group:hover {
 .delete-confirmation form input[type="submit"] {
     color: var(--dca-white);
 }
+
+/* Hide cancel-link in delete confirmation*/
+
+.cms-admin-modal.delete-confirmation .cancel-link, .cms_modal-window.delete-confirmation .cancel-link,
+.popup.delete-confirmation .cancel-link {
+    display: none;
+}
