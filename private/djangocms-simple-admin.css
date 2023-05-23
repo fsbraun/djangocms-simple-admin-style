@@ -302,6 +302,10 @@ div.form-row {
     min-width: 463px;
 }
 
+.form-row > ul.errorlist {
+    width: 100%;
+}
+
 fieldset.collapse.collapsed .form-row {
     display: none;
 }
