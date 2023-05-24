@@ -278,6 +278,7 @@ form .aligned ul {
 
 .button, input[type=submit], input[type=button], .submit-row input, a.button {
     border: 1px solid var(--dca-gray-lighter, #ddd);
+    font-size: 14px;
 }
 
 a.btn {
@@ -287,7 +288,7 @@ a.btn {
 
 input[type="text"], input[type="url"], input[type="email"], .vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
 .colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField,
-.flex-container textarea {
+textarea {
     width: calc(100% - 10px);
 }
 
@@ -360,14 +361,28 @@ body.cms-admin-sideframe #content > h1 {
     display: none;
 }
 
-body.cms-admin-modal .content {
-    margin-top: 36px;
+body.cms-admin-sideframe .object-tools {
+    margin-right: 92px;  /* Space for cms navigation butons */
 }
+
 body.cms-admin-modal .breadcrumbs,
 body.cms-admin-modal #toggle-nav-sidebar,
-body.cms-admin-modal #nav-sidebar {
+body.cms-admin-modal #nav-sidebar,
+body.cms-admin-modal .hide-in-modal,
+body.cms-admin-modal #content > h2 {
     display: none;
 }
+
+/* Remove space reserved for (hidden) sidebar */
+body.cms-admin-modal .main > #nav-sidebar + .content,
+body.cms-admin-modal .main.shifted > #nav-sidebar + .content {
+    max-width: 100%;
+}
+
+.main.shifted > #nav-sidebar + .content {
+    max-width: calc(100% - 299px);
+}
+
 
 body.cms-admin-sideframe.djangocms-simple-admin-style {
     margin-top: 0;
