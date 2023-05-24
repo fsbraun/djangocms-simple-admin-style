@@ -308,7 +308,6 @@ div.form-row {
 .form-row > div {
     flex: 1 0 0;
     width: 100%;
-    min-width: 463px;
 }
 
 .form-row > ul.errorlist {
