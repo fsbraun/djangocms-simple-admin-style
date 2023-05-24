@@ -342,6 +342,16 @@ select[multiple] {
     width: unset;
 }
 
+/* Remove wrong additional separator line for responsive display */
+
+@media (max-width: 1024px) {
+    .djangocms-simple-admin-style fieldset .fieldBox + .fieldBox {
+        border-top: unset;
+        margin-top: 0;
+        padding-top: 0;
+    }
+}
+
 /* Hide components not needed in sidebar or modal */
 
 body.cms-admin a.skip-to-content-link {
