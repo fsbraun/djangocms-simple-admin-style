@@ -305,7 +305,12 @@ div.form-row {
     flex-wrap: wrap;
 }
 
-.form-row > div {
+/* Except user-auth change form */
+.auth-user.change-form div.form-row {
+    display: block;
+}
+
+div.form-row > div:not(.help) {
     flex: 1 0 0;
     width: 100%;
 }
