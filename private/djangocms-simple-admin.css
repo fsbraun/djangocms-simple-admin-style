@@ -14,7 +14,7 @@
     --header-color: var(--dca-black);
     --header-branding-color: var(--accent);
     --header-bg: var(--secondary);
-    --header-link-color: var(--dca-primary);
+    --header-link-color: var(--dca-gray-darkest);
 
     --breadcrumbs-fg: var(--dca-gray);
     --breadcrumbs-link-fg: var(--dca-primary);
@@ -380,6 +380,12 @@ body.cms-admin-modal .main.shifted > #nav-sidebar + .content {
 
 body.cms-admin-sideframe.djangocms-simple-admin-style {
     margin-top: 0;
+}
+
+/* Collapse link */
+
+fieldset .collapse-toggle {
+    color: var(--dca-primary);
 }
 
 /* Parler styles */
