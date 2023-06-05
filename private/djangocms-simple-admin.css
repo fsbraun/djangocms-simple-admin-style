@@ -10,45 +10,22 @@
 
     --body-fg: var(--dca-gray-darkest);
     --body-bg: var(--dca-white);
-    /*--body-quiet-color: #666;*/
-    /*--body-loud-color: #000;*/
 
     --header-color: var(--dca-black);
     --header-branding-color: var(--accent);
     --header-bg: var(--secondary);
-    --header-link-color: var(--body-fg);
+    --header-link-color: var(--dca-primary);
 
     --breadcrumbs-fg: var(--dca-gray);
     --breadcrumbs-link-fg: var(--dca-primary);
     --breadcrumbs-bg: var(--dca-gray-lightest);
-
     --link-fg: var(--dca-primary);
-/*/   --link-hover-color: #48abd9;*/
-/*    --link-selected-fg: #5b80b2;*/
-
-/*    --hairline-color: #e8e8e8;*/
-/*    --border-color: #ccc;*/
-
-/*    --error-fg: #ba2121;*/
-
-/*    --message-success-bg: #dfd;*/
-/*    --message-warning-bg: #ffc;*/
-/*    --message-error-bg: #ffefef;*/
-
     --darkened-bg: var(--dca-gray-lightest); /* A bit darker than --body-bg */
-    /*--selected-bg: #e4e4e4; */
-    /*--selected-row: #ffc; */
-
     --button-fg: var(--dca-gray-darker);
     --button-bg: var(--dca-white);
     --button-hover-bg: var(--dca-gray-lighter);
     --default-button-fg: var(--dca-white);
     --default-button-bg: var(--dca-primary);
-    /*--default-button-hover-bg: #48abd9;*/
-    /*--close-button-bg: #888; !* Previously #bbb, contrast 1.92 *!*/
-    /*--close-button-hover-bg: #747474;*/
-    /*--delete-button-bg: #f00;*/
-    /*--delete-button-hover-bg: #a41515;*/
 
     --object-tools-fg: var(--body-fg);
     --object-tools-bg: vaR(--dca-white);
@@ -281,7 +258,7 @@ form .aligned ul {
     font-size: 14px;
 }
 
-a.btn {
+a.cms-action-btn {
     color: var(--body-fg);
     border: 1px solid var(--dca-gray-lighter, #ddd);
 }
@@ -300,13 +277,16 @@ input, textarea, select, .form-row p, form .button {
     font-family: unset;
 }
 
-div.form-row {
+div.form-row:not([hidden]) {
     display: flex;
     flex-wrap: wrap;
+    padding-left: 0;
+    padding-right: 0;
+    overflow: unset;
 }
 
 /* Except user-auth change form */
-.auth-user.change-form div.form-row {
+.auth-user.change-form div.form-row:not([hidden]) {
     display: block;
 }
 
