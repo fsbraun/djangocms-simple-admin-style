@@ -155,9 +155,18 @@ li, dt, dd {
     color: var(--dca-white, #fff);
 }
 
-.submit-row a.deletelink, .submit-row a.deletelink,
 .submit-row a.deletelink {
     color: var(--dca-white, #fff);
+}
+
+.submit-row a.closelink, .delete-confirmation a.cancel-link {
+    color: var(--dca-black, #000);
+    background: var(--dca-white, #fff);
+    border: 1px solid var(--dca-gray-lighter, #ddd);
+}
+
+.submit-row a.closelink:hover, .delete-confirmation a.cancel-link:hover {
+    background: var(--dca-gray-lightest, #fff);
 }
 
 .object-tools a {
@@ -259,7 +268,7 @@ form .aligned ul {
 }
 
 a.cms-action-btn {
-    color: var(--body-fg);
+    color: var(--dca-gray-darkest);
     border: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
@@ -293,6 +302,7 @@ div.form-row:not([hidden]) {
 div.form-row > div:not(.help) {
     flex: 1 0 0;
     width: 100%;
+    margin-right: 10px;
 }
 
 .form-row > ul.errorlist {
@@ -429,6 +439,15 @@ fieldset .collapse-toggle {
     border-color: var(--default-button-bg);
 }
 
+/* Filer styles */
+
+.insertlinkButton {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='#00bbff' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z'/%3E%3C/svg%3E");
+}
+
 /* CMS buttons */
 .cms-btn-group {
     border: 1px solid var(--dca-gray-lighter, #ddd);
@@ -473,12 +492,11 @@ a.cms-btn-group:link, a.cms-btn-group, a.cms-btn-group:hover {
 
 /* Django button */
 
-.delete-confirmation form .cancel-link,
 .delete-confirmation form input[type="submit"] {
     color: var(--dca-white);
 }
 
-/* Hide cancel-link in delete confirmation*/
+/* Hide cancel-link in delete confirmation when in popup or modal*/
 
 .cms-admin-modal.delete-confirmation .cancel-link, .cms_modal-window.delete-confirmation .cancel-link,
 .popup.delete-confirmation .cancel-link {
