@@ -30,6 +30,8 @@
     --object-tools-fg: var(--body-fg);
     --object-tools-bg: vaR(--dca-white);
     --object-tools-hover-bg: var(--dca-gray-lighter);
+
+    --error-fg: #f00;
 }
 
 root, :root[data-color-scheme="light"], :root[data-theme="light"],
@@ -276,6 +278,10 @@ input[type="text"], input[type="url"], input[type="email"], .vLargeTextField, .v
 .colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField,
 textarea {
     width: calc(100% - 10px);
+}
+
+.datetime input, .form-row .datetime input.vDateField, .form-row .datetime input.vTimeField {
+    margin-left: 0;
 }
 
 #changelist-search input[type="text"] {
