@@ -202,10 +202,6 @@ th {
     font-weight: 600;
 }
 
-.aligned label.btn {  /* Some UI use the label as buttons for checkboxes */
-    display: inline-block;
-}
-
 /* User tools */
 
 #user-tools #logout-form button,
@@ -265,13 +261,17 @@ form .aligned ul {
 }
 
 .button, input[type=submit], input[type=button], .submit-row input, a.button {
-    border: 1px solid var(--dca-gray-lighter, #ddd);
     font-size: 14px;
+}
+
+a.button {
+    outline: 1px solid var(--dca-gray-lighter, #ddd);
+    padding: 9px 14px;
 }
 
 a.cms-action-btn {
     color: var(--dca-gray-darkest);
-    border: 1px solid var(--dca-gray-lighter, #ddd);
+    outline: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
 input[type="text"], input[type="url"], input[type="email"], .vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
@@ -323,7 +323,7 @@ fieldset.collapse.collapsed .form-row {
     width: 100%;
 }
 
-select, .select2-container {
+.change-form select, .select2-container {
     width: calc(100% - 92px);
 }
 
@@ -333,10 +333,6 @@ select, .select2-container {
 
 select[multiple] {
     min-width: 200px;
-}
-
-.related-widget-wrappxer select {
-    width: calc(100% - 92px);
 }
 
 .colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField {
