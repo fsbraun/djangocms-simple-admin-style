@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 0.4.8
+=============
+
+Bugfix:
+
+* More complete adaptation to Django dark mode
+
+
 Version 0.4.6
 =============
 
