@@ -10,6 +10,8 @@
 
     --body-fg: var(--dca-gray-darkest);
     --body-bg: var(--dca-white);
+    /*--body-quiet-color: #666;*/
+    /*--body-loud-color: #000;*/
 
     --header-color: var(--dca-black);
     --header-branding-color: var(--accent);
@@ -19,19 +21,38 @@
     --breadcrumbs-fg: var(--dca-gray);
     --breadcrumbs-link-fg: var(--dca-primary);
     --breadcrumbs-bg: var(--dca-gray-lightest);
+
     --link-fg: var(--dca-primary);
+    /*--link-hover-color: #036;*/
+    /*--link-selected-fg: #5b80b2;*/
+
+    --hairline-color: var(--dca-gray-lightest);
+    --border-color: var(--dca-gray-lighter);
+
+    --error-fg: #f00;
+
+    /*--message-success-bg: #dfd;*/
+    /*--message-warning-bg: #ffc;*/
+    /*--message-error-bg: #ffefef;*/
+
+
     --darkened-bg: var(--dca-gray-lightest); /* A bit darker than --body-bg */
+    /*--selected-bg: #e4e4e4; !* E.g. selected table cells *!*/
+    /*--selected-row: #ffc;*/
+
     --button-fg: var(--dca-gray-darker);
     --button-bg: var(--dca-white);
     --button-hover-bg: var(--dca-gray-lighter);
     --default-button-fg: var(--dca-white);
     --default-button-bg: var(--dca-primary);
+    /*--close-button-bg: #747474;*/
+    /*--close-button-hover-bg: #333;*/
+    /*--delete-button-bg: #ba2121;*/
+    /*--delete-button-hover-bg: #a41515;*/
 
     --object-tools-fg: var(--body-fg);
     --object-tools-bg: vaR(--dca-white);
     --object-tools-hover-bg: var(--dca-gray-lighter);
-
-    --error-fg: #f00;
 }
 
 root, :root[data-color-scheme="light"], :root[data-theme="light"],
