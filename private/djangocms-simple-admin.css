@@ -384,8 +384,12 @@ body.cms-admin-sideframe #container {
     padding-top: 46px;
 }
 
-body.cms-admin-modal #changelist, body.cms-admin-modal .object-tools {
-    padding-top: 20px ;
+body.cms-admin-modal #changelist {
+    margin-top: 20px;
+}
+
+body.cms-admin-modal .object-tools {
+    padding-top: 20px;
 }
 
 body.cms-admin-sideframe #content > h1 {
