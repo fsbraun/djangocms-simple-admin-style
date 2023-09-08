@@ -2,19 +2,13 @@
 Changelog
 =========
 
-Version 0.4.9
-=============
-
-Bugfix:
-
-* Allow for admin pages with object tools in modal
-
 Version 0.4.8
 =============
 
 Bugfix:
 
 * More complete adaptation to Django dark mode
+* Allow for admin pages with object tools in modal
 
 
 Version 0.4.6
