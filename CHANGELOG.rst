@@ -2,6 +2,12 @@
 Changelog
 =========
 
+Unreleased
+==========
+
+* Improve styling of non-submit admin buttons
+
+
 Version 0.4.8
 =============
 
