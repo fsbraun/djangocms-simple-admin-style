@@ -185,6 +185,9 @@ li, dt, dd {
 .submit-row a.closelink, .delete-confirmation a.cancel-link {
     color: var(--dca-black, #000);
     background: var(--dca-white, #fff);
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
     border: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
