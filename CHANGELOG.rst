@@ -2,10 +2,11 @@
 Changelog
 =========
 
-Unreleased
-==========
+Version 0.4.9
+=============
 
 * Improve styling of non-submit admin buttons
+* Improve styling of form errors
 
 
 Version 0.4.8
