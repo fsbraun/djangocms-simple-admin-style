@@ -2,6 +2,11 @@
 Changelog
 =========
 
+unreleased
+==========
+
+* Fix select2 styling for 4 admin action buttons
+
 Version 0.4.9
 =============
 
