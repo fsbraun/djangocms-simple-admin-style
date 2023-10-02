@@ -3,6 +3,7 @@
 :root, body {
     --font-family-primary: Helvetica, Arial, sans-serif;
 
+    --button-radius: 4px;
     --primary: var(--dca-primary);
     --secondary: var(--dca-white);
     --accent: var(--primary);
@@ -196,7 +197,7 @@ li, dt, dd {
 }
 
 .object-tools a {
-    border-radius: 3px;
+    border-radius: var(--button-radius);
     border: 1px solid var(--dca-gray-lighter);
 }
 
@@ -270,7 +271,7 @@ form button {
     background-color: var(--default-button-bg);
     color: var(--default-button-fg);
     border: 1px solid var(--default-button-bg);
-    border-radius: 3px;
+    border-radius: var(--button-radius);
 }
 
 .aligned label + p, .aligned label + div.help, .aligned label + div.readonly,
@@ -291,14 +292,9 @@ form .aligned ul {
     font-size: 14px;
 }
 
-a.button {
+aa.button {
     outline: 1px solid var(--dca-gray-lighter, #ddd);
     padding: 9px 14px;
-}
-
-a.cms-action-btn {
-    color: var(--dca-gray-darkest);
-    outline: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
 input[type="text"], input[type="url"], input[type="email"], .vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
@@ -350,11 +346,15 @@ fieldset.collapse.collapsed .form-row {
     width: 100%;
 }
 
-.change-form select, .select2-container {
+.change-form select, .change-form .select2-container {
+    width: 100%;
+}
+
+.change-form .related-widget-wrapper > select, .related-widget-wrapper > .select2-container {
     width: calc(100% - 108px);
 }
 
-.select2 {
+.related-widget-wrapper > .select2-container .select2 {
     width: calc(100% - 108px)  !important;  /* Overwrite inline style */
 }
 
@@ -446,7 +446,7 @@ fieldset .collapse-toggle {
 .djangocms-simple-admin-style .parler-language-tabs span.available,
 .djangocms-simple-admin-style .parler-language-tabs span.current,
 .djangocms-simple-admin-style .parler-language-tabs span.empty {
-    border-radius: 3px 3px 0 0;
+    border-radius: var(--button-radius) var(--button-radius) 0 0;
 }
 
 .djangocms-simple-admin-style .parler-language-tabs {
@@ -464,7 +464,7 @@ fieldset .collapse-toggle {
 }
 
 #page_form_lang_tabs input[type="button"] {
-    border-radius: 3px 3px 0 0;
+    border-radius: var(--button-radius) var(--button-radius) 0 0;
     border-bottom: none;
     margin-bottom: 0;
     padding: 5px 15px 5px 15px;
@@ -503,7 +503,7 @@ fieldset .collapse-toggle {
     display: inline-block;
     background: var(--button-bg);
     color: var(--button-fg);
-    border-radius: 4px;
+    border-radius: var(--button-radius);
     margin-left: 5px;
 }
 
@@ -524,7 +524,16 @@ a.cms-btn-group:link, a.cms-btn-group, a.cms-btn-group:hover {
 
 .cms-btn-active {
     background-color: var(--dca-gray-lighter);
+}
 
+.djangocms-simple-admin-style a.btn.cms-action-btn {
+    width: 28px;
+    height: 28px;
+    bottom: -3px;
+}
+
+.djangocms-simple-admin-style a.btn.cms-action-btn span {
+    font-size: 100%;
 }
 
 /* Django button */
