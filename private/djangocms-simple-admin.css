@@ -539,3 +539,50 @@ a.cms-btn-group:link, a.cms-btn-group, a.cms-btn-group:hover {
 .popup.delete-confirmation .cancel-link {
     display: none;
 }
+a.btn.cms-action-btn {
+    color: #fff;
+    border: 1px solid var(--dca-gray-lighter,#ddd);
+    border-radius: 5px;
+    position: relative;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    padding: 6px !important;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 28px;
+    margin-top: -12px !important;
+    box-sizing: border-box;
+    bottom: -3px;
+    cursor: pointer;
+    height: 28px;
+    background-color: #46A8F7 !important;
+}
+
+a.btn.cms-action-btn span {
+    font-family: django-cms-iconfont;
+    font-size: 100% !important;
+}
+thead th {
+    background-color: #aaa !important;
+    color: #fff !important;
+    font-weight: bold !important;
+}
+thead th a:link, thead th a:visited {
+    color: #fff !important;
+    font-weight: bold !important;
+}
+thead th .text a:hover {
+    color: #999 !important;
+}
+
+table#result_list tbody tr:hover {
+    background-color : #aaa !important;
+    color: #fff !important;
+}
+
+.object-tools .addlink {
+    border: 1px solid var(--dca-gray-lighter, #ddd);
+    border-radius: 5px;
+}
