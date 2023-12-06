@@ -17,8 +17,8 @@ Also, no javascript is needed and all CSS is contained in a simple CSS file with
 Documentation
 =============
 
-See ``REQUIREMENTS`` in the `setup.py <https://github.com/fsbraun/djangocms-simple-admin-style/blob/master/setup.py>`_
-file for additional dependencies:
+See ``requires`` in the `pyproject.toml <https://github.com/fsbraun/djangocms-simple-admin-style/blob/master/pyproject.toml>`_ 
+file for additional dependencies.
 
 Installation
 ------------
