@@ -25,7 +25,7 @@
 
     --link-fg: var(--dca-primary);
     /*--link-hover-color: #036;*/
-    /*--link-selected-fg: #5b80b2;*/
+    --link-selected-fg: var(--dca-primary);
 
     --hairline-color: var(--dca-gray-lightest);
     --border-color: var(--dca-gray-lighter);
@@ -130,10 +130,11 @@ h2 {
 h3 {
     font-size: 1.2rem;
 }
-h4, td, th, .module h2, .module caption, .inline-group h2, label {
+h4, .module h2, .module caption, .inline-group h2,
+#changelist .actions label, label {
     font-size: 1rem;
 }
-h5, .small, .help, p.help, form p.help, div.help, form div.help, div.help li {
+h5, .small, td, th, thead th, .help, p.help, form p.help, div.help, form div.help, div.help li {
     font-size: 0.875rem;
 }
 .mini {
@@ -142,6 +143,14 @@ h5, .small, .help, p.help, form p.help, div.help, form div.help, div.help li {
 li, dt, dd {
     font-size: 1rem;
     line-height: 1.6rem;
+}
+
+table thead th .text span {
+    padding: 12px;
+}
+
+a:link, a:visited {
+    color: var(--dca-primary);
 }
 
 /* Colors */
