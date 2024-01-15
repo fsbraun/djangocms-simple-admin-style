@@ -155,14 +155,14 @@ li, dt, dd {
 }
 
 #nav-sidebar {
-    .module caption {
+    & .module caption {
         background: var(--primary);
     };
 
-    .section:link,
-    .section:visited,
-    .current-app .section:link,
-    .current-app .section:visited {
+    & .section:link,
+    & .section:visited,
+    & .current-app .section:link,
+    & .current-app .section:visited {
         color: var(--dca-white);
     };
 
@@ -182,7 +182,7 @@ li, dt, dd {
     background: var(--dca-white, #fff);
     & a.deletelink {
         color: var(--dca-white, #fff);
-    };
+    }
     & a.closelink {
         color: var(--dca-black, #000);
         background: var(--dca-white, #fff);
@@ -207,12 +207,11 @@ a.button {
 }
 
 .object-tools {
-    a {
+    & a {
         border-radius: var(--button-radius);
         border: 1px solid var(--dca-gray-lighter);
-    };
-
-    a.addlink {
+    }
+    & a.addlink {
         color: var(--default-button-fg);
         border-color: var(--default-button-fg);
         background-color: var(--default-button-bg);
@@ -223,20 +222,23 @@ a.button {
 }
 
 /* Tables */
-    tr {
+.module {
+    & tr {
         height: 2.3rem;
     }
-    th, td {
-        border-top: 1px solid var(--dca-gray-lighter);
+
+    & th, & td {
+        border-bottom: 1px solid var(--dca-gray-lighter);
     }
 
-    th {
+    & th {
         font-weight: 400;
         vertical-align: middle;
     }
-    h2, caption {
+    & h2, & caption {
         font-weight: 600;
     }
+}
 
 
 /* Form labels */
@@ -271,13 +273,9 @@ a.button {
 
 /* Forms */
 
-.flex-containerx {
-    display: block;
-}
-
 .aligned .fieldBox > label:first-child,
 .form-row > div > label {
-    display: block;
+    dispxlay: block;
 }
 
 .required label:not(.vCheckboxLabel):after,
@@ -429,7 +427,7 @@ select[multiple] {
 /* Remove wrong additional separator line for responsive display */
 
 @media (max-width: 1024px) {
-    fieldset .fieldBox + .fieldBox {
+    form fieldset .fieldBox + .fieldBox {
         border-top: unset;
         margin-top: 0;
         padding-top: 0;
@@ -593,7 +591,7 @@ a.btn.cms-action-btn {
 }
 
 a.btn.cms-action-btn span {
-    font-size: 100%;
+    font-size: 94%;
 }
 
 /* Django button */
