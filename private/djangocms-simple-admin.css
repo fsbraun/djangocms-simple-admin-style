@@ -408,7 +408,8 @@ fieldset.collapse.collapsed .form-row {
     width: 100%;
 }
 
-.change-form .related-widget-wrapper > select, .related-widget-wrapper > .select2-container {
+.change-form .related-widget-wrapper > select, 
+.related-widget-wrapper > .select2-container {
     width: calc(100% - 108px);
 }
 
@@ -437,10 +438,6 @@ select[multiple] {
 /* Hide components not needed in sidebar or modal */
 .cms-admin a.skip-to-content-link {
     display: none;
-}
-
-.cms-admin-sideframe #container {
-    padding-top: 46px;
 }
 
 .cms-admin-modal {
@@ -474,6 +471,9 @@ select[multiple] {
     #content > h1 {
         display: none;
     };
+    #container {
+        padding-top: 46px;
+    };
     .object-tools {
         margin-right: 92px; /* Space for cms navigation butons */
     }
@@ -492,45 +492,38 @@ fieldset .collapse-toggle {
 
 /* Parler styles */
 
-.parler-language-tabs span.current {
-    color: var(--dca-white);
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-
 .parler-language-tabs {
+    border-bottom-color: var(--primary);
+    a:link, a:visited {
+        color: var(--body-fg);
+    };
     span.available,
     span.current,
     span.empty {
         border-radius: var(--button-radius) var(--button-radius) 0 0;
+    };
+    span.current {
+        color: var(--dca-white);
+        background-color: var(--primary);
+        border-color: var(--primary);
     }
-}
-
-.parler-language-tabs {
-    border-bottom-color: var(--primary);
-}
-
-.parler-language-tabs a:link, .parler-language-tabs a:visited {
-    color: var(--body-fg);
 }
 
 /* Language tabs */
 
 #page_form_lang_tabs {
     border-bottom: 2px solid var(--primary);
-}
-
-#page_form_lang_tabs input[type="button"] {
-    border-radius: var(--button-radius) var(--button-radius) 0 0;
-    border-bottom: none;
-    margin-bottom: 0;
-    padding: 5px 15px 5px 15px;
-}
-
-#page_form_lang_tabs input[type=button].language_button.selected {
-    color: var(--default-button-fg);
-    background-color: var(--default-button-bg);
-    border-color: var(--default-button-bg);
+    input[type="button"] {
+        border-radius: var(--button-radius) var(--button-radius) 0 0;
+        border-bottom: none;
+        margin-bottom: 0;
+        padding: 5px 15px 5px 15px;
+        &.language_button.selected {
+            color: var(--default-button-fg);
+            background-color: var(--default-button-bg);
+            border-color: var(--default-button-bg);
+        }
+    }
 }
 
 /* Filer styles */
@@ -588,10 +581,9 @@ a.btn.cms-action-btn {
     width: 28px;
     height: 28px;
     bottom: -3px;
-}
-
-a.btn.cms-action-btn span {
-    font-size: 94%;
+    span {
+        font-size: 94%;
+    }
 }
 
 /* Django button */
