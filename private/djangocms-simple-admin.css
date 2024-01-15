@@ -46,6 +46,7 @@
     --button-hover-bg: var(--dca-gray-lighter);
     --default-button-fg: var(--dca-white);
     --default-button-bg: var(--dca-primary);
+    --default-button-hover-bg: var(--dca-primary);
     /*--close-button-bg: #747474;*/
     /*--close-button-hover-bg: #333;*/
     /*--delete-button-bg: #ba2121;*/
@@ -175,6 +176,15 @@ li, dt, dd {
 /* Buttons */
 .button.default, input[type=submit].default, .submit-row input.default {
     color: var(--dca-white, #fff);
+    transition: filter 0.15s;
+}
+.button.default:active,
+input[type=submit].default:active,
+.button.default:focus,
+input[type=submit].default:focus,
+.button.default:hover,
+input[type=submit].default:hover {
+    filter: brightness(0.8);
 }
 
 /* Form submit buttons */
@@ -408,7 +418,7 @@ fieldset.collapse.collapsed .form-row {
     width: 100%;
 }
 
-.change-form .related-widget-wrapper > select, 
+.change-form .related-widget-wrapper > select,
 .related-widget-wrapper > .select2-container {
     width: calc(100% - 108px);
 }
