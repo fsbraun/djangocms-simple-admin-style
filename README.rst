@@ -1,65 +1,42 @@
-=============================
-django CMS Simple Admin Style
-=============================
+=====================================
+Django CMS Simple Admin Style
+=====================================
 
 |pypi| |django| |djangocms| |djangocms4|
 
-This is a simple alternative for the `django CMS Admin Style <https://github.com/django-cms/djangocms-admin-style>`_. While django CMS admin style reorganizes Django's admin to offer a unified user experience, this package has a much simpler objective:
+Overview
+--------
+The **Django CMS Simple Admin Style** is a lightweight alternative to the comprehensive `Django CMS Admin Style <https://github.com/django-cms/djangocms-admin-style>`_. Its goal is to refine the Django CMS interface with minimalistic changes:
 
-* Adjust colors to be consistent with django CMS.
-* Minimally adapt the css (e.g., add button borders) to keep the user interface consistent.
-* Except this, avoid interfering with Django's admin styling: no `!important` statements, for example.
-* Remove headers in django CMS' sidebar
-* Remove headers, navigation and breadcrumbs in django CMS' modal
+- Standardizing color schemes with Django CMS.
+- Making minimal CSS adjustments like adding button borders for interface consistency.
+- Restraining from interfering with Django's admin styling.
+- Removing headers from Django CMS' sidebar and modal.
 
-Also, no javascript is needed and all CSS is contained in a single CSS file with less than 10kB in size.
+All stylesheets are combined into a single CSS file under 10kB.
 
-Browser support
-===============
-
-To keep the CSS small, djangocms-simple-admin-style uses CSS nesting. This means that it is not compatible with
-Internet Explorer. It should work in all current versions of modern browsers, though.
-
-If doubt, check the `CanIUse <https://caniuse.com/css-nesting>`_ database.
-
-
-Documentation
-=============
-
-See ``requires`` in the `pyproject.toml <https://github.com/fsbraun/djangocms-simple-admin-style/blob/master/pyproject.toml>`_
-file for additional dependencies.
+Browser Support
+---------------
+The **Django CMS Simple Admin Style** uses CSS nesting to maintain a small stylesheet size, which makes it incompatible with Internet Explorer. It does work with all current versions of modern browsers. Visit `CanIUse <https://caniuse.com/css-nesting>`_ for more information on CSS features compatibility.
 
 Installation
 ------------
+For a manual installation:
 
-For a manual install:
+- Run ``pip install djangocms-simple-admin-style``
+- Add ``djangocms_simple_admin_style`` to your ``INSTALLED_APPS`` just before ``'django.contrib.admin'``
 
-* run ``pip install djangocms-simple-admin-style``
-* add ``djangocms_simple_admin_style`` to your ``INSTALLED_APPS`` just before ``'django.contrib.admin'``
-
-
-Configuration
+Customization
 -------------
-
-The django CMS Admin Style overrides django admin's ``base_site.html``,
-but you can still partially customize this page. Look at the source of
-``templates/admin/base_site.html`` and override the templates that are included in various blocks. For example, you can add your own CSS in
-``templates/admin/inc/extrastyle.html``.
+While the Django CMS Simple Admin Style overrides Django admin's ``base_site.html``, you can still customize this page using the source of ``templates/admin/base_site.html`` and override the templates included in various blocks. For instance, you can insert your own CSS in ``templates/admin/inc/extrastyle.html``.
 
 Contributing
 ------------
+To contribute:
 
-Contributions are highly welcome! Install the development environment by typing
-
-.. code-block::
-
-    nvm use
-    npm install
-
-Changes are made in the ``private/djangocms-simple-admin.css`` file.
-
-Minify the file using ``. ./minify-css`` command.
-
+- Set up the development environment with ``nvm use`` and ``npm install``.
+- Changes should be made in ``private/djangocms-simple-admin.css``.
+- Use ``. ./minify-css`` to minify the updated CSS file.
 
 .. |pypi| image:: https://badge.fury.io/py/djangocms-simple-admin-style.svg
     :target: http://badge.fury.io/py/djangocms-simple-admin-style
