@@ -13,4 +13,4 @@
 {% endblock extrahead %}
 {% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 
-{% block bodyclass %}{{ block.super }} djangocms-simple-admin-style{% endblock %}
+{% block bodyclass %}djangocms-simple-admin-style{% if block.super %} {{ block.super }}{% endif %}{% endblock %}

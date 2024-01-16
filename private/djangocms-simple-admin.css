@@ -25,7 +25,7 @@
 
     --link-fg: var(--dca-primary);
     /*--link-hover-color: #036;*/
-    /*--link-selected-fg: #5b80b2;*/
+    --link-selected-fg: var(--dca-primary);
 
     --hairline-color: var(--dca-gray-lightest);
     --border-color: var(--dca-gray-lighter);
@@ -46,6 +46,7 @@
     --button-hover-bg: var(--dca-gray-lighter);
     --default-button-fg: var(--dca-white);
     --default-button-bg: var(--dca-primary);
+    --default-button-hover-bg: var(--dca-primary);
     /*--close-button-bg: #747474;*/
     /*--close-button-hover-bg: #333;*/
     /*--delete-button-bg: #ba2121;*/
@@ -120,172 +121,247 @@ html[data-color-scheme="dark"], html[data-theme="dark"] {
 }
 
 /* Font sizes */
-
 h1 {
+    font-size: 1.6rem;
+}
+h2 {
     font-size: 1.4rem;
 }
-
-h2 {
-    font-size: 1.25rem;
-}
-
 h3 {
+    font-size: 1.2rem;
+}
+h4, .module h2, .module caption, .inline-group h2,
+#changelist .actions label, label {
     font-size: 1rem;
 }
-
-h4, td, th, .module caption, .inline-group h2 {
+h5, .small, td, th, thead th, .help, p.help, form p.help, div.help, form div.help, div.help li {
     font-size: 0.875rem;
 }
-
-h5, .small, .help, p.help, form p.help, div.help, form div.help, div.help li {
+.mini {
     font-size: 0.75rem;
 }
-
-.mini {
-    font-size: 0.6815rem;
+li, dt, dd {
+    font-size: 1rem;
+    line-height: 1.6rem;
 }
 
-li, dt, dd {
-    font-size: 0.875rem;
-    line-height: 1.4rem;
+table thead th .text span {
+    padding: 12px;
+}
+
+a:link, a:visited {
+    color: var(--dca-primary);
 }
 
 /* Colors */
-
 .module h2, .module caption, .inline-group h2 {
     background: var(--body-bg);
-    color: var(--body-fg)
-}
-
-#nav-sidebar .module caption {
-    background: var(--primary);
-}
-#nav-sidebar .section:link,
-#nav-sidebar .section:visited,
-#nav-sidebar .current-app .section:link,
-#nav-sidebar .current-app .section:visited {
-    color: var(--dca-white);
-}
-
-#nav-sidebar a {
     color: var(--body-fg);
+    font-size: revert;
 }
 
-.submit-row {
-    background: var(--dca-white, #fff);
+.module > h2 {
+    padding-left: 0;
 }
 
+#nav-sidebar {
+    & .module caption {
+        background: var(--primary);
+    };
+
+    & .section:link,
+    & .section:visited,
+    & .current-app .section:link,
+    & .current-app .section:visited {
+        color: var(--dca-white);
+    };
+
+    a {
+        color: var(--body-fg);
+    };
+}
+
+a.addlink {
+    min-width: 16px;
+    min-height: 16px;
+}
+
+/* Buttons */
 .button.default, input[type=submit].default, .submit-row input.default {
     color: var(--dca-white, #fff);
+    transition: filter 0.15s;
+}
+.button.default:active,
+input[type=submit].default:active,
+.button.default:focus,
+input[type=submit].default:focus,
+.button.default:hover,
+input[type=submit].default:hover {
+    filter: brightness(0.8);
 }
 
-.submit-row a.deletelink {
-    color: var(--dca-white, #fff);
+/* Form submit buttons */
+.submit-row {
+    background: var(--dca-white, #fff);
+    & a.deletelink {
+        color: var(--dca-white, #fff);
+    }
+    & a.closelink {
+        color: var(--dca-black, #000);
+        background: var(--dca-white, #fff);
+    }
 }
 
-.submit-row a.closelink, .delete-confirmation a.cancel-link {
+.delete-confirmation a.cancel-link {
     color: var(--dca-black, #000);
     background: var(--dca-white, #fff);
 }
 
-.button, input[type=submit], input[type=button], .submit-row input, a.button {
+.button, input[type=submit],
+input[type=button],
+.submit-row input,
+a.button {
     border: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
-.submit-row a.closelink:hover, .delete-confirmation a.cancel-link:hover {
+.submit-row a.closelink:hover,
+.delete-confirmation a.cancel-link:hover {
     background: var(--dca-gray-lightest, #fff);
 }
 
-.object-tools a {
-    border-radius: var(--button-radius);
-    border: 1px solid var(--dca-gray-lighter);
-}
-
-.object-tools a.addlink {
-    color: var(--default-button-fg);
-    border-color: var(--default-button-fg);
-    background-color: var(--default-button-bg);
-}
-
-.object-tools a.addlink:focus, .object-tools a.addlink:hover{
-    background-color: var(--default-button-hover-bg);
+.object-tools {
+    & a {
+        border-radius: var(--button-radius);
+        border: 1px solid var(--dca-gray-lighter);
+    }
+    & a.addlink {
+        color: var(--default-button-fg);
+        border-color: var(--default-button-fg);
+        background-color: var(--default-button-bg);
+        &:focus,&:hover {
+            background-color: var(--default-button-hover-bg);
+        }
+    }
 }
 
 /* Tables */
-th {
-    font-weight: 400;
+.module {
+    & tr {
+        height: 2.3rem;
+    }
+
+    & th, & td {
+        border-bottom: 1px solid var(--dca-gray-lighter);
+    }
+
+    & th {
+        font-weight: 400;
+        vertical-align: middle;
+    }
+    & h2, & caption {
+        font-weight: 600;
+    }
 }
 
-.module h2, .module caption, .inline-group h2 {
+
+/* Form labels */
+
+.inline-group h2 {
     font-weight: 600;
 }
 
 .aligned label:not(.btn) {
-    float: unset;
-    width: unset;
+    width: inherit;
     color: var(--body-fg);
     font-weight: 600;
+    margin-bottom: 2px;
 }
 
+.aligned .checkbox-row label {
+    width: auto;
+}
 /* User tools */
 
 #user-tools #logout-form button,
-#user-tools a:link, #user-tools a:visited {
+#user-tools a:link,
+#user-tools a:visited {
     color: var(--primary);
 }
 
-#logout-form button:active, #logout-form button:hover {
+#logout-form button:active,
+#logout-form button:hover {
     margin-bottom: 2px;
     padding-bottom: 1px;
 }
 
 /* Forms */
-.flex-container {
-    display: block;
+
+.aligned .fieldBox > label:first-child,
+.form-row > div > label {
+    dispxlay: block;
 }
 
-.aligned .fieldBox > label:first-child, .form-row > div > label {
-    display: block;
-}
-
-.required label:not(.vCheckboxLabel):after, label.required:not(.vCheckboxLabel):after {
+.required label:not(.vCheckboxLabel):after,
+label.required:not(.vCheckboxLabel):after {
     color: var(--delete-button-bg);
     content: "*";
 }
 
-form .aligned p.help, form .aligned div.help,
-form .wide p, form .wide ul.errorlist, form .wide input + p.help,
-form .wide input + div.help {
-    margin-left: 0;
-    padding-left: 0;
-}
+form {
+    .aligned p.help,
+    .aligned div.help,
+    .wide p,
+    .wide ul.errorlist,
+    .wide input + p.help,
+    .wide input + div.help {
+        margin-left: 0;
+        padding-left: 0;
+    };
+    button {
+        margin: 2px 0;
+        padding: 5px 6px;
+        vertical-align: middle;
+        font-family: var(--font-family-primary);
+        font-weight: normal;
+        font-size: 0.8125rem;
+        background-color: var(--default-button-bg);
+        color: var(--default-button-fg);
+        border: 1px solid var(--default-button-bg);
+        border-radius: var(--button-radius);
+    };
 
+    .aligned label + p,
+    .aligned label + div.help,
+    .aligned label + div.readonly,
+    .aligned input + p.help,
+    .aligned textarea + p.help,
+    .aligned select + p.help,
+    .aligned input + div.help,
+    .aligned textarea + div.help,
+    .aligned select + div.help,
+    .aligned input + p.help,
+    .aligned textarea + p.help,
+    .aligned select + p.help,
+    .aligned input + div.help,
+    .aligned textarea + div.help,
+    .aligned select + div.help,
+    .aligned ul {
+        margin-left: 0;
+        padding-left: 0;
+    };
 
-form button {
-    margin: 2px 0;
-    padding: 5px 6px;
-    vertical-align: middle;
-    font-family: var(--font-family-primary);
-    font-weight: normal;
-    font-size: 0.8125rem;
-    background-color: var(--default-button-bg);
-    color: var(--default-button-fg);
-    border: 1px solid var(--default-button-bg);
-    border-radius: var(--button-radius);
-}
-
-.aligned label + p, .aligned label + div.help, .aligned label + div.readonly,
-form .aligned input + p.help, form .aligned textarea + p.help, form .aligned select + p.help,
-form .aligned input + div.help, form .aligned textarea + div.help, form .aligned select + div.help,
-form .aligned input + p.help,
-form .aligned textarea + p.help,
-form .aligned select + p.help,
-form .aligned input + div.help,
-form .aligned textarea + div.help,
-form .aligned select + div.help,
-form .aligned ul {
-    margin-left: 0;
-    padding-left: 0;
+    input, textarea, select, .form-row, .button {
+        font-size: inherit;
+    };
+    .selector h2 {
+        font-size: 1rem;
+    };
+    .selector input[type="text"] {
+        padding: 5px 6px;
+    };
+    .selector label {
+        float: left;
+    }
 }
 
 .button, input[type=submit], input[type=button], .submit-row input, a.button {
@@ -301,6 +377,10 @@ input[type="text"], input[type="url"], input[type="email"], .vLargeTextField, .v
 .colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField,
 textarea {
     width: calc(100% - 10px);
+}
+
+input[type=text], input[type=password], input[type=email], input[type=url], input[type=number], input[type=tel], textarea, select, .vTextField {
+    padding: 10px;
 }
 
 .datetime input, .form-row .datetime input.vDateField, .form-row .datetime input.vTimeField {
@@ -324,6 +404,7 @@ div.form-row:not([hidden]) {
 }
 
 /* Except user-auth change form */
+
 .auth-user.change-form div.form-row:not([hidden]) {
     display: block;
 }
@@ -350,12 +431,13 @@ fieldset.collapse.collapsed .form-row {
     width: 100%;
 }
 
-.change-form .related-widget-wrapper > select, .related-widget-wrapper > .select2-container {
+.change-form .related-widget-wrapper > select,
+.related-widget-wrapper > .select2-container {
     width: calc(100% - 108px);
 }
 
 .related-widget-wrapper > .select2-container .select2 {
-    width: calc(100% - 108px)  !important;  /* Overwrite inline style */
+    width: calc(100% - 108px) !important; /* Overwrite inline style */
 }
 
 select[multiple] {
@@ -369,7 +451,7 @@ select[multiple] {
 /* Remove wrong additional separator line for responsive display */
 
 @media (max-width: 1024px) {
-    .djangocms-simple-admin-style fieldset .fieldBox + .fieldBox {
+    form fieldset .fieldBox + .fieldBox {
         border-top: unset;
         margin-top: 0;
         padding-top: 0;
@@ -377,57 +459,52 @@ select[multiple] {
 }
 
 /* Hide components not needed in sidebar or modal */
-
-body.cms-admin a.skip-to-content-link {
+.cms-admin a.skip-to-content-link {
     display: none;
 }
 
-body.cms-admin-sideframe #header, body.cms-admin-modal #header {
-    display: none;
+.cms-admin-modal {
+    #header,
+    #content > h2,
+    #nav-sidebar,
+    #toggle-nav-sidebar,
+    .breadcrumbs,
+    .hide-in-modal,
+    .object-tools {
+        display: none;
+    };
+    #changelist {
+        margin-top: 20px;
+    };
+    .object-tools {
+        padding-top: 20px;
+    };
+    /* Remove space reserved for (hidden) sidebar */
+    .main > #nav-sidebar + .content,
+    .main.shifted > #nav-sidebar + .content {
+        max-width: 100%;
+    }
 }
 
-body.cms-admin-sideframe #container {
-    padding-top: 46px;
+.cms-admin-sideframe {
+    margin-top: 0;
+    #header {
+        display: none;
+    };
+    #content > h1 {
+        display: none;
+    };
+    #container {
+        padding-top: 46px;
+    };
+    .object-tools {
+        margin-right: 92px; /* Space for cms navigation butons */
+    }
 }
 
-body.cms-admin-modal #changelist {
-    margin-top: 20px;
-}
-
-body.cms-admin-modal .object-tools {
-    padding-top: 20px;
-}
-
-body.cms-admin-sideframe #content > h1 {
-    display: none;
-}
-
-body.cms-admin-sideframe .object-tools {
-    margin-right: 92px;  /* Space for cms navigation butons */
-}
-
-body.cms-admin-modal .breadcrumbs,
-body.cms-admin-modal .object-tools,
-body.cms-admin-modal #toggle-nav-sidebar,
-body.cms-admin-modal #nav-sidebar,
-body.cms-admin-modal .hide-in-modal,
-body.cms-admin-modal #content > h2 {
-    display: none;
-}
-
-/* Remove space reserved for (hidden) sidebar */
-body.cms-admin-modal .main > #nav-sidebar + .content,
-body.cms-admin-modal .main.shifted > #nav-sidebar + .content {
-    max-width: 100%;
-}
 
 .main.shifted > #nav-sidebar + .content {
     max-width: calc(100% - 299px);
-}
-
-
-body.cms-admin-sideframe.djangocms-simple-admin-style {
-    margin-top: 0;
 }
 
 /* Collapse link */
@@ -438,43 +515,38 @@ fieldset .collapse-toggle {
 
 /* Parler styles */
 
-.djangocms-simple-admin-style .parler-language-tabs span.current {
-    color: var(--dca-white);
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-
-.djangocms-simple-admin-style .parler-language-tabs span.available,
-.djangocms-simple-admin-style .parler-language-tabs span.current,
-.djangocms-simple-admin-style .parler-language-tabs span.empty {
-    border-radius: var(--button-radius) var(--button-radius) 0 0;
-}
-
-.djangocms-simple-admin-style .parler-language-tabs {
+.parler-language-tabs {
     border-bottom-color: var(--primary);
-}
-
-.parler-language-tabs a:link, .parler-language-tabs a:visited {
-    color: var(--body-fg);
+    a:link, a:visited {
+        color: var(--body-fg);
+    };
+    span.available,
+    span.current,
+    span.empty {
+        border-radius: var(--button-radius) var(--button-radius) 0 0;
+    };
+    span.current {
+        color: var(--dca-white);
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
 }
 
 /* Language tabs */
 
 #page_form_lang_tabs {
     border-bottom: 2px solid var(--primary);
-}
-
-#page_form_lang_tabs input[type="button"] {
-    border-radius: var(--button-radius) var(--button-radius) 0 0;
-    border-bottom: none;
-    margin-bottom: 0;
-    padding: 5px 15px 5px 15px;
-}
-
-.djangocms-simple-admin-style #page_form_lang_tabs input[type=button].language_button.selected {
-    color: var(--default-button-fg);
-    background-color: var(--default-button-bg);
-    border-color: var(--default-button-bg);
+    input[type="button"] {
+        border-radius: var(--button-radius) var(--button-radius) 0 0;
+        border-bottom: none;
+        margin-bottom: 0;
+        padding: 5px 15px 5px 15px;
+        &.language_button.selected {
+            color: var(--default-button-fg);
+            background-color: var(--default-button-bg);
+            border-color: var(--default-button-bg);
+        }
+    }
 }
 
 /* Filer styles */
@@ -487,6 +559,7 @@ fieldset .collapse-toggle {
 }
 
 /* CMS buttons */
+
 .cms-btn-group {
     border: 1px solid var(--dca-gray-lighter, #ddd);
     display: inline-block;
@@ -527,14 +600,13 @@ a.cms-btn-group:link, a.cms-btn-group, a.cms-btn-group:hover {
     background-color: var(--dca-gray-lighter);
 }
 
-.djangocms-simple-admin-style a.btn.cms-action-btn {
+a.btn.cms-action-btn {
     width: 28px;
     height: 28px;
     bottom: -3px;
-}
-
-.djangocms-simple-admin-style a.btn.cms-action-btn span {
-    font-size: 100%;
+    span {
+        font-size: 94%;
+    }
 }
 
 /* Django button */

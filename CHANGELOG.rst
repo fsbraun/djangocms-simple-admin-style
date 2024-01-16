@@ -2,9 +2,11 @@
 Changelog
 =========
 
-unreleased
-==========
-
+Version 1.0.0
+=============
+* Refactor CSS using nesting
+* Optimize text and icon sizes
+* Improve compatibility for with Django 5 admin
 * Fix select2 styling for 4 admin action buttons
 
 Version 0.4.9
