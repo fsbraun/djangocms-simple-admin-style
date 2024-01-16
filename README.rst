@@ -12,7 +12,7 @@ This is a simple alternative for the `django CMS Admin Style <https://github.com
 * Remove headers in django CMS' sidebar
 * Remove headers, navigation and breadcrumbs in django CMS' modal
 
-Also, no javascript is needed and all CSS is contained in a simple CSS file with less than 10kB in size.
+Also, no javascript is needed and all CSS is contained in a single CSS file with less than 10kB in size.
 
 Browser support
 ===============
