@@ -181,6 +181,10 @@ a:link, a:visited {
     };
 }
 
+a.addlink {
+    min-width: 16px;
+    min-height: 16px;
+}
 
 /* Buttons */
 .button.default, input[type=submit].default, .submit-row input.default {

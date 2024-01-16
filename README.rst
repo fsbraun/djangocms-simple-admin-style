@@ -14,10 +14,19 @@ This is a simple alternative for the `django CMS Admin Style <https://github.com
 
 Also, no javascript is needed and all CSS is contained in a simple CSS file with less than 10kB in size.
 
+Browser support
+===============
+
+To keep the CSS small, djangocms-simple-admin-style uses CSS nesting. This means that it is not compatible with
+Internet Explorer. It should work in all current versions of modern browsers, though.
+
+If doubt, check the `CanIUse <https://caniuse.com/css-nesting>`_ database.
+
+
 Documentation
 =============
 
-See ``requires`` in the `pyproject.toml <https://github.com/fsbraun/djangocms-simple-admin-style/blob/master/pyproject.toml>`_ 
+See ``requires`` in the `pyproject.toml <https://github.com/fsbraun/djangocms-simple-admin-style/blob/master/pyproject.toml>`_
 file for additional dependencies.
 
 Installation
