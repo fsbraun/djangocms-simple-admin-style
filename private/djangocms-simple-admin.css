@@ -215,6 +215,10 @@ th {
     font-weight: 400;
 }
 
+.module h2 {
+    padding: 0;
+}
+
 .module h2, .module caption, .inline-group h2 {
     font-weight: 600;
 }
@@ -540,29 +544,17 @@ a.cms-btn-group:link, a.cms-btn-group, a.cms-btn-group:hover {
     display: none;
 }
 a.btn.cms-action-btn {
-    color: #fff;
-    border: 1px solid var(--dca-gray-lighter,#ddd);
+    color: var(--dca-gray-super-lightest);
+    border: 0;
     border-radius: 5px;
-    position: relative;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    padding: 6px !important;
-    -ms-flex-align: center;
-    align-items: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    width: 28px;
-    margin-top: -12px !important;
-    box-sizing: border-box;
-    bottom: -3px;
-    cursor: pointer;
-    height: 28px;
+    width: 25px;
+    bottom: -3px !important;
+    height: 25px;
     background-color: #46A8F7 !important;
 }
-
 a.btn.cms-action-btn span {
     font-family: django-cms-iconfont;
-    font-size: 100% !important;
+    font-size: 90% !important;
 }
 thead th {
     background-color: #aaa !important;
@@ -574,15 +566,59 @@ thead th a:link, thead th a:visited {
     font-weight: bold !important;
 }
 thead th .text a:hover {
-    color: #999 !important;
+    color: var(--dca-white) !important;
+    background-color: var(--dca-gray-light) !important;
 }
-
 table#result_list tbody tr:hover {
     background-color : #aaa !important;
-    color: #fff !important;
+    color: var(--dca-white) !important;
 }
-
 .object-tools .addlink {
     border: 1px solid var(--dca-gray-lighter, #ddd);
     border-radius: 5px;
 }
+.flex-container select, .flex-container input,.flex-container textarea {
+    height: auto !important;
+    padding: 8px !important;
+    background-color: #333 !important;
+    color: #FFFFFF !important;
+    width: 100%;
+}
+.flex-container input[type="checkbox"] {
+    width: auto !important;
+}
+form .aligned div.help, form .aligned p.help, form .wide input+div.help, form .wide input+p.help, form .wide p, form .wide ul.errorlist {
+    margin-left: 3px !important
+}
+
+#changelist table thead th, table thead th .text a {
+    color: var(--dca-white) !important
+}
+.aligned .form-row input,
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+input[type=number],
+input[type=tel],
+textarea,
+select,
+.vTextField {
+    color: var(--dca-black) !important;
+    background-color: var(--dca-gray-lighter) !important;
+}
+
+/**
+ Buttons changed in filer view
+**/
+
+.filebrowser .navigator-list .column-action .action-button,
+.filebrowser .navigator-table .column-action .action-button {
+    background-color: #46a8f7 !important;
+        bottom: -3px !important;
+        color: #fff !important;
+        height: 25px !important;
+        width: 25px !important;
+        border-radius: 5px !important;
+    padding: 5px !important;
+    }
