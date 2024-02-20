@@ -157,7 +157,6 @@ a:link, a:visited {
 .module h2, .module caption, .inline-group h2 {
     background: var(--body-bg);
     color: var(--body-fg);
-    font-size: revert;
 }
 
 .module > h2 {
