@@ -2,6 +2,11 @@
 Changelog
 =========
 
+Version 1.0.2
+=============
+
+* Better contrast in dark mode in alignment with django CMS 4
+
 Version 1.0.0
 =============
 * Refactor CSS using nesting
