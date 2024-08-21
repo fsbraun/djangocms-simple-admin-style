@@ -82,11 +82,11 @@ html, html[data-color-scheme="light"], html[data-theme="light"] {
         --dca-white: #2A2C2E;
         --dca-black: #FFF;
         --dca-primary: #58D1FC;
-        --dca-gray: #999;
+        --dca-gray: #ccc;
         --dca-gray-lightest: #444;
         --dca-gray-lighter: #666;
         --dca-gray-light: #888;
-        --dca-gray-darker: #aaa;
+        --dca-gray-darker: #ddd;
         --dca-gray-darkest: #eee;
         --dca-gray-super-lightest: #333;
 
@@ -102,11 +102,11 @@ html[data-color-scheme="dark"], html[data-theme="dark"] {
     --dca-white: #2A2C2E;
     --dca-black: #FFF;
     --dca-primary: #58D1FC;
-    --dca-gray: #999;
+    --dca-gray: #ccc;
     --dca-gray-lightest: #444;
     --dca-gray-lighter: #666;
     --dca-gray-light: #888;
-    --dca-gray-darker: #aaa;
+    --dca-gray-darker: #ddd;
     --dca-gray-darkest: #eee;
     --dca-gray-super-lightest: #333;
 
@@ -381,6 +381,7 @@ div.form-row:not([hidden]) {
     flex-wrap: wrap;
     padding-inline: 0;
     overflow: unset;
+    margin-bottom: 1em;
 }
 
 /* Except user-auth change form */
