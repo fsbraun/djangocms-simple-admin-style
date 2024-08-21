@@ -414,11 +414,11 @@ fieldset.collapse.collapsed .form-row {
 
 .change-form .related-widget-wrapper > select,
 .related-widget-wrapper > .select2-container {
-    width: calc(100% - 108px);
+    width: calc(100% - 112px);
 }
 
 .related-widget-wrapper > .select2-container .select2 {
-    width: calc(100% - 108px) !important; /* Overwrite inline style */
+    width: calc(100% - 112px) !important; /* Overwrite inline style */
 }
 
 select[multiple] {

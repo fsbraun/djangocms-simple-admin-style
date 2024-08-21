@@ -24,4 +24,4 @@ jobs:
           pip install ruff
       - name: Run Ruff
         run: |
-          ruff djangocms_simple_admin_style
+          ruff check djangocms_simple_admin_style
