@@ -178,6 +178,12 @@ a:link, a:visited {
     a {
         color: var(--body-fg);
     };
+    .module{
+        display: none;
+        &:has(tr:not([style*="display: none"])) {
+            display: unset;
+        }
+    }
 }
 
 a.addlink {
