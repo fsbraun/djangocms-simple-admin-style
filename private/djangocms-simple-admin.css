@@ -256,13 +256,15 @@ a.button {
 
     & th {
         font-weight: 400;
-        vertical-align: middle;
     }
     & h2, & caption {
         font-weight: 600;
     }
 }
 
+nav .module th {
+    vertical-align: middle;  /* just the sidebar */
+}
 
 /* Form labels */
 
