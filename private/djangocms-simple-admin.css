@@ -149,6 +149,12 @@ table thead th .text span {
     padding: 12px;
 }
 
+.changelist-filter {
+    h3, li {
+        font-size: inherit;
+    }
+}
+
 a:link, a:visited {
     color: var(--dca-primary);
 }
@@ -490,8 +496,10 @@ select[multiple] {
 }
 
 
-.main.shifted > #nav-sidebar + .content {
-    max-width: calc(100% - 299px);
+@media (min-width: 768px) {
+    .main.shifted > #nav-sidebar + .content {
+        max-width: calc(100% - 299px);
+    }
 }
 
 /* Collapse link */

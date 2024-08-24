@@ -5,6 +5,12 @@ Changelog
 Version 1.0.2
 =============
 
+* Fix responsive bug for chengelists with filters
+* Better font sizes for filters
+
+Version 1.0.2
+=============
+
 * Better contrast in dark mode in alignment with django CMS 4
 
 Version 1.0.0
