@@ -2,10 +2,10 @@
 Changelog
 =========
 
-Version 1.0.2
+Version 1.0.3
 =============
 
-* Fix responsive bug for chengelists with filters
+* Fix responsive bug for changelists with filters
 * Better font sizes for filters
 
 Version 1.0.2
