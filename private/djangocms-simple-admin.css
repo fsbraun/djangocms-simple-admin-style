@@ -151,7 +151,7 @@ table thead th .text span {
 
 .changelist-filter {
     h3, li {
-        font-size: inherit;
+        font-size: 0.875rem;
     }
 }
 

@@ -2,7 +2,7 @@
 Changelog
 =========
 
-Version 1.0.3
+Version 1.0.4
 =============
 
 * Fix responsive bug for changelists with filters
