@@ -149,7 +149,7 @@ table thead th .text span {
     padding: 12px;
 }
 
-.changelist-filter {
+#changelist-filter {
     h3, li {
         font-size: 0.875rem;
     }
@@ -304,8 +304,18 @@ nav .module th {
 
 /* Forms */
 
-.form-row > div > .flex-container, .flex-container.fieldBox {
+.form-row .flex-container {
     display: block;  /* Label and input in separate lines */
+}
+.flex-container.form-multiline {
+    display: flex;
+    flex-wrap: wrap;
+    & > div {
+        flex: 1 0 0;
+    }
+}
+.form-multiline > div:last-child .fieldBox {
+    margin-inline-end: 0;
 }
 
 .required label:not(.vCheckboxLabel):after,
@@ -364,7 +374,7 @@ form {
 input[type="text"], input[type="url"], input[type="email"], .vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
 .colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField,
 textarea, .flex-container > label + div {
-    width: calc(100% - 10px);
+    width: calc(100% - 22px);  /* 2x10px padding + 2px border */
 }
 
 input[type=text], input[type=password], input[type=email], input[type=url], input[type=number], input[type=tel], textarea, select, .vTextField {
@@ -391,8 +401,6 @@ input, textarea, select, .form-row p, form .button {
 }
 
 div.form-row:not([hidden]) {
-    display: flex;
-    flex-wrap: wrap;
     padding-inline: 0;
     overflow: unset;
     margin-bottom: 1em;

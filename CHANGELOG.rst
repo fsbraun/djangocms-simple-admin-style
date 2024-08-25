@@ -2,9 +2,10 @@
 Changelog
 =========
 
-Version 1.0.4
+Version 1.0.5
 =============
 
+* Fix multicolumn flexbox issues
 * Fix responsive bug for changelists with filters
 * Better font sizes for filters
 
