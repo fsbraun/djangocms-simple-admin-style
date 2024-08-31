@@ -378,7 +378,7 @@ textarea, .flex-container > label + div {
 }
 
 input[type=text], input[type=password], input[type=email], input[type=url], input[type=number], input[type=tel], textarea, select, .vTextField {
-    padding: 10px;
+    padding: 6px;
 }
 
 .datetime input, .form-row .datetime input.vDateField, .form-row .datetime input.vTimeField {
@@ -439,12 +439,19 @@ fieldset.collapse.collapsed .form-row {
     width: calc(100% - 112px);
 }
 
-.related-widget-wrapper > .select2-container .select2 {
-    width: calc(100% - 112px) !important; /* Overwrite inline style */
+.change-form .tabular .related-widget-wrapper > select,
+.tabular .related-widget-wrapper > .select2-container {
+    width: 2em;
 }
 
-select[multiple] {
-    min-width: 200px;
+/*
+.related-widget-wrapper > .select2-container .select2 {
+    width: calc(100% - 112px) !important; /* Overwrite inline style
+}
+*/
+
+select {
+    min-width: 20em;
 }
 
 .colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField {
