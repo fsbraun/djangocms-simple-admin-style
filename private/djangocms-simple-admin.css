@@ -436,7 +436,7 @@ fieldset.collapse.collapsed .form-row {
 
 .change-form .related-widget-wrapper > select,
 .related-widget-wrapper > .select2-container {
-    width: calc(100% - 112px);
+    width: calc(100% - 120px);
 }
 
 .change-form .tabular .related-widget-wrapper > select,
@@ -446,7 +446,7 @@ fieldset.collapse.collapsed .form-row {
 
 /*
 .related-widget-wrapper > .select2-container .select2 {
-    width: calc(100% - 112px) !important; /* Overwrite inline style
+    width: calc(100% - 120px) !important; /* Overwrite inline stylegi
 }
 */
 
