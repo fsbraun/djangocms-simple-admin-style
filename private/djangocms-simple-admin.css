@@ -287,6 +287,7 @@ nav .module th {
 
 .aligned .checkbox-row label {
     width: auto;
+    display: inline;
 }
 /* User tools */
 
