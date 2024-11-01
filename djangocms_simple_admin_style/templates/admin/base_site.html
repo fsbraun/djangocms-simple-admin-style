@@ -11,6 +11,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="stylesheet" type="text/css" href="{% static 'djangocms_simple_admin_style/css/djangocms-simple-admin.min.css' %}" />
 {% endblock extrahead %}
-{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<div id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></div>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
 
 {% block bodyclass %}djangocms-simple-admin-style{% if block.super %} {{ block.super }}{% endif %}{% endblock %}

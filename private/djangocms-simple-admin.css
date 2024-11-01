@@ -123,6 +123,7 @@ html[data-color-scheme="dark"], html[data-theme="dark"] {
 /* Font sizes */
 h1 {
     font-size: 1.6rem;
+    padding: 8px;
 }
 h2 {
     font-size: 1.4rem;
@@ -155,17 +156,22 @@ table thead th .text span {
     }
 }
 
-a:link, a:visited {
-    color: var(--dca-primary);
+a:link, a:visited  {
+    &:not(.button) {
+        color: var(--dca-primary);
+    }
 }
 
 /* Colors */
-.module h2, .module caption, .inline-group h2 {
+.module h2, .module caption, .module a.section:link, .module a.section:visited, .inline-group h2 {
     background: var(--body-bg);
     color: var(--body-fg);
 }
-
-.module > h2 {
+.module .fieldset-heading {
+    background: var(--header-bg);
+    color: var(--header-link-color);
+}
+.module > h2:not(.fieldset-heading) {
     padding-inline-start: 0;
 }
 
@@ -235,6 +241,7 @@ a.button {
     background: var(--dca-gray-lightest, #fff);
 }
 
+/* Object tools */
 .object-tools {
     & a {
         border-radius: var(--button-radius);
@@ -273,7 +280,6 @@ nav .module th {
 }
 
 /* Form labels */
-
 .inline-group h2 {
     font-weight: 600;
 }
@@ -394,8 +400,12 @@ div.form-row:not([hidden]) {
     margin-bottom: 1em;
 }
 
-/* Except user-auth change form */
+/* Admin header */
+#site-name a:link, #site-name a:visited {
+    color: var(--header-branding-color);
+}
 
+/* Except user-auth change form */
 .auth-user.change-form div.form-row:not([hidden]) {
     display: block;
 }
