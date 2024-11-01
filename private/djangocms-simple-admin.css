@@ -14,9 +14,9 @@
     /*--body-quiet-color: #666;*/
     /*--body-loud-color: #000;*/
 
-    --header-color: var(--dca-black);
+    --header-color: var(--dca-white);
     --header-branding-color: var(--accent);
-    --header-bg: var(--secondary);
+    --header-bg: var(--primary);
     --header-link-color: var(--dca-gray-darkest);
 
     --breadcrumbs-fg: var(--dca-gray);
@@ -432,6 +432,11 @@ fieldset.collapse.collapsed .form-row {
 
 .change-form select, .change-form .select2-container {
     width: 100%;
+    li {
+        padding-top: 0;
+        padding-bottom: 0;
+        font-size: 0.875rem;
+    }
 }
 
 .change-form .related-widget-wrapper > select,
