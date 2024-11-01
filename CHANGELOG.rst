@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 1.1.0
+=============
+
+* Add support for Django 5.1 fieldsets
+* Update on admin header styling
+
+
 Version 1.0.5
 =============
 

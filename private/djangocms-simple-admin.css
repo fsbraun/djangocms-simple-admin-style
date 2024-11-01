@@ -14,10 +14,10 @@
     /*--body-quiet-color: #666;*/
     /*--body-loud-color: #000;*/
 
-    --header-color: var(--dca-white);
-    --header-branding-color: var(--accent);
+    --header-color: var(--dca-gray-lighter);
+    --header-branding-color: var(--dca-white);
     --header-bg: var(--primary);
-    --header-link-color: var(--dca-gray-darkest);
+    --header-link-color: var(--dca-white);
 
     --breadcrumbs-fg: var(--dca-gray);
     --breadcrumbs-link-fg: var(--dca-primary);
@@ -288,19 +288,6 @@ nav .module th {
 .aligned .checkbox-row label {
     width: auto;
     display: inline;
-}
-/* User tools */
-
-#user-tools #logout-form button,
-#user-tools a:link,
-#user-tools a:visited {
-    color: var(--primary);
-}
-
-#logout-form button:active,
-#logout-form button:hover {
-    margin-bottom: 2px;
-    padding-bottom: 1px;
 }
 
 /* Forms */
