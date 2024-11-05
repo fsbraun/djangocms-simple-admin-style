@@ -163,7 +163,7 @@ a:link, a:visited  {
 }
 
 /* Colors */
-.module h2, .module caption, .module a.section:link, .module a.section:visited, .inline-group h2 {
+.module h2, .module caption, .dashboard a.section:link, .dashboard a.section:visited, .inline-group h2 {
     background: var(--body-bg);
     color: var(--body-fg);
 }
@@ -173,6 +173,15 @@ a:link, a:visited  {
 }
 .module > h2:not(.fieldset-heading) {
     padding-inline-start: 0;
+}
+
+/* Page tree */
+a.jstree-anchor {
+    color: var(--body-fg);
+    &:hover, &:link {
+        color: var(--body-fg);
+        text-decoration: none;
+    }
 }
 
 #nav-sidebar {
@@ -243,9 +252,15 @@ a.button {
 
 /* Object tools */
 .object-tools {
-    & a {
+    & a, & a:link, & a:visited {
         border-radius: var(--button-radius);
         border: 1px solid var(--dca-gray-lighter);
+        color: var(--body-fg);
+        background: var(--dca-white);
+        &.accent {
+            color: var(--body-bg);
+            background: var(--primary);
+        }
     }
     & a.addlink {
         color: var(--default-button-fg);
@@ -402,6 +417,7 @@ div.form-row:not([hidden]) {
 
 /* Admin header */
 #site-name a:link, #site-name a:visited {
+    font-size: 1.4rem;
     color: var(--header-branding-color);
 }
 
