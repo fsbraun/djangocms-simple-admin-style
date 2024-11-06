@@ -157,7 +157,7 @@ table thead th .text span {
 }
 
 a:link, a:visited  {
-    &:not(.button) {
+    &:not(.button, .btn) {
         color: var(--dca-primary);
     }
 }
@@ -417,7 +417,7 @@ div.form-row:not([hidden]) {
 
 /* Admin header */
 #site-name a:link, #site-name a:visited {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: var(--header-branding-color);
 }
 
