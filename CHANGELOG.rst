@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 1.1.2
+=============
+
+* fix: No border on fieldset titles
+* fix: Action buttons, site title size#
+* fix: Object tools
+
 Version 1.1.0
 =============
 

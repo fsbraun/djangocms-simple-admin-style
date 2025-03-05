@@ -11,8 +11,6 @@
 
     --body-fg: var(--dca-gray-darkest);
     --body-bg: var(--dca-white);
-    /*--body-quiet-color: #666;*/
-    /*--body-loud-color: #000;*/
 
     --header-color: var(--dca-gray-lighter);
     --header-branding-color: var(--dca-white);
@@ -31,11 +29,6 @@
     --border-color: var(--dca-gray-lighter);
 
     --error-fg: #f00;
-
-    /*--message-success-bg: #dfd;*/
-    /*--message-warning-bg: #ffc;*/
-    /*--message-error-bg: #ffefef;*/
-
 
     --darkened-bg: var(--dca-gray-lightest); /* A bit darker than --body-bg */
     /*--selected-bg: #e4e4e4; !* E.g. selected table cells *!*/
@@ -173,6 +166,7 @@ a:link, a:visited  {
 }
 .module > h2:not(.fieldset-heading) {
     padding-inline-start: 0;
+    border-style: none;
 }
 
 /* Page tree */
