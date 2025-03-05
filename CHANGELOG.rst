@@ -8,6 +8,8 @@ Version 1.1.2
 * fix: No border on fieldset titles
 * fix: Action buttons, site title size#
 * fix: Object tools
+* fix: Checkbox label alignment
+* fix: Show title in delete confirmations in the sidebar
 
 Version 1.1.0
 =============

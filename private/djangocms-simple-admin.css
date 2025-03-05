@@ -116,7 +116,7 @@ html[data-color-scheme="dark"], html[data-theme="dark"] {
 /* Font sizes */
 h1 {
     font-size: 1.6rem;
-    padding: 8px;
+    padding: 8px 0;
 }
 h2 {
     font-size: 1.4rem;
@@ -309,6 +309,12 @@ nav .module th {
 
 .form-row .flex-container {
     display: block;  /* Label and input in separate lines */
+    > input[type="checkbox"] {
+        + label {
+            display: inline-block;  /* except for checkboxes */
+        }
+        vertical-align: top;  /* works better for no particular reason */
+    }
 }
 .flex-container.form-multiline {
     display: flex;
@@ -514,7 +520,7 @@ select {
     #header {
         display: none;
     };
-    #content > h1 {
+    &:not(.delete-confirmation) #content > h1 {
         display: none;
     };
     #container {
