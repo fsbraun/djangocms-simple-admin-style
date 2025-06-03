@@ -255,6 +255,7 @@ a.button {
             color: var(--body-bg);
             background: var(--primary);
         }
+        padding: 3px 12px;
     }
     & a.addlink {
         color: var(--default-button-fg);
@@ -308,6 +309,8 @@ nav .module th {
 /* Forms */
 
 .form-row .flex-container {
+    margin-left: 0;
+    margin-right: 0;
     display: block;  /* Label and input in separate lines */
     > input[type="checkbox"] {
         + label {
@@ -321,10 +324,16 @@ nav .module th {
     flex-wrap: wrap;
     & > div {
         flex: 1 0 0;
+        margin-inline-end: 20px;
     }
 }
 .form-multiline > div:last-child .fieldBox {
     margin-inline-end: 0;
+}
+
+.aligned .vCheckboxLabel {
+    vertical-align: 0;
+    max-width: calc(100% - 20px);;
 }
 
 .required label:not(.vCheckboxLabel):after,
@@ -382,8 +391,8 @@ form {
 
 input[type="text"], input[type="url"], input[type="email"], .vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
 .colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField,
-textarea, .flex-container > label + div {
-    width: calc(100% - 22px);  /* 2x10px padding + 2px border */
+textarea {
+    width: calc(100% - 14px);  /* 2x10px padding + 2px border */
 }
 
 input[type=text], input[type=password], input[type=email], input[type=url], input[type=number], input[type=tel], textarea, select, .vTextField {
@@ -470,7 +479,7 @@ fieldset.collapse.collapsed .form-row {
 */
 
 select {
-    min-width: 20em;
+    min-width: 10em;
 }
 
 .colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField {
@@ -520,14 +529,15 @@ select {
     #header {
         display: none;
     };
-    &:not(.delete-confirmation) #content > h1 {
+    &:not(.delete-confirmation) #content > h2 {
         display: none;
     };
     #container {
         padding-top: 46px;
     };
     .object-tools {
-        margin-inline-end: 92px; /* Space for cms navigation butons */
+        margin-top: -58px;
+        /* margin-inline-end: 92px;  Space for cms navigation butons */
     }
 }
 
