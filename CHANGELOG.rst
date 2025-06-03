@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 1.1.3
+=============
+
+* fix: Multicolumn flexbox issues
+* feat: Show h1 headings, hide h2
+* feat: Consistently position object tools
+
 Version 1.1.2
 =============
 
