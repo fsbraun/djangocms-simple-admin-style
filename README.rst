@@ -2,7 +2,7 @@
 Django CMS Simple Admin Style
 =====================================
 
-|pypi| |django| |djangocms| |djangocms4|
+|PyPiVersion| |DjVersion| |CmsVersion|
 
 Overview
 --------
@@ -38,11 +38,14 @@ To contribute:
 - Changes should be made in ``private/djangocms-simple-admin.css``.
 - Use ``. ./minify-css`` to minify the updated CSS file.
 
-.. |pypi| image:: https://badge.fury.io/py/djangocms-simple-admin-style.svg
-    :target: http://badge.fury.io/py/djangocms-simple-admin-style
-.. |django| image:: https://img.shields.io/badge/django-2.2%2B-blue.svg
-    :target: https://www.djangoproject.com/
-.. |djangocms| image:: https://img.shields.io/badge/django%20CMS-3.6%2B-blue.svg
-    :target: https://www.django-cms.org/
-.. |djangocms4| image:: https://img.shields.io/badge/django%20CMS-4-blue.svg
-    :target: https://www.django-cms.org/
+.. |PyPiVersion| image:: https://img.shields.io/pypi/v/djangocms-simple-admin-style.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/djangocms-simple-admin-style
+    :alt: Latest PyPI version
+
+.. |DjVersion| image:: https://img.shields.io/pypi/frameworkversions/django/djangocms-simple-admin-style.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/djangocms-simple-admin-style
+    :alt: Django versions
+
+.. |CmsVersion| image:: https://img.shields.io/pypi/frameworkversions/django-cms/djangocms-simple-admin-style.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/djangocms-simple-admin-style
+    :alt: django CMS versions
