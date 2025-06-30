@@ -2,6 +2,12 @@
 Changelog
 =========
 
+Version 1.1.4
+=============
+
+* fix: Parler language tabs
+* fix: Page content language tabs
+
 Version 1.1.3
 =============
 
