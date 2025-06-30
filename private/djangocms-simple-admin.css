@@ -298,7 +298,7 @@ nav .module th {
     width: inherit;
     color: var(--body-fg);
     font-weight: 600;
-    margin-bottom: 2px;
+    line-height: 1.6em;
 }
 
 .aligned .checkbox-row label {
@@ -556,7 +556,7 @@ fieldset .collapse-toggle {
 
 /* Parler styles */
 
-.parler-language-tabs {
+.djangocms-simple-admin-style .parler-language-tabs {
     border-bottom-color: var(--primary);
     a:link, a:visited {
         color: var(--body-fg);
@@ -578,14 +578,26 @@ fieldset .collapse-toggle {
 #page_form_lang_tabs {
     border-bottom: 2px solid var(--primary);
     input[type="button"] {
+        font-weight: bold;
         border-radius: var(--button-radius) var(--button-radius) 0 0;
         border-bottom: none;
         margin-bottom: 0;
         padding: 5px 15px 5px 15px;
         &.language_button.selected {
-            color: var(--default-button-fg);
-            background-color: var(--default-button-bg);
-            border-color: var(--default-button-bg);
+            color: var(--dca-white);
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        &:not(.selected):hover {
+            color: var(--body-fg);
+            background-color: var(--dca-gray-lightest);
+        }
+        &.notfilled {
+            font-weight: normal;
+        }
+        &:focus {
+            background-color: inherit;
+            outline: none;
         }
     }
 }
@@ -650,6 +662,10 @@ a.btn.cms-action-btn {
     }
 }
 
+span.cms-empty-action:empty {
+    width: 32px;
+}
+
 /* Django button */
 
 .delete-confirmation form input[type="submit"] {
@@ -662,3 +678,4 @@ a.btn.cms-action-btn {
 .popup.delete-confirmation .cancel-link {
     display: none;
 }
+
