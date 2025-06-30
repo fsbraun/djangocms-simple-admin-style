@@ -155,6 +155,13 @@ a:link, a:visited  {
     }
 }
 
+/* Pagetree dropdowns */
+.cms-pagetree-dropdown-menu li {
+    a:link, a:visited {
+        color: var(--dca-gray);
+    }
+}
+
 /* Colors */
 .module h2, .module caption, .dashboard a.section:link, .dashboard a.section:visited, .inline-group h2 {
     background: var(--body-bg);
@@ -230,6 +237,7 @@ a.addlink {
 .delete-confirmation a.cancel-link {
     color: var(--dca-black, #000);
     background: var(--dca-white, #fff);
+    border: 1px solid var(--dca-gray-lighter, #ddd);
 }
 
 .button, input[type=submit],
@@ -570,7 +578,7 @@ fieldset .collapse-toggle {
         color: var(--dca-white);
         background-color: var(--primary);
         border-color: var(--primary);
-    }
+   }
 }
 
 /* Language tabs */

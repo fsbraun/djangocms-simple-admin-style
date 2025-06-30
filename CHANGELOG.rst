@@ -2,6 +2,12 @@
 Changelog
 =========
 
+Version 1.1.5
+=============
+
+* fix: Color versioning menu for third party models
+
+
 Version 1.1.4
 =============
 
