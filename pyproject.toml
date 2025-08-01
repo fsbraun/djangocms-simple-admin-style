@@ -1,54 +1,60 @@
 [build-system]
-requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+requires = [ "hatchling" ]
 
 [project]
 name = "djangocms-simple-admin-style"
-dynamic = ["version"]
 description = "Adds pretty CSS styles for the django CMS admin interface."
 readme = "README.rst"
 license = "BSD-3-Clause"
-requires-python = ">=3.7"
-authors = [
-    { name = "Fabian Braun", email = "fsbraun@gmx.de" },
-]
 maintainers = [
-    { name = "Django CMS Association and contributors", email = "info@django-cms.org" },
-]
-classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Environment :: Web Environment",
-    "Framework :: Django",
-    "Framework :: Django :: 4.2",
-    "Framework :: Django :: 5.0",
-    "Framework :: Django :: 5.1",
-    "Framework :: Django :: 5.2",
-    "Framework :: Django CMS",
-    "Framework :: Django CMS :: 3.11",
-    "Framework :: Django CMS :: 4.0",
-    "Framework :: Django CMS :: 4.1",
-    "Framework :: Django CMS :: 5.0",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: BSD License",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Topic :: Internet :: WWW/HTTP",
-    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
-    "Topic :: Software Development",
-    "Topic :: Software Development :: Libraries",
-]
-dependencies = [
-    "django-cms",
+  { name = "Django CMS Association and contributors", email = "info@django-cms.org" },
 ]
 
-[project.urls]
-Homepage = "https://github.com/fsbraun/djangocms-simple-admin-style"
+authors = [
+  { name = "Fabian Braun", email = "fsbraun@gmx.de" },
+]
+requires-python = ">=3.9"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
+  "Framework :: Django",
+  "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
+  "Framework :: Django :: 5.1",
+  "Framework :: Django :: 5.2",
+  "Framework :: Django CMS",
+  "Framework :: Django CMS :: 3.11",
+  "Framework :: Django CMS :: 4.0",
+  "Framework :: Django CMS :: 4.1",
+  "Framework :: Django CMS :: 5.0",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+  "Topic :: Software Development",
+  "Topic :: Software Development :: Libraries",
+]
+dynamic = [ "version" ]
+dependencies = [
+  "django-cms",
+]
+
+urls.Homepage = "https://github.com/fsbraun/djangocms-simple-admin-style"
 
 [tool.hatch.version]
 path = "djangocms_simple_admin_style/__init__.py"
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "/djangocms_simple_admin_style",
+  "/djangocms_simple_admin_style",
 ]
