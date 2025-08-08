@@ -391,6 +391,15 @@ form {
     .selector label {
         float: inline-start;
     }
+    a img {
+        width: 1.4em;
+    }
+    .collapse summary .fieldset-heading, .collapse summary .inline-heading {
+        margin-inline-start: 0.4em;
+    }
+    .description {
+        padding-inline-start: 0;
+    }
 }
 
 .button, input[type=submit], input[type=button], .submit-row input, a.button {
