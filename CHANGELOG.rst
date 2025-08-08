@@ -2,16 +2,12 @@
 Changelog
 =========
 
-Version 1.1.6
-=============
-
-* fix: Related object icon size
-* fix: Summary caret margin styling
-
 Version 1.1.5
 =============
 
 * fix: Color versioning menu for third party models
+* fix: Related object icon size
+* fix: Summary caret margin styling
 
 Version 1.1.4
 =============
