@@ -183,20 +183,25 @@ a:link, a:visited  {
     background: var(--body-bg);
     color: var(--body-fg);
 }
-.module .fieldset-heading, .module details > summary{
+.module .fieldset-heading, .module details > summary {
     background: var(--dca-primary);
     color: var(--dca-white);
     border-radius: 5px;
 }
+
 .module > h2:not(.fieldset-heading) {
     padding-inline-start: 0;
     border-style: none;
 }
 
 #content-related, #changelist-filter {
-    background: var(--dca-secondary);  /*color-mix(in srgb, var(--dca-secondary) 50%, var(--dca-white) 50%); */
+    background: var(--dca-secondary);
     color: var(--body-fg);
     border-radius: var(--cards-border-radius);
+    details > summary {
+        border-radius: 0;
+        padding-block: 5px;
+    }
     padding-top: 15px;
     h2 {
         background: transparent;
