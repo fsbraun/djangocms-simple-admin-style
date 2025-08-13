@@ -113,10 +113,15 @@
 }
 
 
+/* Admin header */
 #header {
     background: var(--dca-dark-green);
     a:link, a:visited, #logout-form button {
         color: white;
+    }
+    #site-name a:link, #site-name a:visited {
+        font-size: 1.2rem;
+        color: var(--header-branding-color);
     }
 }
 
@@ -503,12 +508,6 @@ div.form-row:not([hidden]) {
     padding-inline: 0;
     overflow: unset;
     margin-bottom: 1em;
-}
-
-/* Admin header */
-#site-name a:link, #site-name a:visited {
-    font-size: 1.2rem;
-    color: var(--header-branding-color);
 }
 
 /* Except user-auth change form */
