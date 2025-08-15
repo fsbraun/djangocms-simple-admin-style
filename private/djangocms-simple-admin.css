@@ -11,7 +11,7 @@
     --accent: var(--dca-secondary);
     --primary-fg: var(--dca-white);
 
-    --body-fg: var(--dca-gray-darkest);
+    --body-fg: var(--dca-black);
     --body-bg: var(--dca-white);
 
     --header-color: #f7f7f7;
@@ -75,7 +75,7 @@
     --dca-default-spacing: 2px;
 }
 
-:root[data-cms-theme="4"], :root[data-cms-theme="4"] {
+:root[data-cms-theme="4"], :root[data-cms-theme="4"], body.cms-4 {
     --dca-dark: #00bbff;
     --dca-light: color-mix(in srgb, var(--dca-dark), var(--dca-white) 55%);
     --dca-white: light-dark(#FFF, #000);
@@ -393,7 +393,7 @@ nav .module th {
         &::before {
             background-color: var(--primary);
         }
-        vertical-align: text-top;  /* works better for no particular reason */
+        vertical-align: middle;  /* works better for no particular reason */
     }
 }
 .flex-container.form-multiline {
@@ -458,9 +458,6 @@ form {
     };
     .selector label {
         float: inline-start;
-    }
-    a img {
-        width: 1.4em;
     }
     .collapse summary .fieldset-heading, .collapse summary .inline-heading {
         margin-inline-start: 0.4em;
