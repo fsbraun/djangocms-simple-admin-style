@@ -192,6 +192,9 @@ a:link, a:visited  {
     background: var(--dca-primary);
     color: var(--dca-white);
     border-radius: 5px;
+    #changelist-filter &::before {
+        color: var(--dca-white);
+    }
 }
 
 .module > h2:not(.fieldset-heading) {
