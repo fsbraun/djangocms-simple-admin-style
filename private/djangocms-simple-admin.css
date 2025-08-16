@@ -8,7 +8,7 @@
 
     --primary: var(--dca-primary);
     --secondary: var(--dca-white);
-    --accent: var(--dca-secondary);
+    --accent: var(--dca-action-bg);
     --primary-fg: var(--dca-white);
 
     --body-fg: var(--dca-black);
@@ -23,13 +23,14 @@
     --breadcrumbs-link-fg: var(--dca-primary);
     --breadcrumbs-bg: var(--dca-gray-lightest);
 
-    --link-fg: color-mix(in srgb, var(--dca-primary), var(--dca-secondary) 50%);
+    --link-fg: color-mix(in srgb, var(--dca-primary), var(--dca-secondary) 40%);
     /*--link-hover-color: #036;*/
     --link-selected-fg: var(--dca-primary);
 
     --hairline-color: var(--dca-gray-lightest);
     --border-color: var(--dca-gray-lighter);
 
+    --message-success-bg: var(--dca-secondary);
     --error-fg: var(--dca-red);
 
     --darkened-bg: var(--dca-gray-lightest); /* A bit darker than --body-bg */
@@ -38,10 +39,10 @@
 
     --button-fg: var(--dca-gray-darker);
     --button-bg: var(--dca-white);
-    --button-hover-bg: var(--dca-gray-lighter);
+    --button-hover-bg: color-mix(in srgb, var(--dca-secondary) 50%, var(--dca-white));
     --default-button-fg: var(--dca-action-text);
     --default-button-bg: var(--dca-action-bg);
-    --default-button-hover-bg: var(--dca-action-bg);
+    --default-button-hover-bg: color-mix(in srgb, var(--dca-action-bg), var(--dca-black) 10%);
     /*--close-button-bg: #747474;*/
     /*--close-button-hover-bg: #333;*/
     --delete-button-bg: var(--dca-red);
@@ -49,7 +50,7 @@
 
     --object-tools-fg: var(--body-fg);
     --object-tools-bg: var(--dca-white);
-    --object-tools-hover-bg: var(--dca-gray-lighter);
+    --object-tools-hover-bg: var(--button-hover-bg);
 }
 
 :root {
@@ -80,7 +81,7 @@
     --dca-light: color-mix(in srgb, var(--dca-dark), var(--dca-white) 55%);
     --dca-white: light-dark(#FFF, #000);
     --dca-black: light-dark(#000, #FFF);
-    --dca-primary: light-dark(var(--dca-dark), color-mix(in srgb, var(--dca-light), black 10%));
+    --dca-primary: light-dark(var(--dca-dark), color-mix(in srgb, var(--dca-dark), black 20%));
     --dca-secondary: var(--dca-gray-lighter);
     --dca-red: #d44848;
     --dca-action-bg: var(--dca-primary);
@@ -97,6 +98,7 @@
     --dca-default-spacing: 0px;
     body {
         --accent: var(--dca-primary);
+        --message-success-bg: light-dark(#dfd, #006b1b);
     }
 }
 
@@ -158,7 +160,11 @@ li, dt, dd {
 }
 
 table thead th .text span {
-    padding: 12px;
+    padding: 8px 12px;
+}
+
+table thead th {
+    text-transform: capitalize;
 }
 
 #changelist-filter {
@@ -266,9 +272,6 @@ a.addlink {
     transition: filter 0.15s;
     letter-spacing: var();
 }
-:is(.button, input[type=submit]).default:is(:active, :focus, :hover) {
-    filter: brightness(0.8);
-}
 
 /* Form submit buttons */
 .submit-row {
@@ -327,7 +330,6 @@ a.button {
     & a, & a:link, & a:visited {
         color: var(--object-tools-fg);
         border: 1px solid var(--dca-gray);
-        background-color: var(--object-tools-bg);
         border-radius: var(--button-radius);
         text-transform: none;
         font-size: 0.75rem;
@@ -338,14 +340,11 @@ a.button {
             text-transform: uppercase;
         }
         padding: 3px 12px;
-        &:focus,&:hover {
-            filter: brightness(0.9);
-        }
     }
 }
 
 /* Tables */
-.module {
+nav .module {
     & tr {
         height: 2.3rem;
     }
@@ -758,4 +757,25 @@ input, textarea, select, .form-row p, form .button {
 /* Icon adjustments */
 .changelink, inline-changelink, .viewlink, .inline-viewlink, .hidelink, .inline-hidelink {
     background-position-y: 3px;  /* Move down smaller icons */
+}
+a.related-widget-wrapper-link > img {
+    zoom: 0.8;
+}
+
+/* Dark mode toggles */
+.theme-toggle {
+    margin-inline-start: 0.6rem;
+    svg {
+        width: 1rem;
+        margin-inline-start: 0.4rem;
+        &.theme-icon-when-light {
+            width: 1.4rem;
+            margin-inline-start: 0;
+        }
+    }
+}
+
+.theme-toggle svg.theme-icon-when-auto, .theme-toggle svg.theme-icon-when-dark, .theme-toggle svg.theme-icon-when-light {
+    fill: white;
+    color: var(--dca-dark-green);
 }
