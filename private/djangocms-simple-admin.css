@@ -754,3 +754,8 @@ span.cms-empty-action:empty {
 input, textarea, select, .form-row p, form .button {
     margin-top: 0;
 }
+
+/* Icon adjustments */
+.changelink, inline-changelink, .viewlink, .inline-viewlink, .hidelink, .inline-hidelink {
+    background-position-y: 3px;  /* Move down smaller icons */
+}
