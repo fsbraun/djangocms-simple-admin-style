@@ -61,9 +61,7 @@ def _legacy_style_active():
         from sekizai.context_processors import sekizai
 
         base_template = render_to_string("base.html", sekizai())
-        match = re.search(r'<html[^>]*\bdata-cms-theme=["\']4["\']', base_template)
-        print(match)
-        return bool(match)
+        return bool(re.search(r'<html[^>]*\bdata-cms-theme=["\']4["\']', base_template))
     except (TemplateDoesNotExist, ImportError):
         pass
     return False
