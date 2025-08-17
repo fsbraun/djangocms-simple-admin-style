@@ -48,7 +48,7 @@ def admin_theme_class():
     try:
         import cms
 
-        if Version(cms.__version__) < Version("5.1") or _legacy_style_active():
+        if Version(cms.__version__) < Version("5.1.0dev") or _legacy_style_active():
             return "djangocms-simple-admin-style cms-4"
     except ImportError:  # pragma: no cover
         pass
@@ -62,6 +62,7 @@ def _legacy_style_active():
 
         base_template = render_to_string("base.html", sekizai())
         match = re.search(r'<html[^>]*\bdata-cms-theme=["\']4["\']', base_template)
+        print(match)
         return bool(match)
     except (TemplateDoesNotExist, ImportError):
         pass
