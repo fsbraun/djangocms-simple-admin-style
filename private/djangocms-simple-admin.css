@@ -1,4 +1,6 @@
-/* Theming: Colors and fonts for dark and light skins */
+/* =============================================================================
+   CSS VARIABLES & THEMING
+   ============================================================================= */
 
 :root, body {
     --font-family-primary: Helvetica, Arial, sans-serif;
@@ -43,10 +45,10 @@
     --default-button-fg: var(--dca-action-text);
     --default-button-bg: var(--dca-action-bg);
     --default-button-hover-bg: color-mix(in srgb, var(--dca-action-bg), var(--dca-black) 10%);
-    /*--close-button-bg: #747474;*/
-    /*--close-button-hover-bg: #333;*/
+    --close-button-bg: var(--button-bg);
+    --close-button-hover-bg: var(--button-hover-bg);
     --delete-button-bg: var(--dca-red);
-    /*--delete-button-hover-bg: #a41515;*/
+    --delete-button-hover-bg: color-mix(in srgb, var(--delete-button-bg), black 10%);
 
     --object-tools-fg: var(--body-fg);
     --object-tools-bg: var(--dca-white);
@@ -55,12 +57,12 @@
 
 :root {
     color-scheme: dark light;
-    --dca-dark-green: #2d4c4d;
-    --dca-light-green: #defcb9;
-    --dca-white: light-dark(#FFF, #2A2C2E);
-    --dca-black: light-dark(#2A2C2E, #FFFFFF);
-    --dca-primary: light-dark(var(--dca-dark-green), color-mix(in srgb, var(--dca-light-green), black 10%));
-    --dca-secondary: light-dark(var(--dca-light-green), var(--dca-dark-green));
+    --dca-dark: #2d4c4d;
+    --dca-light: #defcb9;
+    --dca-white: light-dark(#FFF, #000);
+    --dca-black: light-dark(#2a2c2e, rgb(from white calc(r - 45) calc(g - 44) calc(b - 46)));
+    --dca-primary: light-dark(var(--dca-dark), rgb(from var(--dca-light) calc(r - 45) calc(g - 44) calc(b - 46)));
+    --dca-secondary: light-dark(var(--dca-light), var(--dca-dark));
     --dca-red: #d44848;
     --dca-action-bg: var(--dca-secondary);
     --dca-action-text: var(--dca-black);
@@ -116,26 +118,9 @@
     color-scheme: dark;
 }
 
-
-/* Admin header */
-#header {
-    background: var(--dca-dark-green);
-    a:link, a:visited, #logout-form button {
-        color: white;
-    }
-    #site-name a:link, #site-name a:visited {
-        font-size: 1.2rem;
-        color: var(--header-branding-color);
-    }
-}
-
-/* Full width dashboard */
-
-.dashboard #content {
-    width: calc(100% - 340px);
-}
-
-/* Font sizes */
+/* =============================================================================
+   TYPOGRAPHY
+   ============================================================================= */
 h1 {
     font-size: 1.6rem;
     padding: 8px 0;
@@ -184,6 +169,58 @@ a:link, a:visited  {
     }
 }
 
+a.addlink {
+    min-width: 16px;
+    min-height: 16px;
+}
+
+/* =============================================================================
+   LAYOUT & COMPONENTS
+   ============================================================================= */
+
+/* Admin header */
+#header {
+    background: var(--dca-dark);
+    a:link, a:visited, #logout-form button {
+        color: white;
+    }
+    #site-name a:link, #site-name a:visited {
+        font-size: 1.2rem;
+        color: var(--header-branding-color);
+    }
+}
+
+/* Full width dashboard */
+
+.dashboard #content {
+    width: calc(100% - 340px);
+}
+
+/* Changelists */
+
+#content-related, #changelist-filter {
+    background: var(--dca-secondary);
+    color: var(--body-fg);
+    border-radius: var(--cards-border-radius);
+    details > summary {
+        border-radius: 0;
+        padding-block: 5px;
+    }
+    padding-top: 15px;
+    h2 {
+        background: transparent;
+    }
+}
+
+/* Page tree */
+a.jstree-anchor {
+    color: var(--body-fg);
+    &:hover, &:link {
+        color: var(--body-fg);
+        text-decoration: none;
+    }
+}
+
 /* Pagetree dropdowns */
 .cms-pagetree-dropdown-menu li {
     a:link, a:visited {
@@ -210,30 +247,7 @@ a:link, a:visited  {
     border-style: none;
 }
 
-#content-related, #changelist-filter {
-    background: var(--dca-secondary);
-    color: var(--body-fg);
-    border-radius: var(--cards-border-radius);
-    details > summary {
-        border-radius: 0;
-        padding-block: 5px;
-    }
-    padding-top: 15px;
-    h2 {
-        background: transparent;
-    }
-}
-
-
-/* Page tree */
-a.jstree-anchor {
-    color: var(--body-fg);
-    &:hover, &:link {
-        color: var(--body-fg);
-        text-decoration: none;
-    }
-}
-
+/* Navigation bar left */
 #nav-sidebar {
     & .module caption {
         background: var(--primary);
@@ -263,71 +277,10 @@ a.jstree-anchor {
     }
 }
 
-a.addlink {
-    min-width: 16px;
-    min-height: 16px;
-}
+/* =============================================================================
+   OBJECT TOOLS
+   ============================================================================= */
 
-/* Buttons */
-.button.default, input[type=submit].default, .submit-row input.default {
-    color: var(--dca-action-text);
-    transition: filter 0.15s;
-    letter-spacing: var();
-}
-
-/* Form submit buttons */
-.submit-row {
-    border: none;
-    padding: 0;
-    background: var(--dca-white);
-    display: flex;
-    flex-direction: row-reverse;
-    & a.deletelink {
-        color: var(--dca-white);
-        border-radius: var(--button-radius);
-        margin-left: 0;
-        margin-right: 0;
-        margin-inline-end: auto;
-    }
-    & a.closelink {
-        color: var(--dca-black);
-        background: var(--dca-white);
-    }
-}
-
-.delete-confirmation form .cancel-link {
-    margin-inline-end: 10px;
-}
-
-.delete-confirmation form {
-    input[type="submit"] {
-        border-radius: var(--button-radius);
-        border: none;
-    }
-    a.button.cancel-link {
-        color: var(--dca-black);
-        background: var(--dca-white);
-        border: 1px solid var(--dca-gray);
-        border-radius: var(--button-radius);
-    }
-}
-
-
-.button, input[type=submit],
-input[type=button],
-.submit-row input,
-.submit-row input.default,
-a.button {
-    border: 1px solid var(--dca-gray);
-    border-radius: var(--button-radius);
-}
-
-.submit-row a.closelink:hover,
-.delete-confirmation a.cancel-link:hover {
-    background: var(--dca-gray-lightest);
-}
-
-/* Object tools */
 .object-tools {
     & a, & a:link, & a:visited {
         color: var(--object-tools-fg);
@@ -345,27 +298,116 @@ a.button {
     }
 }
 
-/* Tables */
-nav .module {
-    & tr {
-        height: 2.3rem;
-    }
 
-    & th, & td {
-        border-bottom: 1px solid var(--dca-gray-lighter);
-    }
+/* =============================================================================
+   BUTTONS & INTERACTIVE ELEMENTS
+   ============================================================================= */
 
-    & th {
-        font-weight: 400;
+/* Buttons */
+.button.default, input[type=submit].default, .submit-row input.default {
+    color: var(--dca-action-text);
+    transition: filter 0.15s;
+    letter-spacing: var();
+}
+
+/* =============================================================================
+   FORMS & INPUTS
+   ============================================================================= */
+
+
+form {
+    .aligned p.help,
+    .aligned div.help,
+    .wide p,
+    .wide ul.errorlist,
+    .wide input + p.help,
+    .wide input + div.help {
+        margin-inline-start: 0;
+        padding-inline-start: 0;
+    };
+    button {
+        padding: 5px 6px;
+        vertical-align: middle;
+        font-family: var(--font-family-primary);
+        font-weight: normal;
+        font-size: 0.8125rem;
+        background-color: var(--default-button-bg);
+        color: var(--default-button-fg);
+        border: 1px solid var(--default-button-bg);
+        border-radius: var(--button-radius);
+    };
+
+    .aligned :is(label, input, textarea, select) + :is(p, div.help, p.help, div.readonly),
+    .aligned ul {
+        margin-inline-start: 0;
+        padding-inline-start: 0;
+    };
+
+    input, textarea, select, .form-row, .button {
+        font-size: inherit;
+    };
+    .selector h2 {
+        font-size: 1rem;
+    };
+    .selector input[type="text"] {
+        padding: 5px 6px;
+    };
+    .selector label {
+        float: inline-start;
     }
-    & h2, & caption {
-        font-weight: 600;
+    .collapse summary .fieldset-heading, .collapse summary .inline-heading {
+        margin-inline-start: 0.4em;
+    }
+    .description {
+        padding-inline-start: 0;
     }
 }
 
-nav .module th {
-    vertical-align: middle;  /* just the sidebar */
+
+/* Form submit buttons */
+.submit-row {
+    border: none;
+    padding: 0;
+    background: var(--dca-white);
+    display: flex;
+    flex-direction: row-reverse;
 }
+.submit-row, .delete-confirmation form {
+    input[type="submit"], a.button {
+        font-size: 14px;
+        padding: 10px 15px;
+        border: 1px solid var(--dca-gray);
+        border-radius: var(--button-radius);
+    }
+    a.deletelink {
+        color: white;
+    }
+    a.closelink {
+        color: var(--dca-black);
+        background: var(--dca-white);
+    }
+    a.cancel-link {
+        float: inline-end;
+        color: var(--dca-black);
+        background: var(--dca-white);
+    }
+}
+
+
+/* Django button */
+
+.delete-confirmation form input[type="submit"] {
+    color: var(--dca-white);
+}
+
+/* Hide cancel-link in delete confirmation when in popup or modal */
+
+.cms-admin-modal.delete-confirmation .cancel-link, .cms_modal-window.delete-confirmation .cancel-link,
+.popup.delete-confirmation .cancel-link {
+    display: none;
+}
+
+
 
 /* Form labels */
 .inline-group h2 {
@@ -421,54 +463,6 @@ nav .module th {
 label.required:not(.vCheckboxLabel):after {
     color: var(--delete-button-bg);
     content: "*";
-}
-
-form {
-    .aligned p.help,
-    .aligned div.help,
-    .wide p,
-    .wide ul.errorlist,
-    .wide input + p.help,
-    .wide input + div.help {
-        margin-inline-start: 0;
-        padding-inline-start: 0;
-    };
-    button {
-        padding: 5px 6px;
-        vertical-align: middle;
-        font-family: var(--font-family-primary);
-        font-weight: normal;
-        font-size: 0.8125rem;
-        background-color: var(--default-button-bg);
-        color: var(--default-button-fg);
-        border: 1px solid var(--default-button-bg);
-        border-radius: var(--button-radius);
-    };
-
-    .aligned :is(label, input, textarea, select) + :is(p, div.help, p.help, div.readonly),
-    .aligned ul {
-        margin-inline-start: 0;
-        padding-inline-start: 0;
-    };
-
-    input, textarea, select, .form-row, .button {
-        font-size: inherit;
-    };
-    .selector h2 {
-        font-size: 1rem;
-    };
-    .selector input[type="text"] {
-        padding: 5px 6px;
-    };
-    .selector label {
-        float: inline-start;
-    }
-    .collapse summary .fieldset-heading, .collapse summary .inline-heading {
-        margin-inline-start: 0.4em;
-    }
-    .description {
-        padding-inline-start: 0;
-    }
 }
 
 .button, input[type=submit], input[type=button], .submit-row input, a.button {
@@ -629,24 +623,31 @@ fieldset .collapse-toggle {
     color: var(--dca-primary);
 }
 
-/* Parler styles */
+/* Tables */
+nav .module {
+    & tr {
+        height: 2.3rem;
+    }
 
-.djangocms-simple-admin-style .parler-language-tabs {
-    border-bottom-color: var(--primary);
-    a:link, a:visited {
-        color: var(--body-fg);
-    };
-    span.available,
-    span.current,
-    span.empty {
-        border-radius: 5px 5px 0 0;
-    };
-    span.current {
-        color: var(--dca-white);
-        background-color: var(--primary);
-        border-color: var(--primary);
-   }
+    & th, & td {
+        border-bottom: 1px solid var(--dca-gray-lighter);
+    }
+
+    & th {
+        font-weight: 400;
+    }
+    & h2, & caption {
+        font-weight: 600;
+    }
 }
+
+nav .module th {
+    vertical-align: middle;  /* just the sidebar */
+}
+
+/* =============================================================================
+   LANGUAGE TABS AND PARLER STYLES
+   ============================================================================= */
 
 /* Language tabs */
 
@@ -675,6 +676,25 @@ fieldset .collapse-toggle {
             outline: none;
         }
     }
+}
+
+/* Parler styles */
+
+.djangocms-simple-admin-style .parler-language-tabs {
+    border-bottom-color: var(--primary);
+    a:link, a:visited {
+        color: var(--body-fg);
+    };
+    span.available,
+    span.current,
+    span.empty {
+        border-radius: 5px 5px 0 0;
+    };
+    span.current {
+        color: var(--dca-white);
+        background-color: var(--primary);
+        border-color: var(--primary);
+   }
 }
 
 /* Filer styles */
@@ -738,18 +758,6 @@ span.cms-empty-action:empty {
     width: 32px;
 }
 
-/* Django button */
-
-.delete-confirmation form input[type="submit"] {
-    color: var(--dca-white);
-}
-
-/* Hide cancel-link in delete confirmation when in popup or modal */
-
-.cms-admin-modal.delete-confirmation .cancel-link, .cms_modal-window.delete-confirmation .cancel-link,
-.popup.delete-confirmation .cancel-link {
-    display: none;
-}
 
 /* Reset some django styles */
 input, textarea, select, .form-row p, form .button {
@@ -779,5 +787,5 @@ a.related-widget-wrapper-link > img {
 
 .theme-toggle svg.theme-icon-when-auto, .theme-toggle svg.theme-icon-when-dark, .theme-toggle svg.theme-icon-when-light {
     fill: white;
-    color: var(--dca-dark-green);
+    color: var(--dca-dark);
 }

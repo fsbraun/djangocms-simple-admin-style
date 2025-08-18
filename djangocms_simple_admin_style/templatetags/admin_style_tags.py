@@ -57,6 +57,7 @@ def admin_theme_class():
 
 @cache
 def _legacy_style_active():
+    """Check if a potential base template contains data-cms-theme="4" for legacy style."""
     try:
         from sekizai.context_processors import sekizai
 
