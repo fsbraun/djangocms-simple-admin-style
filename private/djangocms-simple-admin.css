@@ -25,8 +25,10 @@
     --breadcrumbs-link-fg: var(--dca-primary);
     --breadcrumbs-bg: var(--dca-gray-lightest);
 
-    --link-fg: color-mix(in srgb, var(--dca-primary), var(--dca-secondary) 40%);
-    /*--link-hover-color: #036;*/
+    /* --link-fg: color-mix(in srgb, var(--dca-primary), var(--dca-secondary) 40%); */
+    --link-fg: var(--dca-gray);
+    /* --link-hover-color: hsl(from var(--dca-primary) calc(h + 10) s l); */
+    --link-hover-color: color-mix(in srgb, var(--link-fg), var(--dca-white) 30%);
     --link-selected-fg: var(--dca-primary);
 
     --hairline-color: var(--dca-gray-lightest);
@@ -163,11 +165,6 @@ table thead th {
     }
 }
 
-a:link, a:visited  {
-    &:not(.button, .btn) {
-        color: var(--link-fg);
-    }
-}
 
 a.addlink {
     min-width: 16px;
@@ -271,12 +268,6 @@ a.jstree-anchor {
     }
 }
 
-.module table {
-    a, a:link, a:visited {
-        color: var(--body-fg);
-    }
-}
-
 /* =============================================================================
    OBJECT TOOLS
    ============================================================================= */
@@ -373,7 +364,7 @@ form {
     flex-direction: row-reverse;
 }
 .submit-row, .delete-confirmation form {
-    input[type="submit"], a.button {
+    input[type="submit"], a.button, a.deletelink, a.closelink, a.cancel-link {
         font-size: 14px;
         padding: 10px 15px;
         border: 1px solid var(--dca-gray);
@@ -381,6 +372,8 @@ form {
     }
     a.deletelink {
         color: white;
+        margin-inline-end: auto;
+        margin-inline-start: 0;
     }
     a.closelink {
         color: var(--dca-black);
