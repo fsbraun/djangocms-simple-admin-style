@@ -352,6 +352,11 @@ form {
     .description {
         padding-inline-start: 0;
     }
+
+    /* Collapse link toggle*/
+    fieldset .collapse-toggle {
+        color: var(--dca-primary);
+    }
 }
 
 
@@ -386,20 +391,17 @@ form {
     }
 }
 
-
-/* Django button */
-
-.delete-confirmation form input[type="submit"] {
-    color: var(--dca-white);
-}
-
 /* Hide cancel-link in delete confirmation when in popup or modal */
-
 .cms-admin-modal.delete-confirmation .cancel-link, .cms_modal-window.delete-confirmation .cancel-link,
 .popup.delete-confirmation .cancel-link {
     display: none;
 }
 
+
+/* Make delete confirmation button text white */
+.delete-confirmation form input[type="submit"] {
+    color: var(--dca-white);
+}
 
 
 /* Form labels */
@@ -540,6 +542,10 @@ fieldset.collapse.collapsed .form-row {
     width: 2em;
 }
 
+/* =============================================================================
+   FIXES & TRICKS
+   ============================================================================= */
+
 select {
     min-width: 10em;
 }
@@ -549,7 +555,6 @@ select {
 }
 
 /* Remove wrong additional separator line for responsive display */
-
 @media (max-width: 1024px) {
     form fieldset .fieldBox + .fieldBox {
         border-top: unset;
@@ -557,6 +562,16 @@ select {
         padding-top: 0;
     }
 }
+
+@media (min-width: 768px) {
+    .main.shifted > #nav-sidebar + .content {
+        max-width: calc(100% - 299px);
+    }
+}
+
+/* =============================================================================
+   IMPROVED ADMIN SIDEBAR SEARCH
+   ============================================================================= */
 
 /* Hide components not needed in sidebar or modal */
 .cms-admin a.skip-to-content-link {
@@ -601,19 +616,6 @@ select {
         margin-top: -58px;
         /* margin-inline-end: 92px;  Space for cms navigation butons */
     }
-}
-
-
-@media (min-width: 768px) {
-    .main.shifted > #nav-sidebar + .content {
-        max-width: calc(100% - 299px);
-    }
-}
-
-/* Collapse link */
-
-fieldset .collapse-toggle {
-    color: var(--dca-primary);
 }
 
 /* Tables */
