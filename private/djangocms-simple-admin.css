@@ -230,7 +230,7 @@ a.jstree-anchor {
     background: var(--body-bg);
     color: var(--body-fg);
 }
-.module .fieldset-heading, .module details > summary {
+.module .fieldset-heading, .module fieldset details > summary {
     background: var(--dca-primary);
     color: var(--dca-white);
     border-radius: 5px;
@@ -298,7 +298,7 @@ a.jstree-anchor {
 .button.default, input[type=submit].default, .submit-row input.default {
     color: var(--dca-action-text);
     transition: filter 0.15s;
-    letter-spacing: var();
+    letter-spacing: var(--dca-default-spacing);
 }
 
 /* =============================================================================
@@ -368,13 +368,7 @@ form {
     display: flex;
     flex-direction: row-reverse;
 }
-.submit-row, .delete-confirmation form {
-    input[type="submit"], a.button, a.deletelink, a.closelink, a.cancel-link {
-        font-size: 14px;
-        padding: 10px 15px;
-        border: 1px solid var(--dca-gray);
-        border-radius: var(--button-radius);
-    }
+.delete-confirmation, .submit-row {
     a.deletelink {
         color: white;
         margin-inline-end: auto;
@@ -388,6 +382,21 @@ form {
         float: inline-end;
         color: var(--dca-black);
         background: var(--dca-white);
+    }
+}
+
+a.button, .submit-row input[type="submit"] {
+    font-size: 14px;
+    padding: 10px 15px;
+    border: 1px solid var(--dca-gray);
+    border-radius: var(--button-radius);
+}
+.delete-confirmation form, form .submit-row {
+    input[type="submit"], .deletelink, .closelink, .cancel-link {
+        font-size: 14px;
+        padding: 10px 15px;
+        border: 1px solid var(--dca-gray);
+        border-radius: var(--button-radius);
     }
 }
 
