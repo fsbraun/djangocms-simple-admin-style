@@ -38,6 +38,13 @@ To contribute:
 - Changes should be made in ``private/djangocms-simple-admin.css``.
 - Use ``. ./minify-css`` to minify the updated CSS file.
 
+Icons
+-----
+
+djangocms-simple-admin-style uses icons from `Bootstrap Icons <https://icons.getbootstrap.com/>`_. These icons are licensed under
+`MIT License <https://opensource.org/licenses/MIT>`_.
+
+
 .. |PyPiVersion| image:: https://img.shields.io/pypi/v/djangocms-simple-admin-style.svg?style=flat-square
     :target: https://pypi.python.org/pypi/djangocms-simple-admin-style
     :alt: Latest PyPI version
