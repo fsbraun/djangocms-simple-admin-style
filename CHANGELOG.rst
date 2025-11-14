@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 2.0.0 (2025-11-14)
+==========================
+
+* More modern redesign
+* Support of new django CMS design language (django CMS 5.1+)
+* Configurable update notification
+
 Version 1.1.5
 =============
 
