@@ -59,3 +59,6 @@ path = "djangocms_simple_admin_style/__init__.py"
 include = [
   "/djangocms_simple_admin_style",
 ]
+
+[tool.flake8]
+max-line-length = 119
