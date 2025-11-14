@@ -793,3 +793,18 @@ a.related-widget-wrapper-link > img {
     fill: white;
     color: var(--dca-dark);
 }
+
+/* Update message */
+.cms-update-notification {
+    text-align: center;
+    font-size: 0.875rem;
+    background: var(--dca-secondary);
+    border-radius: var(--cards-border-radius);
+    color: var(--body-fg);
+    padding: 15px;
+    margin-bottom: 15px;
+    .close {
+        float: inline-start;
+        color: var(--body-fg);
+    }
+}

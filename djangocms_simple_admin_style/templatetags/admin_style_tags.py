@@ -17,7 +17,7 @@ register = template.Library()
 @register.simple_tag(takes_context=True)
 def render_update_notification(context):
     try:
-        import cms
+        from cms import __version__ as cms_version
     except ImportError:  # pragma: no cover
         check_type = None
         notifications_enabled = False
@@ -35,8 +35,9 @@ def render_update_notification(context):
         notifications_enabled = index_page and notifications_enabled
 
     if notifications_enabled and check_type in VALID_VERSION_CHECK_TYPES:
+        print(cms_version)
         context = {
-            "cms_version": cms.__version__,
+            "cms_version": cms_version,
             "cms_version_check_type": check_type,
         }
         return render_to_string("admin/inc/cms_upgrade_notification.html", context)
