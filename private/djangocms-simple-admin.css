@@ -134,7 +134,7 @@ h3 {
     font-size: 1.2rem;
 }
 h4, .module h2, .module caption, .inline-group h2,
-#changelist .actions label, label {
+#changelist .actions label, legend {
     font-size: 1rem;
 }
 h5, .small, td, th, thead th, .help, p.help, form p.help, div.help, form div.help, div.help li {
@@ -353,9 +353,12 @@ form {
         padding-inline-start: 0;
     }
 
-    /* Collapse link toggle*/
-    fieldset .collapse-toggle {
-        color: var(--dca-primary);
+    fieldset {
+        margin-bottom: 1em;
+        & .collapse-toggle {
+            /* Collapse link toggle*/
+            color: var(--dca-primary);
+        }
     }
 }
 
@@ -418,7 +421,7 @@ a.button, .submit-row input[type="submit"] {
     font-weight: 600;
 }
 
-.aligned label:not(.btn) {
+.aligned label:not(.btn), .aligned legend{
     width: inherit;
     color: var(--body-fg);
     font-weight: 600;
@@ -759,7 +762,7 @@ a.btn.cms-action-btn {
 }
 
 span.cms-empty-action:empty {
-    width: 32px;
+    width: 36px;
 }
 
 
