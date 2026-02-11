@@ -351,6 +351,9 @@ form {
     }
     .description {
         padding-inline-start: 0;
+        p {
+            padding-inline: 0;
+        }
     }
 
     fieldset {
@@ -421,8 +424,8 @@ a.button, .submit-row input[type="submit"] {
     font-weight: 600;
 }
 
-.aligned label:not(.btn), .aligned legend{
-    width: inherit;
+.aligned label:not(.btn), .aligned legend {
+    width: 100%;
     color: var(--body-fg);
     font-weight: 600;
     line-height: 1.6em;
@@ -440,7 +443,7 @@ a.button, .submit-row input[type="submit"] {
     margin-right: 0;
     display: block;  /* Label and input in separate lines */
     > input[type="checkbox"] {
-        + label {
+        + label, + legend {
             display: inline-block;  /* except for checkboxes */
         }
         &::before {
@@ -624,7 +627,7 @@ select {
     #container {
         padding-top: 46px;
     };
-    .object-tools {
+    .object-tools:not(:empty) {
         margin-top: -58px;
         /* margin-inline-end: 92px;  Space for cms navigation butons */
     }
