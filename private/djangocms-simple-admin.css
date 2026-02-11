@@ -134,7 +134,7 @@ h3 {
     font-size: 1.2rem;
 }
 h4, .module h2, .module caption, .inline-group h2,
-#changelist .actions label, label {
+#changelist .actions label, legend {
     font-size: 1rem;
 }
 h5, .small, td, th, thead th, .help, p.help, form p.help, div.help, form div.help, div.help li {
@@ -351,11 +351,17 @@ form {
     }
     .description {
         padding-inline-start: 0;
+        p {
+            padding-inline: 0;
+        }
     }
 
-    /* Collapse link toggle*/
-    fieldset .collapse-toggle {
-        color: var(--dca-primary);
+    fieldset {
+        margin-bottom: 1em;
+        & .collapse-toggle {
+            /* Collapse link toggle*/
+            color: var(--dca-primary);
+        }
     }
 }
 
@@ -418,8 +424,8 @@ a.button, .submit-row input[type="submit"] {
     font-weight: 600;
 }
 
-.aligned label:not(.btn) {
-    width: inherit;
+.aligned label:not(.btn), .aligned legend {
+    width: 100%;
     color: var(--body-fg);
     font-weight: 600;
     line-height: 1.6em;
@@ -437,7 +443,7 @@ a.button, .submit-row input[type="submit"] {
     margin-right: 0;
     display: block;  /* Label and input in separate lines */
     > input[type="checkbox"] {
-        + label {
+        + label, + legend {
             display: inline-block;  /* except for checkboxes */
         }
         &::before {
@@ -621,7 +627,7 @@ select {
     #container {
         padding-top: 46px;
     };
-    .object-tools {
+    .object-tools:not(:empty) {
         margin-top: -58px;
         /* margin-inline-end: 92px;  Space for cms navigation butons */
     }
@@ -759,7 +765,7 @@ a.btn.cms-action-btn {
 }
 
 span.cms-empty-action:empty {
-    width: 32px;
+    width: 36px;
 }
 
 
