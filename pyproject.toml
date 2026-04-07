@@ -1,6 +1,5 @@
 [build-system]
 build-backend = "hatchling.build"
-
 requires = [ "hatchling" ]
 
 [project]
@@ -11,7 +10,6 @@ license = "BSD-3-Clause"
 maintainers = [
   { name = "Django CMS Association and contributors", email = "info@django-cms.org" },
 ]
-
 authors = [
   { name = "Fabian Braun", email = "fsbraun@gmx.de" },
 ]
@@ -24,11 +22,13 @@ classifiers = [
   "Framework :: Django :: 5.0",
   "Framework :: Django :: 5.1",
   "Framework :: Django :: 5.2",
+  "Framework :: Django :: 6.0",
   "Framework :: Django CMS",
   "Framework :: Django CMS :: 3.11",
   "Framework :: Django CMS :: 4.0",
   "Framework :: Django CMS :: 4.1",
   "Framework :: Django CMS :: 5.0",
+  "Framework :: Django CMS :: 5.1",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: BSD License",
   "Operating System :: OS Independent",
@@ -49,16 +49,13 @@ dynamic = [ "version" ]
 dependencies = [
   "django-cms",
 ]
-
 urls.Homepage = "https://github.com/fsbraun/djangocms-simple-admin-style"
 
-[tool.hatch.build.targets.sdist]
-include = [
+[tool.hatch]
+build.targets.sdist.include = [
   "/djangocms_simple_admin_style",
 ]
-
-[tool.hatch.version]
-path = "djangocms_simple_admin_style/__init__.py"
+version.path = "djangocms_simple_admin_style/__init__.py"
 
 [tool.flake8]
 max-line-length = 119
