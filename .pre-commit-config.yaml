@@ -15,7 +15,7 @@ repos:
             args: ["--py39-plus"]
 
     - repo: https://github.com/adamchainz/django-upgrade
-      rev: "1.29.1"
+      rev: "1.30.0"
       hooks:
           - id: django-upgrade
             args: [--target-version, "4.2"]
@@ -33,6 +33,6 @@ repos:
                 - flake8-logging-format
 
     - repo: https://github.com/tox-dev/pyproject-fmt
-      rev: v2.12.1
+      rev: v2.21.0
       hooks:
       - id: pyproject-fmt
