@@ -424,7 +424,8 @@ a.button, .submit-row input[type="submit"] {
     font-weight: 600;
 }
 
-.aligned .flex-container > label:not(.btn), .aligned fieldset > legend {
+.aligned .flex-container > label:not(.btn), .aligned .flex-container > legend,
+.aligned fieldset > label:not(.btn), .aligned fieldset > legend {
     width: 100%;
     color: var(--body-fg);
     font-weight: 600;
