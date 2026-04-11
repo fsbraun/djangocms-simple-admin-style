@@ -2,6 +2,12 @@
 Changelog
 =========
 
+Version 2.0.2 (2026-04-12)
+==========================
+
+* fix: Label width inconsistent for composite widgets by @fsbraun in https://github.com/fsbraun/djangocms-simple-admin-style/pull/20
+* fix: Password reset button line height by @fsbraun in https://github.com/fsbraun/djangocms-simple-admin-style/pull/21
+
 Version 2.0.1 (2026-02-11)
 ==========================
 
