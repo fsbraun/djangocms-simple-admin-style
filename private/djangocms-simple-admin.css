@@ -815,3 +815,8 @@ a.related-widget-wrapper-link > img {
         color: var(--body-fg);
     }
 }
+
+/* Password button in the auth user change form */
+body.app-auth.model-user.change-form #id_password {
+    line-height: 42px;
+}
