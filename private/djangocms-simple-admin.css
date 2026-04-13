@@ -83,20 +83,11 @@
 :root[data-cms-theme="4"], body.cms-4 {
     --dca-dark: #00bbff;
     --dca-light: color-mix(in srgb, var(--dca-dark), var(--dca-white) 55%);
-    --dca-white: light-dark(#FFF, #000);
     --dca-black: light-dark(#000, #FFF);
     --dca-primary: light-dark(var(--dca-dark), color-mix(in srgb, var(--dca-dark), black 20%));
     --dca-secondary: var(--dca-gray-lighter);
-    --dca-red: #d44848;
     --dca-action-bg: var(--dca-primary);
     --dca-action-text: var(--dca-white);
-    --dca-gray: light-dark(#7c7c7c, #aaa);
-    --dca-gray-super-lightest: light-dark(#f7f7f7, #303030);
-    --dca-gray-lightest: light-dark(#f7f7f7, #303030);
-    --dca-gray-lighter: light-dark(#ddd, #666);
-    --dca-gray-light: light-dark(#999, #888);
-    --dca-gray-darker: light-dark(#454545, #ddd);
-    --dca-gray-darkest: light-dark(#333, #eee);
     --dca-border-radius: 5px;
     --dca-btn-radius: 3px;
     --dca-default-spacing: 0px;
@@ -248,18 +239,18 @@ a.jstree-anchor {
 #nav-sidebar {
     & .module caption {
         background: var(--primary);
-    };
+    }
 
     & .section:link,
     & .section:visited,
     & .current-app .section:link,
     & .current-app .section:visited {
         color: var(--dca-white);
-    };
+    }
 
     a {
         color: var(--body-fg);
-    };
+    }
     .module{
         display: none;
         &:has(tr:not([style*="display: none"])) {
@@ -307,15 +298,13 @@ a.jstree-anchor {
 
 
 form {
-    .aligned p.help,
-    .aligned div.help,
     .wide p,
     .wide ul.errorlist,
     .wide input + p.help,
     .wide input + div.help {
         margin-inline-start: 0;
         padding-inline-start: 0;
-    };
+    }
     button {
         padding: 5px 6px;
         vertical-align: middle;
@@ -326,23 +315,25 @@ form {
         color: var(--default-button-fg);
         border: 1px solid var(--default-button-bg);
         border-radius: var(--button-radius);
-    };
+    }
 
     .aligned :is(label, input, textarea, select) + :is(p, div.help, p.help, div.readonly),
+    .aligned p.help,
+    .aligned div.help,
     .aligned ul {
         margin-inline-start: 0;
         padding-inline-start: 0;
-    };
+    }
 
     input, textarea, select, .form-row, .button {
         font-size: inherit;
-    };
+    }
     .selector h2 {
         font-size: 1rem;
-    };
+    }
     .selector input[type="text"] {
         padding: 5px 6px;
-    };
+    }
     .selector label {
         float: inline-start;
     }
@@ -391,19 +382,20 @@ form {
     }
 }
 
-a.button, .submit-row input[type="submit"] {
+a.button,
+.submit-row input[type="submit"],
+.delete-confirmation form input[type="submit"],
+.delete-confirmation form .deletelink,
+.delete-confirmation form .closelink,
+.delete-confirmation form .cancel-link,
+form .submit-row input[type="submit"],
+form .submit-row .deletelink,
+form .submit-row .closelink,
+form .submit-row .cancel-link {
     font-size: 14px;
     padding: 10px 15px;
     border: 1px solid var(--dca-gray);
     border-radius: var(--button-radius);
-}
-.delete-confirmation form, form .submit-row {
-    input[type="submit"], .deletelink, .closelink, .cancel-link {
-        font-size: 14px;
-        padding: 10px 15px;
-        border: 1px solid var(--dca-gray);
-        border-radius: var(--button-radius);
-    }
 }
 
 /* Hide cancel-link in delete confirmation when in popup or modal */
@@ -467,7 +459,7 @@ a.button, .submit-row input[type="submit"] {
 
 .aligned .vCheckboxLabel {
     vertical-align: 0;
-    max-width: calc(100% - 20px);;
+    max-width: calc(100% - 20px);
 }
 
 .required label:not(.vCheckboxLabel):after,
@@ -506,8 +498,10 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
     width: unset;
 }
 
+/* Reset some django styles */
 input, textarea, select, .form-row p, form .button {
     font-family: unset;
+    margin-top: 0;
 }
 
 div.form-row:not([hidden]) {
@@ -603,13 +597,13 @@ select {
     .hide-in-modal,
     .object-tools {
         display: none;
-    };
+    }
     #changelist {
         margin-top: 20px;
-    };
+    }
     .object-tools {
         padding-top: 20px;
-    };
+    }
     /* Remove space reserved for (hidden) sidebar */
     .main > #nav-sidebar + .content,
     .main.shifted > #nav-sidebar + .content {
@@ -621,13 +615,13 @@ select {
     margin-top: 0;
     #header {
         display: none;
-    };
+    }
     &:not(.delete-confirmation) #content > h2 {
         display: none;
-    };
+    }
     #container {
         padding-top: 46px;
-    };
+    }
     .object-tools:not(:empty) {
         margin-top: -58px;
         /* margin-inline-end: 92px;  Space for cms navigation butons */
@@ -669,12 +663,7 @@ nav .module th {
         border-radius: 5px 5px 0 0;
         border-bottom: none;
         margin-bottom: 0;
-        padding: 5px 15px 5px 15px;
-        &.language_button.selected {
-            color: var(--dca-white);
-            background-color: var(--primary);
-            border-color: var(--primary);
-        }
+        padding: 5px 15px;
         &:not(.selected):hover {
             color: var(--body-fg);
             background-color: var(--dca-gray-lightest);
@@ -695,17 +684,19 @@ nav .module th {
     border-bottom-color: var(--primary);
     a:link, a:visited {
         color: var(--body-fg);
-    };
+    }
     span.available,
     span.current,
     span.empty {
         border-radius: 5px 5px 0 0;
-    };
-    span.current {
-        color: var(--dca-white);
-        background-color: var(--primary);
-        border-color: var(--primary);
-   }
+    }
+}
+
+#page_form_lang_tabs input[type="button"].language_button.selected,
+.djangocms-simple-admin-style .parler-language-tabs span.current {
+    color: var(--dca-white);
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 /* Filer styles */
@@ -719,11 +710,14 @@ nav .module th {
 
 /* CMS buttons */
 
-.cms-btn-group {
+.cms-btn-group, .cms-btn {
     border: 1px solid var(--dca-gray-lighter);
     display: inline-block;
     background: var(--button-bg);
     color: var(--button-fg);
+}
+
+.cms-btn-group {
     border-radius: 0;
     padding: 10px 15px;
     line-height: 15px;
@@ -732,10 +726,6 @@ nav .module th {
 }
 
 .cms-btn {
-    border: 1px solid var(--dca-gray-lighter);
-    display: inline-block;
-    background: var(--button-bg);
-    color: var(--button-fg);
     border-radius: var(--button-radius);
     margin-inline-start: 5px;
 }
@@ -769,11 +759,6 @@ span.cms-empty-action:empty {
     width: 36px;
 }
 
-
-/* Reset some django styles */
-input, textarea, select, .form-row p, form .button {
-    margin-top: 0;
-}
 
 /* Icon adjustments */
 .changelink, inline-changelink, .viewlink, .inline-viewlink, .hidelink, .inline-hidelink {
