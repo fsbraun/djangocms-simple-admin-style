@@ -125,7 +125,7 @@ h3 {
     font-size: 1.2rem;
 }
 h4, .module h2, .module caption, .inline-group h2,
-#changelist .actions label, legend {
+#changelist .actions label, legend, label {
     font-size: 1rem;
 }
 h5, .small, td, th, thead th, .help, p.help, form p.help, div.help, form div.help, div.help li {
@@ -804,4 +804,11 @@ a.related-widget-wrapper-link > img {
 /* Password button in the auth user change form */
 body.app-auth.model-user.change-form #id_password {
     line-height: 42px;
+}
+
+/* Reset base.css setting */
+@media (max-width: 767px) {
+    .aligned label:after {
+        max-height: unset;
+    }
 }
