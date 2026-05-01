@@ -35,6 +35,11 @@
     --border-color: var(--dca-gray-lighter);
 
     --message-success-bg: var(--dca-secondary);
+    --message-warning-bg: light-dark(#fff7e6, #4d3a00);
+    --message-error-bg: light-dark(#fde8e8, #4a1414);
+    /* New in Django 6.0 — ignored on 5.2 */
+    --message-debug-bg: var(--dca-gray-lightest);
+    --message-info-bg: color-mix(in srgb, var(--dca-secondary) 50%, var(--dca-white));
     --error-fg: var(--dca-red);
 
     --darkened-bg: var(--dca-gray-lightest); /* A bit darker than --body-bg */
@@ -178,6 +183,12 @@ a.addlink {
     }
 }
 
+/* Breadcrumbs — Django 6.1 changed `div.breadcrumbs` to `ol.breadcrumbs` */
+ol.breadcrumbs {
+    list-style: none;
+    margin: 0;
+}
+
 /* Full width dashboard */
 
 .dashboard #content {
@@ -280,6 +291,31 @@ a.jstree-anchor {
     }
 }
 
+/* Django 6.1 wraps the title and object-tools in a flex container.
+   Pre-6.1 versions (5.2/6.0) emit `<h1>` and `<ul.object-tools>` as
+   siblings: float the tools so they sit next to the title like 6.1 does.
+   Drop the `body:not(:has(...))` block when minimum Django >= 6.1. */
+body:not(:has(.titles-and-tools)) #content > .object-tools,
+body:not(:has(.titles-and-tools)) #content-main > .object-tools {
+    float: inline-end;
+    margin: 0 0 15px;
+    padding: 0;
+    text-align: end;
+    position: relative;
+    margin-block-start: -2.5rem;
+}
+
+.titles-and-tools {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.titles { flex-grow: 1; }
+.titles-and-tools .object-tools {
+    margin: 0;
+    padding: 0;
+}
+
 
 /* =============================================================================
    BUTTONS & INTERACTIVE ELEMENTS
@@ -336,6 +372,21 @@ form {
     }
     .selector label {
         float: inline-start;
+    }
+    /* "Choose all" / "Remove all" became real buttons in Django 6.0;
+       theme them consistently across versions (5.2 ships them as icon links). */
+    .selector-chooseall,
+    .selector-clearall {
+        border: 1px solid var(--dca-gray);
+        border-radius: var(--button-radius);
+        background: var(--button-bg);
+        color: var(--button-fg);
+        padding: 4px 10px;
+        font-size: 0.8125rem;
+        &:hover {
+            background: var(--button-hover-bg);
+        }
+        height: unset;
     }
     .collapse summary .fieldset-heading, .collapse summary .inline-heading {
         margin-inline-start: 0.4em;
@@ -431,14 +482,23 @@ form .submit-row .cancel-link {
 
 /* Forms */
 
+/* Force labels above fields on every Django version. 5.2/6.0 default to
+   flex-row with a 160-px label column; 6.1 already does this natively.
+   Listed in this order so 6.1's `align-items: flex-start` is overridden. */
 .form-row .flex-container {
     margin-left: 0;
     margin-right: 0;
-    display: block;  /* Label and input in separate lines */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    /* Checkbox row stays inline */
+    &:has(> input[type="checkbox"]) {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
     > input[type="checkbox"] {
-        + label, + legend {
-            display: inline-block;  /* except for checkboxes */
-        }
         &::before {
             background-color: var(--primary);
         }
@@ -447,6 +507,7 @@ form .submit-row .cancel-link {
 }
 .flex-container.form-multiline {
     display: flex;
+    flex-direction: row;  /* override the column default above */
     flex-wrap: wrap;
     & > div {
         flex: 1 0 0;
@@ -492,6 +553,12 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
     margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 0;
+}
+
+/* Django 6.1 made `p.datetime label` block — keep date+time side by side. */
+p.datetime label {
+    display: inline;
+    padding: 0;
 }
 
 #changelist-search input[type="text"] {
@@ -555,6 +622,18 @@ fieldset.collapse.collapsed .form-row {
 /* =============================================================================
    FIXES & TRICKS
    ============================================================================= */
+
+/* Paginator current page. Django 6.0 renamed `.this-page` to `[aria-current="page"]`.
+   Drop the `.this-page` selector when minimum Django >= 6.0. */
+.paginator a[aria-current="page"],
+.paginator .this-page {
+    background: var(--primary);
+    color: var(--dca-white);
+    border-radius: var(--button-radius);
+    padding: 2px 8px;
+    text-decoration: none;
+    cursor: default;
+}
 
 select {
     min-width: 10em;
