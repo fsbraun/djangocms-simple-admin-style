@@ -59,10 +59,14 @@ def admin_theme_class():
 @cache
 def _legacy_style_active():
     """Check if a potential base template contains data-cms-theme="4" for legacy style."""
+    if hasattr(settings, "CMS_LEGACY_STYLE"):
+        return settings.CMS_LEGACY_STYLE
     try:
+        from django.test import RequestFactory
         from sekizai.context_processors import sekizai
 
-        base_template = render_to_string("base.html", sekizai())
+        request = RequestFactory().get("/")
+        base_template = render_to_string("base.html", sekizai({"request": request}))
         return bool(re.search(r'<html[^>]*\bdata-cms-theme=["\']4["\']', base_template))
     except (TemplateDoesNotExist, ImportError):
         pass
