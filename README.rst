@@ -36,6 +36,7 @@ The following additional settings can be set:
 
 * `CMS_ENABLE_UPDATE_CHECK = True` Set to False to disable the update notification.
 * `CMS_UPDATE_CHECK_TYPE = 'patch'` Set to `'patch'` to get only patch notifications. (major = x.x.x, minor = 5.x.x, patch = 5.0.x)
+* `CMS_LEGACY_STYLE` Force the legacy (django CMS 4) admin styling on or off. If unset, the legacy style is auto-detected on django CMS < 5.1 or when the project's ``base.html`` declares ``<html data-cms-theme="4">``. Set to ``True`` to force the legacy style, or ``False`` to force the new style and skip auto-detection.
 
 The update checker does not gather or record any data - however, it does query pypi.org for the latest version number.
 
