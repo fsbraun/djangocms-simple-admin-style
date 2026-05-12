@@ -198,6 +198,9 @@ a.addlink {
     h2 {
         background: transparent;
     }
+    h3 {
+        color: var(--body-fg);
+    }
 }
 
 /* Page tree */
