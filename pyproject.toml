@@ -52,10 +52,10 @@ dependencies = [
 urls.Homepage = "https://github.com/fsbraun/djangocms-simple-admin-style"
 
 [tool.hatch]
+version.path = "djangocms_simple_admin_style/__init__.py"
 build.targets.sdist.include = [
   "/djangocms_simple_admin_style",
 ]
-version.path = "djangocms_simple_admin_style/__init__.py"
 
 [tool.flake8]
 max-line-length = 119
