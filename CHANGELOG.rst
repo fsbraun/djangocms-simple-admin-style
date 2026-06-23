@@ -2,6 +2,23 @@
 Changelog
 =========
 
+Version 2.1.0 (unreleased)
+==========================
+
+* feat: Add a lean stylesheet for the redesigned Django 6.1+ admin forms
+  (inputs stacked beneath labels, #34643). ``base_site.html`` now selects the
+  stylesheet by Django version; the previous stylesheet is kept as
+  ``djangocms-simple-admin-legacy.min.css`` for Django 6.0 and earlier.
+* feat: Full-width inputs and full-width labels above each field, building on
+  the native Django 6.1 layout instead of overriding it.
+* feat: Show the split date and time pickers side by side on wide screens and
+  tint the calendar/clock icons with the CMS colour.
+* feat: Render field help text below the field instead of above it.
+* fix: Centre checkboxes with their labels and tint checkboxes/radios with the
+  theme colour via ``accent-color``.
+* fix: Consistent button spacing in the submit row and on the delete
+  confirmation page.
+
 Version 2.0.2 (2026-04-12)
 ==========================
 

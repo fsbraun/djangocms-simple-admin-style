@@ -9,7 +9,8 @@
 {% block extrahead %}
 {{ block.super }}
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" type="text/css" href="{% static 'djangocms_simple_admin_style/css/djangocms-simple-admin.min.css' %}" />
+{% admin_style_css as admin_style_css_path %}
+<link rel="stylesheet" type="text/css" href="{% static admin_style_css_path %}" />
 {% endblock extrahead %}
 
 {% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}

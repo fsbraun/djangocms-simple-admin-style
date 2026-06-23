@@ -14,6 +14,23 @@ VALID_VERSION_CHECK_TYPES = ("minor", "patch")
 register = template.Library()
 
 
+@register.simple_tag
+def admin_style_css():
+    """Return the admin stylesheet matching the running Django version.
+
+    Django 6.1 redesigned admin forms to stack inputs beneath their labels
+    (ticket #34643). From 6.1 on we ship a lean stylesheet that builds on that
+    native layout; for 6.0 and earlier we keep the original stylesheet that
+    forces the labels-above layout itself.
+    """
+    import django
+
+    base = "djangocms_simple_admin_style/css/"
+    if django.VERSION >= (6, 1):
+        return base + "djangocms-simple-admin.min.css"
+    return base + "djangocms-simple-admin-legacy.min.css"
+
+
 @register.simple_tag(takes_context=True)
 def render_update_notification(context):
     try:
@@ -62,10 +79,13 @@ def _legacy_style_active():
     if hasattr(settings, "CMS_LEGACY_STYLE"):
         return bool(settings.CMS_LEGACY_STYLE)
     try:
+        from django.contrib.auth.models import AnonymousUser
         from django.test import RequestFactory
         from sekizai.context_processors import sekizai
 
         request = RequestFactory().get("/")
+        request.current_page = None
+        request.user = AnonymousUser()
         context = sekizai(request)
         context["request"] = request
         base_template = render_to_string("base.html", context)
