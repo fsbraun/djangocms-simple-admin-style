@@ -6,7 +6,9 @@ changelist, the delete-confirmation interstitial, a popup, and the logged-out
 login page.
 """
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission, User
+from django.contrib.contenttypes.models import ContentType
+from django.test import Client
 from django.urls import reverse
 
 from tests.testapp.models import Category, Note, Tag, Widget
@@ -35,6 +37,22 @@ def create_fixtures():
         Note.objects.create(widget=widget, body=f"Note for widget {i}")
         widgets.append(widget)
     return widgets[0]
+
+
+def view_only_client():
+    """A staff client that may view widgets but not change them.
+
+    Django renders the submit row's `.closelink` only when the form cannot be
+    saved: `show_close = not (show_save and can_save)` in
+    admin_modify.submit_row. A read-only change page is the realistic way to
+    reach that, and nothing else in this sample does.
+    """
+    user = User.objects.create_user("viewer", "viewer@example.com", "password", is_staff=True)
+    content_type = ContentType.objects.get_for_model(Widget)
+    user.user_permissions.add(Permission.objects.get(content_type=content_type, codename="view_widget"))
+    client = Client()
+    client.force_login(user)
+    return client
 
 
 def render_all(client, widget, user):
@@ -67,6 +85,8 @@ def render_all(client, widget, user):
             reverse("admin:testapp_widget_add"),
             {"title": "", "homepage": "not-a-url", "quantity": "abc"},
         ),
+        # A read-only change page, which is where Django renders .closelink.
+        "view_only_change": view_only_client().get(reverse("admin:testapp_widget_change", args=[widget.pk])),
         # A page carrying a success message, so .messagelist markup is present.
         "with_message": client.post(reverse("admin:testapp_tag_add"), {"name": "created"}, follow=True),
     }

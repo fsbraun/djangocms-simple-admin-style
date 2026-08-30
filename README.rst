@@ -138,6 +138,12 @@ this list is what the coverage check is worth:
     Both delete-confirmation layouts: the single-object page and the
     ``delete_selected`` action interstitial.
 
+``view_only_change``
+    The change page as seen by a staff user with view-but-not-change
+    permission. Django renders the submit row's ``.closelink`` only when the
+    form cannot be saved, so this read-only page is the one place that markup
+    appears.
+
 ``history``
     The object history table.
 

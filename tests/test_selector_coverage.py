@@ -96,7 +96,6 @@ _SHARED_STALE = {
         "filter sidebar has no .module ancestor in modern Django"
     ),
     "form .description p": "fieldset descriptions render as a bare <div class='description'>",
-    ":is(.delete-confirmation, .submit-row) a.closelink": "Django no longer renders .closelink",
 }
 
 KNOWN_STALE = {
