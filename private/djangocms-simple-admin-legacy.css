@@ -37,11 +37,12 @@
     --message-success-bg: var(--dca-secondary);
     --message-warning-bg: light-dark(#fff7e6, #4d3a00);
     --message-error-bg: light-dark(#fde8e8, #4a1414);
+    /* New in Django 6.0 — ignored on 5.2 */
     --message-debug-bg: var(--dca-gray-lightest);
     --message-info-bg: color-mix(in srgb, var(--dca-secondary) 50%, var(--dca-white));
     --error-fg: var(--dca-red);
 
-    --darkened-bg: var(--dca-secondary); /* A bit darker than --body-bg */
+    --darkened-bg: var(--dca-gray-lightest); /* A bit darker than --body-bg */
     /*--selected-bg: #e4e4e4; !* E.g. selected table cells *!*/
     --selected-row: var(--dca-secondary);
 
@@ -182,12 +183,6 @@ a.addlink {
     }
 }
 
-/* Breadcrumbs — Django 6.1 changed `div.breadcrumbs` to `ol.breadcrumbs` */
-ol.breadcrumbs {
-    list-style: none;
-    margin: 0;
-}
-
 /* Full width dashboard */
 
 .dashboard #content {
@@ -290,18 +285,17 @@ a.jstree-anchor {
     }
 }
 
-/* Django 6.1 wraps the title and object-tools in a flex container. */
-.titles-and-tools {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-.titles {
-    flex-grow: 1;
-}
-.titles-and-tools .object-tools {
-    margin: 0;
+/* Django 5.2/6.0 emit `<h1>` and `<ul.object-tools>` as siblings (6.1 wraps
+   them in a flex `.titles-and-tools` container). Float the tools so they sit
+   next to the title. */
+#content > .object-tools,
+#content-main > .object-tools {
+    float: inline-end;
+    margin: 0 0 15px;
     padding: 0;
+    text-align: end;
+    position: relative;
+    margin-block-start: -2.5rem;
 }
 
 
@@ -322,6 +316,13 @@ a.jstree-anchor {
 
 
 form {
+    .wide p,
+    .wide ul.errorlist,
+    .wide input + p.help,
+    .wide input + div.help {
+        margin-inline-start: 0;
+        padding-inline-start: 0;
+    }
     button {
         padding: 5px 6px;
         vertical-align: middle;
@@ -332,6 +333,14 @@ form {
         color: var(--default-button-fg);
         border: 1px solid var(--default-button-bg);
         border-radius: var(--button-radius);
+    }
+
+    .aligned :is(label, input, textarea, select) + :is(p, div.help, p.help, div.readonly),
+    .aligned p.help,
+    .aligned div.help,
+    .aligned ul {
+        margin-inline-start: 0;
+        padding-inline-start: 0;
     }
 
     input, textarea, select, .form-row, .button {
@@ -346,7 +355,8 @@ form {
     .selector label {
         float: inline-start;
     }
-    /* "Choose all" / "Remove all" became real buttons in Django 6.0 */
+    /* "Choose all" / "Remove all" became real buttons in Django 6.0;
+       theme them consistently (5.2 ships them as icon links). */
     .selector-chooseall,
     .selector-clearall {
         border: 1px solid var(--dca-gray);
@@ -355,10 +365,10 @@ form {
         color: var(--button-fg);
         padding: 4px 10px;
         font-size: 0.8125rem;
-        height: unset;
         &:hover {
             background: var(--button-hover-bg);
         }
+        height: unset;
     }
     .collapse summary .fieldset-heading, .collapse summary .inline-heading {
         margin-inline-start: 0.4em;
@@ -372,6 +382,10 @@ form {
 
     fieldset {
         margin-bottom: 1em;
+        & .collapse-toggle {
+            /* Collapse link toggle*/
+            color: var(--dca-primary);
+        }
     }
 }
 
@@ -383,15 +397,6 @@ form {
     background: var(--dca-white);
     display: flex;
     flex-direction: row-reverse;
-    gap: 12px;
-}
-/* The delete-confirmation buttons live in a bare <form>, not a .submit-row, so
-   they get no flex gap from Django — give them the same rhythm. */
-.delete-confirmation form {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
 }
 .delete-confirmation, .submit-row {
     a.deletelink {
@@ -404,8 +409,7 @@ form {
         background: var(--dca-white);
     }
     a.cancel-link {
-        /* Floats are ignored on flex items; auto-margin keeps it at the end */
-        margin-inline-start: auto;
+        float: inline-end;
         color: var(--dca-black);
         background: var(--dca-white);
     }
@@ -425,9 +429,6 @@ form .submit-row .cancel-link {
     padding: 10px 15px;
     border: 1px solid var(--dca-gray);
     border-radius: var(--button-radius);
-    /* Vertical only: inline spacing is handled by the flex gap, and inline
-       margins would fight the auto-margins that pin Delete/Cancel to the edge. */
-    margin-block: 3px;
 }
 
 /* Hide cancel-link in delete confirmation when in popup or modal */
@@ -450,40 +451,57 @@ form .submit-row .cancel-link {
 
 .aligned .flex-container > label:not(.btn), .aligned .flex-container > legend,
 .aligned fieldset > label:not(.btn), .aligned fieldset > legend {
-    /* Django's column flex-container uses align-items: flex-start, which shrinks
-       labels to their text. Make them span the row so they sit above the input. */
     width: 100%;
     color: var(--body-fg);
     font-weight: 600;
+    line-height: 1.6em;
 }
 
-/* Forms
-
-   Django 6.1+ already stacks inputs beneath their labels (#34643), so the
-   layout machinery the legacy stylesheet needs is gone. We only stretch the
-   text-like inputs to full width — Django keeps numeric/date fields at their
-   natural size, which we leave alone — and add the required marker. */
-
-/* Checkbox rows: Django renders <div class="checkbox"> as a flex row but leaves
-   the box top-aligned with its label. Center them, and tint the native control
-   with the CMS colour. */
-.flex-container div.checkbox {
-    align-items: center;
+.aligned .checkbox-row label {
+    width: auto;
+    display: inline;
 }
 
-input[type="checkbox"], input[type="radio"] {
-    accent-color: var(--primary);
+/* Forms */
+
+/* Force labels above fields: 5.2/6.0 default to a flex row with a 160-px
+   label column. */
+.form-row .flex-container {
+    margin-left: 0;
+    margin-right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    /* Checkbox row stays inline */
+    &:has(> input[type="checkbox"]) {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+    > input[type="checkbox"] {
+        &::before {
+            background-color: var(--primary);
+        }
+        vertical-align: middle;  /* works better for no particular reason */
+    }
+}
+.flex-container.form-multiline {
+    display: flex;
+    flex-direction: row;  /* override the column default above */
+    flex-wrap: wrap;
+    & > div {
+        flex: 1 0 0;
+        margin-inline-end: 20px;
+    }
+}
+.form-multiline > div:last-child .fieldBox {
+    margin-inline-end: 0;
 }
 
-/* Fields shown on the same line share the width equally */
-.flex-container.form-multiline > div {
-    flex: 1 0 0;
-}
-
-/* Django emits help text before the field; the column flex-container lets us
-   move it below the input without touching the markup. */
-.form-row .flex-container > .help {
-    order: 1;
+.aligned .vCheckboxLabel {
+    vertical-align: 0;
+    max-width: calc(100% - 20px);
 }
 
 .required label:not(.vCheckboxLabel):after,
@@ -496,23 +514,16 @@ label.required:not(.vCheckboxLabel):after {
     font-size: 14px;
 }
 
-/* Full-width text inputs. We set border-box ourselves because Django only
-   applies it below 1024px, so width:100% stays honest on the desktop layout. */
-.form-row input[type="text"],
-.form-row input[type="url"],
-.form-row input[type="email"],
-.form-row input[type="password"],
-.form-row input[type="tel"],
-.form-row textarea,
-.vTextField, .vUUIDField, .vURLField,
-.vLargeTextField, .vXMLLargeTextField,
-.colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField,
-.colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField {
-    box-sizing: border-box;
-    width: 100%;
+input[type="text"], input[type="url"], input[type="email"], .vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
+.colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField,
+textarea {
+    width: calc(100% - 14px);  /* 2x10px padding + 2px border */
 }
 
-/* Date/time inputs keep their natural width */
+input[type=text], input[type=password], input[type=email], input[type=url], input[type=number], input[type=tel], textarea, select, .vTextField {
+    padding: 6px;
+}
+
 .datetime input, .form-row .datetime input.vDateField, .form-row .datetime input.vTimeField {
     margin-inline-start: 0;
     width: unset;
@@ -525,66 +536,35 @@ label.required:not(.vCheckboxLabel):after {
     padding-bottom: 0;
 }
 
-/* Django 6.1 made `p.datetime label` block — keep date+time side by side. */
-p.datetime label {
-    display: inline;
-    padding: 0;
-}
-
-/* Put the date and time pickers on one line on wide screens (Django stacks them
-   with a <br>). The extra trailing margin separates the two groups. */
-@media (min-width: 1024px) {
-    .form-row p.datetime {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 6px;
-    }
-    .form-row p.datetime br {
-        display: none;
-    }
-    .form-row p.datetime .datetimeshortcuts:first-of-type {
-        margin-inline-end: 1.25em;
-    }
-}
-
-/* Recolour the calendar/clock picker icons with the CMS colour. Django paints
-   them as background-image SVG sprites, so we mask an inline icon and fill it
-   with --dca-primary (a static path/colour swap could not follow the theme). */
-.datetimeshortcuts .date-icon,
-.datetimeshortcuts .clock-icon {
-    background: var(--dca-primary);
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: 18px 18px;
-    mask-size: 18px 18px;
-}
-.datetimeshortcuts .date-icon {
-    -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z'/><path d='M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z'/></svg>");
-    mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z'/><path d='M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z'/></svg>");
-}
-.datetimeshortcuts .clock-icon {
-    -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'/><path d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z'/></svg>");
-    mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'/><path d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z'/></svg>");
-}
-.datetimeshortcuts button:focus .date-icon,
-.datetimeshortcuts button:hover .date-icon,
-.datetimeshortcuts button:focus .clock-icon,
-.datetimeshortcuts button:hover .clock-icon {
-    background: color-mix(in srgb, var(--dca-primary), black 20%);
-}
-
 #changelist-search input[type="text"] {
     width: unset;
 }
 
-/* Flush form rows left; keep overflow visible so date/related popups aren't clipped */
+/* Reset some django styles */
+input, textarea, select, .form-row p, form .button {
+    font-family: unset;
+    margin-top: 0;
+}
+
 div.form-row:not([hidden]) {
     padding-inline: 0;
     overflow: unset;
     margin-bottom: 1em;
+}
+
+/* Except user-auth change form */
+.auth-user.change-form div.form-row:not([hidden]) {
+    display: block;
+}
+
+div.form-row > div:not(.help) {
+    flex: 1 0 0;
+    width: 100%;
+    margin-inline-end: 10px;
+}
+
+.form-row > ul.errorlist {
+    width: 100%;
 }
 
 fieldset.collapse.collapsed .form-row {
@@ -592,12 +572,10 @@ fieldset.collapse.collapsed .form-row {
 }
 
 .related-widget-wrapper {
-    box-sizing: border-box;
     width: 100%;
 }
 
 .change-form select, .change-form .select2-container {
-    box-sizing: border-box;
     width: 100%;
     li {
         padding-top: 0;
@@ -620,8 +598,9 @@ fieldset.collapse.collapsed .form-row {
    FIXES & TRICKS
    ============================================================================= */
 
-/* Paginator current page (Django 6.0 renamed `.this-page` to `[aria-current="page"]`). */
-.paginator a[aria-current="page"] {
+/* Paginator current page. Django 6.0 renamed `.this-page` to `[aria-current="page"]`. */
+.paginator a[aria-current="page"],
+.paginator .this-page {
     background: var(--primary);
     color: var(--dca-white);
     border-radius: var(--button-radius);
@@ -632,6 +611,10 @@ fieldset.collapse.collapsed .form-row {
 
 select {
     min-width: 10em;
+}
+
+.colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField {
+    width: unset;
 }
 
 /* Remove wrong additional separator line for responsive display */
@@ -682,12 +665,19 @@ select {
 }
 
 .cms-admin-sideframe {
-    margin-top: 0;
+    margin-top: 46px;
     #header {
         display: none;
     }
     &:not(.delete-confirmation) #content > h2 {
         display: none;
+    }
+    #container {
+        padding-top: 0;
+    }
+    .object-tools:not(:empty) {
+        margin-top: -58px;
+        /* margin-inline-end: 92px;  Space for cms navigation butons */
     }
 }
 
@@ -703,11 +693,14 @@ nav .module {
 
     & th {
         font-weight: 400;
-        vertical-align: middle;  /* just the sidebar */
     }
     & h2, & caption {
         font-weight: 600;
     }
+}
+
+nav .module th {
+    vertical-align: middle;  /* just the sidebar */
 }
 
 /* =============================================================================
@@ -821,7 +814,7 @@ span.cms-empty-action:empty {
 
 
 /* Icon adjustments */
-.changelink, .viewlink, .hidelink {
+.changelink, inline-changelink, .viewlink, .inline-viewlink, .hidelink, .inline-hidelink {
     background-position-y: 3px;  /* Move down smaller icons */
 }
 a.related-widget-wrapper-link > img {
