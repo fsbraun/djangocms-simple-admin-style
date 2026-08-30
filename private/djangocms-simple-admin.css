@@ -290,6 +290,20 @@ a.jstree-anchor {
     }
 }
 
+/* Django 6.1 wraps the title and object-tools in a flex container. */
+.titles-and-tools {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.titles {
+    flex-grow: 1;
+}
+.titles-and-tools .object-tools {
+    margin: 0;
+    padding: 0;
+}
+
 
 /* =============================================================================
    BUTTONS & INTERACTIVE ELEMENTS
@@ -605,6 +619,16 @@ fieldset.collapse.collapsed .form-row {
 /* =============================================================================
    FIXES & TRICKS
    ============================================================================= */
+
+/* Paginator current page (Django 6.0 renamed `.this-page` to `[aria-current="page"]`). */
+.paginator a[aria-current="page"] {
+    background: var(--primary);
+    color: var(--dca-white);
+    border-radius: var(--button-radius);
+    padding: 2px 8px;
+    text-decoration: none;
+    cursor: default;
+}
 
 select {
     min-width: 10em;
