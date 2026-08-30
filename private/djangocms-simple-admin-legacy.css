@@ -693,14 +693,11 @@ nav .module {
 
     & th {
         font-weight: 400;
+        vertical-align: middle;  /* just the sidebar */
     }
     & h2, & caption {
         font-weight: 600;
     }
-}
-
-nav .module th {
-    vertical-align: middle;  /* just the sidebar */
 }
 
 /* =============================================================================
@@ -814,7 +811,7 @@ span.cms-empty-action:empty {
 
 
 /* Icon adjustments */
-.changelink, inline-changelink, .viewlink, .inline-viewlink, .hidelink, .inline-hidelink {
+.changelink, .inline-changelink, .viewlink, .inline-viewlink, .hidelink, .inline-hidelink {
     background-position-y: 3px;  /* Move down smaller icons */
 }
 a.related-widget-wrapper-link > img {

@@ -55,7 +55,6 @@ def render_update_notification(context):
         notifications_enabled = index_page and notifications_enabled
 
     if notifications_enabled and check_type in VALID_VERSION_CHECK_TYPES:
-        print(cms_version)
         context = {
             "cms_version": cms_version,
             "cms_version_check_type": check_type,

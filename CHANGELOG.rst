@@ -2,6 +2,19 @@
 Changelog
 =========
 
+Unreleased
+==========
+
+* fix: ``.inline-changelink`` was missing its leading dot, so the icon
+  adjustment never applied to inline change links.
+* fix: Remove a stray ``print()`` that wrote the django CMS version to stdout on
+  every superuser admin index page load.
+* Add a test suite: template tag unit tests plus a selector coverage test that
+  renders real admin pages and fails when a stylesheet rule stops matching
+  anything. Runs against Django 4.2 through 6.1 and Django main in CI.
+* Add stylelint and a CI check that the committed minified CSS matches
+  ``private/``.
+
 Version 2.1.0 (2026-08-30)
 ==========================
 

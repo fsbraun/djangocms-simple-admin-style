@@ -13,7 +13,7 @@ The **Django CMS Simple Admin Style** is a lightweight alternative to the compre
 - Restraining from interfering with Django's admin styling.
 - Removing headers from Django CMS' sidebar and modal.
 
-All stylesheets are combined into a single CSS file under 10kB.
+All stylesheets are combined into a single CSS file under 20kB.
 
 Browser Support
 ---------------
@@ -46,7 +46,26 @@ To contribute:
 
 - Set up the development environment with ``nvm use`` and ``npm install``.
 - Changes should be made in ``private/djangocms-simple-admin.css``.
-- Use ``. ./minify-css`` to minify the updated CSS file.
+- Use ``. ./minify-css`` to minify the updated CSS file. CI fails if the
+  committed minified file does not match the source.
+- Lint the stylesheet with ``npx stylelint "private/*.css"``.
+
+Running the tests
+-----------------
+
+The suite needs Django and a few small helpers, but *not* django CMS -- it runs
+a plain Django admin so it can be tested against every supported Django::
+
+    pip install -e ".[test]" django
+    python -m django test tests --settings=tests.settings
+
+The most useful test is ``tests/test_selector_coverage.py``: it renders a sample
+of real admin pages and asserts that every rule in the stylesheet still matches
+something. When a new Django release renames or restructures admin markup, it
+names the exact rules that stopped applying instead of leaving you to spot it in
+a screenshot. Rules that cannot match server-rendered HTML (widgets built by
+JavaScript, markup from django CMS or django-parler) are listed explicitly in
+that file, as are rules that only apply from a given Django version onwards.
 
 Icons
 -----

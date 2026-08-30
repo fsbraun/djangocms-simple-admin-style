@@ -1,0 +1,81 @@
+name: django CMS tests
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Django ${{ matrix.django }} / Python ${{ matrix.python }}
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental || false }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # One job per supported Django series: the selector coverage test only
+          # means something when it runs against each admin it claims to style.
+          - { django: "4.2", python: "3.9" }
+          - { django: "4.2", python: "3.12" }
+          - { django: "5.0", python: "3.12" }
+          - { django: "5.1", python: "3.13" }
+          - { django: "5.2", python: "3.13" }
+          - { django: "6.0", python: "3.12" }
+          - { django: "6.1", python: "3.14" }
+          # Early warning when Django main renames admin markup. Advisory only.
+          - { django: "main", python: "3.14", experimental: true }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # Deliberately NOT `pip install .`: the package depends on django-cms,
+          # which pins Django and would collapse this matrix. The test settings
+          # run a plain Django admin and stub `cms` where it is needed.
+          pip install beautifulsoup4 soupsieve packaging
+          if [ "${{ matrix.django }}" = "main" ]; then
+            pip install "https://github.com/django/django/archive/refs/heads/main.tar.gz"
+          else
+            pip install "Django~=${{ matrix.django }}.0"
+          fi
+      - name: Show versions
+        run: python -c "import django; print('Django', django.get_version())"
+      - name: Run tests
+        run: python -m django test tests --settings=tests.settings -v 2
+
+  css:
+    name: css
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci
+      - name: Lint stylesheets
+        run: npx stylelint "private/*.css"
+      - name: Rebuild the minified stylesheets
+        run: ./minify-css
+      - name: Check the committed build is up to date
+        # The served CSS is the built file, so a source edit without a rebuild
+        # ships nothing. `npm ci` pins the minifier and its browserslist data,
+        # so the output is reproducible.
+        run: |
+          if ! git diff --exit-code -- djangocms_simple_admin_style/static; then
+            echo "::error::The minified CSS is stale. Run ./minify-css and commit the result."
+            exit 1
+          fi

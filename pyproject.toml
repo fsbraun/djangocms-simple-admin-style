@@ -50,6 +50,13 @@ dynamic = [ "version" ]
 dependencies = [
   "django-cms",
 ]
+# The test suite runs a plain Django admin and stubs `cms`, so django-cms is
+# deliberately not required to run it -- see tests/settings.py.
+optional-dependencies.test = [
+  "beautifulsoup4",
+  "packaging",
+  "soupsieve",
+]
 urls.Homepage = "https://github.com/fsbraun/djangocms-simple-admin-style"
 
 [tool.hatch]
@@ -57,6 +64,16 @@ version.path = "djangocms_simple_admin_style/__init__.py"
 build.targets.sdist.include = [
   "/djangocms_simple_admin_style",
 ]
+
+[tool.ruff]
+line-length = 119
+# Keep ruff's defaults (pycodestyle errors, pyflakes, isort) and add flake8-print:
+# render_update_notification runs on every superuser admin index load, so a stray
+# print() there ends up in production logs.
+lint.extend-select = [ "T20" ]
+# Django's ModelAdmin/Model API is declarative: `actions`, `inlines` and choices
+# lists are class attributes by design, not accidental mutable defaults.
+lint.ignore = [ "RUF012" ]
 
 [tool.flake8]
 max-line-length = 119
