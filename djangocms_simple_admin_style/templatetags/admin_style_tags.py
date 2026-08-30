@@ -1,10 +1,10 @@
-from functools import cache
-from packaging.version import Version
 import re
+from functools import cache
 
 from django import template
 from django.conf import settings
-from django.template.loader import render_to_string, TemplateDoesNotExist
+from django.template.loader import TemplateDoesNotExist, render_to_string
+from packaging.version import Version
 
 # We follow the Semantic versioning convention
 # minor - Refers to the minor release track (5.0.1)
