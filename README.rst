@@ -111,7 +111,8 @@ this list is what the coverage check is worth:
 
 ``index``, ``app_list``
     The dashboard and the single-app list: module tables, section links and the
-    ``colMS`` sidebar layout.
+    ``colMS`` sidebar layout. A log entry is created first so the "recent
+    actions" list is populated -- it is the only place the admin uses ``.mini``.
 
 ``changelist``
     Result table, sortable headers, action bar, filter sidebar, search bar,
@@ -127,8 +128,9 @@ this list is what the coverage check is worth:
     email, integer, decimal, split date/time, date, checkbox, choice select and
     a read-only UUID field; a foreign key in a ``related-widget-wrapper``; a
     many-to-many as ``filter_horizontal``; ``wide``, ``collapse`` and multi-field
-    (``.fieldBox``) fieldsets; a fieldset description; and both a stacked and a
-    tabular inline.
+    (``.fieldBox``) fieldsets; a fieldset description containing markup (Django
+    renders descriptions with ``|safe``); and both a stacked and a tabular
+    inline.
 
 ``add_invalid``
     The same form submitted with errors, for ``.errorlist`` and the

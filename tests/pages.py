@@ -6,6 +6,7 @@ changelist, the delete-confirmation interstitial, a popup, and the logged-out
 login page.
 """
 
+from django.contrib.admin.models import ADDITION, LogEntry
 from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.test import Client
@@ -55,8 +56,27 @@ def view_only_client():
     return client
 
 
+def log_admin_action(user, widget):
+    """Give the index page a non-empty "recent actions" list.
+
+    The index renders `<span class="mini quiet">` per logged action; with an
+    empty log it shows "None available" instead, and nothing else in the admin
+    uses `.mini`. Rows are created directly because the signature of
+    `LogEntry.objects.log_action()` differs across the supported Django versions.
+    """
+    LogEntry.objects.create(
+        user=user,
+        content_type=ContentType.objects.get_for_model(Widget),
+        object_id=str(widget.pk),
+        object_repr=str(widget),
+        action_flag=ADDITION,
+        change_message="Added.",
+    )
+
+
 def render_all(client, widget, user):
     """Return {page_name: html} for the sampled admin pages."""
+    log_admin_action(user, widget)
     changelist = reverse("admin:testapp_widget_changelist")
     pages = {
         "index": client.get(reverse("admin:index")),
