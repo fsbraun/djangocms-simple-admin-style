@@ -23,11 +23,28 @@ import soupsieve
 from bs4 import BeautifulSoup
 from django.test import TestCase
 
+from djangocms_simple_admin_style.templatetags.admin_style_tags import admin_style_css
 from tests.cssflat import flatten, for_matching
 from tests.pages import create_fixtures, login_superuser, render_all
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-STYLESHEET = REPO_ROOT / "private" / "djangocms-simple-admin.css"
+PRIVATE = REPO_ROOT / "private"
+ALL_STYLESHEETS = sorted(PRIVATE.glob("*.css"))
+
+
+def active_stylesheet():
+    """The source file for the stylesheet this Django version actually serves.
+
+    This mirrors production rather than hardcoding a path: ``admin_style_css()``
+    serves the legacy sheet below Django 6.1 and the lean 6.1+ sheet above it, so
+    the coverage test always checks the file really in use. Hardcoding one sheet
+    would test the 6.1 stylesheet against Django 4.2 markup, where its rules are
+    *correctly* dead.
+    """
+    return PRIVATE / Path(admin_style_css()).name.replace(".min.css", ".css")
+
+
+STYLESHEET = active_stylesheet()
 
 # Markup that a server-rendered, plain-Django admin can never contain: either a
 # script builds it in the browser, or another package ships it. Verified against
@@ -42,6 +59,10 @@ NOT_SERVER_RENDERED = {
     ".collapse-toggle": "pre-5.1 collapse JS; modern Django uses <details>",
     ".collapsed": "collapse state class added by JS",
     ".main.shifted": "nav sidebar toggle state, set by JS",
+    ".datetimeshortcuts": (
+        "DateTimeShortcuts.js builds the today/now links and the calendar and "
+        "clock icons; the admin renders only the bare date/time inputs"
+    ),
     # Injected by django CMS (toolbar, sideframe, modal, page tree).
     ".cms-admin": "django CMS admin wrapper",
     ".cms-pagetree-dropdown-menu": "django CMS page tree",
@@ -68,51 +89,58 @@ NOT_SERVER_RENDERED = {
 # dead, because that varies by Django version (the checkbox rules below do match
 # on Django 4.2) -- but every entry must still exist in the stylesheet, which is
 # checked below, so deleted rules cannot linger here.
-KNOWN_STALE = {
+# Stale in *both* stylesheets.
+_SHARED_STALE = {
     ".mini": "no .mini element on any sampled page",
     "#changelist-filter :is(.module .fieldset-heading, .module fieldset details > summary)::before": (
         "filter sidebar has no .module ancestor in modern Django"
     ),
     "form .description p": "fieldset descriptions render as a bare <div class='description'>",
     ":is(.delete-confirmation, .submit-row) a.closelink": "Django no longer renders .closelink",
-    '.form-row .flex-container > input[type="checkbox"]': (
-        "Django wraps checkboxes in <div class='checkbox'>, so the input is not a direct child"
-    ),
-    '.form-row .flex-container > input[type="checkbox"] + label, '
-    '.form-row .flex-container > input[type="checkbox"] + legend': "same as above",
-    '.form-row .flex-container > input[type="checkbox"]::before': "same as above",
-    ".form-multiline > div:last-child .fieldBox": ".fieldBox exists but not at this depth",
-    ".auth-user.change-form div.form-row:not([hidden])": (
-        "the user change form's body class is 'app-auth model-user', never 'auth-user'"
-    ),
-    ".colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField": (
-        "colMS is the dashboard layout; change forms are colM, so this never applies"
-    ),
-    ":is(.change-form select, .change-form .select2-container) li": "no <li> inside a <select>",
-    ".form-row > ul.errorlist": (
-        "Django nests the errorlist inside div.flex-container.errors, so it is no longer a direct child of .form-row"
-    ),
 }
 
+KNOWN_STALE = {
+    "djangocms-simple-admin-legacy.css": {
+        **_SHARED_STALE,
+        ".auth-user.change-form div.form-row:not([hidden])": (
+            "the user change form's body class is 'app-auth model-user', never 'auth-user'"
+        ),
+        ".colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField": (
+            "colMS is the dashboard layout; change forms are colM, so this never applies"
+        ),
+        "form fieldset .fieldBox + .fieldBox": (
+            "adjacent .fieldBox siblings only exist from Django 6.1, which is served "
+            "the other stylesheet -- so this rule can never apply and should be deleted"
+        ),
+    },
+    "djangocms-simple-admin.css": dict(_SHARED_STALE),
+}
 
 # Rules that style markup a *newer* Django introduced. They are correctly dead on
 # older versions, so the check only applies from the given version up. The
 # boundaries below were established by running this suite against each release,
 # not guessed.
 VERSION_GATED = {
-    ".module .fieldset-heading, .module fieldset details > summary": (
-        (5, 1),
-        "Django 5.1 rebuilt collapsible fieldsets on <details>/<summary>",
-    ),
-    "form .collapse summary .fieldset-heading, form .collapse summary .inline-heading": (
-        (5, 1),
-        "same <details> rework",
-    ),
-    "form fieldset .fieldBox + .fieldBox": (
-        (6, 1),
-        "before 6.1 each .fieldBox sat in its own wrapper div, so they were never siblings",
-    ),
+    "djangocms-simple-admin-legacy.css": {
+        ".module .fieldset-heading, .module fieldset details > summary": (
+            (5, 1),
+            "Django 5.1 rebuilt collapsible fieldsets on <details>/<summary>",
+        ),
+        "form .collapse summary .fieldset-heading, form .collapse summary .inline-heading": (
+            (5, 1),
+            "same <details> rework",
+        ),
+    },
+    "djangocms-simple-admin.css": {},
 }
+
+
+def known_stale():
+    return KNOWN_STALE[STYLESHEET.name]
+
+
+def version_gated():
+    return VERSION_GATED[STYLESHEET.name]
 
 
 def _excused(selector):
@@ -141,9 +169,9 @@ class SelectorCoverageTests(TestCase):
         dead = []
         for _, members in sorted(self._rule_groups().items()):
             selectors = ", ".join(r.selector for r in members)
-            if selectors in KNOWN_STALE or any(_excused(r.selector) for r in members):
+            if selectors in known_stale() or any(_excused(r.selector) for r in members):
                 continue
-            gate = VERSION_GATED.get(selectors)
+            gate = version_gated().get(selectors)
             if gate and django.VERSION[:2] < gate[0]:
                 continue
             live = False
@@ -170,7 +198,7 @@ class SelectorCoverageTests(TestCase):
         """Keeps KNOWN_STALE honest: a rule that was deleted must leave the list."""
         present = {", ".join(r.selector for r in members) for members in self._rule_groups().values()}
         self.assertEqual(
-            sorted(set(KNOWN_STALE) - present),
+            sorted(set(known_stale()) - present),
             [],
             "These KNOWN_STALE entries no longer exist in the stylesheet; delete them.",
         )
@@ -179,18 +207,18 @@ class SelectorCoverageTests(TestCase):
         """A gated rule that was deleted must leave the list."""
         present = {", ".join(r.selector for r in members) for members in self._rule_groups().values()}
         self.assertEqual(
-            sorted(set(VERSION_GATED) - present),
+            sorted(set(version_gated()) - present),
             [],
             "These VERSION_GATED entries no longer exist in the stylesheet; delete them.",
         )
 
     def test_exclusion_tokens_are_used(self):
         """Keeps NOT_SERVER_RENDERED honest: an unused token is dead weight."""
-        css = STYLESHEET.read_text()
+        css = "\n".join(sheet.read_text() for sheet in ALL_STYLESHEETS)
         self.assertEqual(
             sorted(token for token in NOT_SERVER_RENDERED if token not in css),
             [],
-            "These NOT_SERVER_RENDERED tokens appear in no rule; delete them.",
+            "These NOT_SERVER_RENDERED tokens appear in no stylesheet; delete them.",
         )
 
     def test_sample_pages_render(self):

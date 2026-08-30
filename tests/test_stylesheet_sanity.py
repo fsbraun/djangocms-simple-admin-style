@@ -8,7 +8,9 @@ from django.test import SimpleTestCase
 from tests.cssflat import flatten
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-STYLESHEET = REPO_ROOT / "private" / "djangocms-simple-admin.css"
+# Both stylesheets: these checks are structural, so they do not depend on which
+# one this Django version is served.
+STYLESHEETS = sorted((REPO_ROOT / "private").glob("*.css"))
 
 # Every element name the admin could plausibly render. A type selector outside
 # this set is almost always a class selector that lost its leading dot -- the
@@ -153,14 +155,15 @@ TYPE_SELECTOR_RE = re.compile(r"(?<![.#:\[\w-])([a-zA-Z][\w-]*)(?![\w-]*\s*\()")
 class StylesheetSanityTests(SimpleTestCase):
     def test_no_unknown_element_selectors(self):
         unknown = []
-        for rule in flatten(STYLESHEET.read_text()):
-            # Ignore what is inside functional pseudo-classes and attribute
-            # values; only the bare type selectors matter here.
-            bare = re.sub(r"\[[^\]]*\]", "", rule.selector)
-            bare = re.sub(r":[a-zA-Z-]+\([^)]*\)", "", bare)
-            for name in TYPE_SELECTOR_RE.findall(bare):
-                if name.lower() not in HTML_ELEMENTS:
-                    unknown.append(f"{STYLESHEET.name}:{rule.line}  {rule.selector}  -> {name!r}")
+        for stylesheet in STYLESHEETS:
+            for rule in flatten(stylesheet.read_text()):
+                # Ignore what is inside functional pseudo-classes and attribute
+                # values; only the bare type selectors matter here.
+                bare = re.sub(r"\[[^\]]*\]", "", rule.selector)
+                bare = re.sub(r":[a-zA-Z-]+\([^)]*\)", "", bare)
+                for name in TYPE_SELECTOR_RE.findall(bare):
+                    if name.lower() not in HTML_ELEMENTS:
+                        unknown.append(f"{stylesheet.name}:{rule.line}  {rule.selector}  -> {name!r}")
         self.assertEqual(
             unknown,
             [],
@@ -170,6 +173,8 @@ class StylesheetSanityTests(SimpleTestCase):
 
     def test_stylesheet_parses_to_rules(self):
         """A parse failure would make every other check vacuously pass."""
-        rules = flatten(STYLESHEET.read_text())
-        self.assertGreater(len(rules), 100)
-        self.assertTrue(all(r.selector.strip() for r in rules))
+        self.assertTrue(STYLESHEETS, "no stylesheets found in private/")
+        for stylesheet in STYLESHEETS:
+            rules = flatten(stylesheet.read_text())
+            self.assertGreater(len(rules), 100, stylesheet.name)
+            self.assertTrue(all(r.selector.strip() for r in rules), stylesheet.name)
