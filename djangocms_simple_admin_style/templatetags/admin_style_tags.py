@@ -1,10 +1,10 @@
-from functools import cache
-from packaging.version import Version
 import re
+from functools import cache
 
 from django import template
 from django.conf import settings
-from django.template.loader import render_to_string, TemplateDoesNotExist
+from django.template.loader import TemplateDoesNotExist, render_to_string
+from packaging.version import Version
 
 # We follow the Semantic versioning convention
 # minor - Refers to the minor release track (5.0.1)
@@ -35,7 +35,6 @@ def render_update_notification(context):
         notifications_enabled = index_page and notifications_enabled
 
     if notifications_enabled and check_type in VALID_VERSION_CHECK_TYPES:
-        print(cms_version)
         context = {
             "cms_version": cms_version,
             "cms_version_check_type": check_type,
