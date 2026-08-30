@@ -35,6 +35,11 @@
     --border-color: var(--dca-gray-lighter);
 
     --message-success-bg: var(--dca-secondary);
+    --message-warning-bg: light-dark(#fff7e6, #4d3a00);
+    --message-error-bg: light-dark(#fde8e8, #4a1414);
+    /* New in Django 6.0 — ignored on 5.2 */
+    --message-debug-bg: var(--dca-gray-lightest);
+    --message-info-bg: color-mix(in srgb, var(--dca-secondary) 50%, var(--dca-white));
     --error-fg: var(--dca-red);
 
     --darkened-bg: var(--dca-gray-lightest); /* A bit darker than --body-bg */
@@ -612,7 +617,7 @@ select {
 }
 
 .cms-admin-sideframe {
-    margin-top: 0;
+    margin-top: 46px;
     #header {
         display: none;
     }
@@ -620,7 +625,7 @@ select {
         display: none;
     }
     #container {
-        padding-top: 46px;
+        padding-top: 0;
     }
     .object-tools:not(:empty) {
         margin-top: -58px;

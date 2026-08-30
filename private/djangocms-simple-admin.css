@@ -35,6 +35,10 @@
     --border-color: var(--dca-gray-lighter);
 
     --message-success-bg: var(--dca-secondary);
+    --message-warning-bg: light-dark(#fff7e6, #4d3a00);
+    --message-error-bg: light-dark(#fde8e8, #4a1414);
+    --message-debug-bg: var(--dca-gray-lightest);
+    --message-info-bg: color-mix(in srgb, var(--dca-secondary) 50%, var(--dca-white));
     --error-fg: var(--dca-red);
 
     --darkened-bg: var(--dca-secondary); /* A bit darker than --body-bg */
@@ -176,6 +180,12 @@ a.addlink {
         font-size: 1.2rem;
         color: var(--header-branding-color);
     }
+}
+
+/* Breadcrumbs — Django 6.1 changed `div.breadcrumbs` to `ol.breadcrumbs` */
+ol.breadcrumbs {
+    list-style: none;
+    margin: 0;
 }
 
 /* Full width dashboard */
@@ -321,6 +331,20 @@ form {
     }
     .selector label {
         float: inline-start;
+    }
+    /* "Choose all" / "Remove all" became real buttons in Django 6.0 */
+    .selector-chooseall,
+    .selector-clearall {
+        border: 1px solid var(--dca-gray);
+        border-radius: var(--button-radius);
+        background: var(--button-bg);
+        color: var(--button-fg);
+        padding: 4px 10px;
+        font-size: 0.8125rem;
+        height: unset;
+        &:hover {
+            background: var(--button-hover-bg);
+        }
     }
     .collapse summary .fieldset-heading, .collapse summary .inline-heading {
         margin-inline-start: 0.4em;
@@ -485,6 +509,12 @@ label.required:not(.vCheckboxLabel):after {
     margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 0;
+}
+
+/* Django 6.1 made `p.datetime label` block — keep date+time side by side. */
+p.datetime label {
+    display: inline;
+    padding: 0;
 }
 
 /* Put the date and time pickers on one line on wide screens (Django stacks them
