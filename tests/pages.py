@@ -6,7 +6,10 @@ changelist, the delete-confirmation interstitial, a popup, and the logged-out
 login page.
 """
 
-from django.contrib.auth.models import User
+from django.contrib.admin.models import ADDITION, LogEntry
+from django.contrib.auth.models import Permission, User
+from django.contrib.contenttypes.models import ContentType
+from django.test import Client
 from django.urls import reverse
 
 from tests.testapp.models import Category, Note, Tag, Widget
@@ -37,8 +40,43 @@ def create_fixtures():
     return widgets[0]
 
 
+def view_only_client():
+    """A staff client that may view widgets but not change them.
+
+    Django renders the submit row's `.closelink` only when the form cannot be
+    saved: `show_close = not (show_save and can_save)` in
+    admin_modify.submit_row. A read-only change page is the realistic way to
+    reach that, and nothing else in this sample does.
+    """
+    user = User.objects.create_user("viewer", "viewer@example.com", "password", is_staff=True)
+    content_type = ContentType.objects.get_for_model(Widget)
+    user.user_permissions.add(Permission.objects.get(content_type=content_type, codename="view_widget"))
+    client = Client()
+    client.force_login(user)
+    return client
+
+
+def log_admin_action(user, widget):
+    """Give the index page a non-empty "recent actions" list.
+
+    The index renders `<span class="mini quiet">` per logged action; with an
+    empty log it shows "None available" instead, and nothing else in the admin
+    uses `.mini`. Rows are created directly because the signature of
+    `LogEntry.objects.log_action()` differs across the supported Django versions.
+    """
+    LogEntry.objects.create(
+        user=user,
+        content_type=ContentType.objects.get_for_model(Widget),
+        object_id=str(widget.pk),
+        object_repr=str(widget),
+        action_flag=ADDITION,
+        change_message="Added.",
+    )
+
+
 def render_all(client, widget, user):
     """Return {page_name: html} for the sampled admin pages."""
+    log_admin_action(user, widget)
     changelist = reverse("admin:testapp_widget_changelist")
     pages = {
         "index": client.get(reverse("admin:index")),
@@ -67,6 +105,8 @@ def render_all(client, widget, user):
             reverse("admin:testapp_widget_add"),
             {"title": "", "homepage": "not-a-url", "quantity": "abc"},
         ),
+        # A read-only change page, which is where Django renders .closelink.
+        "view_only_change": view_only_client().get(reverse("admin:testapp_widget_change", args=[widget.pk])),
         # A page carrying a success message, so .messagelist markup is present.
         "with_message": client.post(reverse("admin:testapp_tag_add"), {"name": "created"}, follow=True),
     }

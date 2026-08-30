@@ -31,7 +31,9 @@ class WidgetAdmin(admin.ModelAdmin):
             "Content",
             {
                 "fields": ("description", "homepage", "email"),
-                "description": "Free text.",
+                # Rendered with |safe, so a description may carry markup --
+                # which is what the stylesheet's `.description p` rule styles.
+                "description": "<p>Free text fields.</p>",
                 "classes": ("wide",),  # renders the .wide fieldset layout
             },
         ),

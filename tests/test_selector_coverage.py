@@ -91,12 +91,13 @@ NOT_SERVER_RENDERED = {
 # checked below, so deleted rules cannot linger here.
 # Stale in *both* stylesheets.
 _SHARED_STALE = {
-    ".mini": "no .mini element on any sampled page",
     "#changelist-filter :is(.module .fieldset-heading, .module fieldset details > summary)::before": (
-        "filter sidebar has no .module ancestor in modern Django"
+        "the filter sidebar is <search id='changelist-filter'> holding <h2> and "
+        "<details><summary> -- there is no .module ancestor and no "
+        ".fieldset-heading, on any supported Django. The rule most likely meant "
+        "`#changelist-filter details > summary::before`; fixing it changes "
+        "rendering, so it is pinned here rather than edited silently"
     ),
-    "form .description p": "fieldset descriptions render as a bare <div class='description'>",
-    ":is(.delete-confirmation, .submit-row) a.closelink": "Django no longer renders .closelink",
 }
 
 KNOWN_STALE = {
