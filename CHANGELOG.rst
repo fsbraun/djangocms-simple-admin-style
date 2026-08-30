@@ -2,7 +2,7 @@
 Changelog
 =========
 
-Version 2.1.0 (unreleased)
+Version 2.1.0 (2026-08-30)
 ==========================
 
 * feat: Add a lean stylesheet for the redesigned Django 6.1+ admin forms
