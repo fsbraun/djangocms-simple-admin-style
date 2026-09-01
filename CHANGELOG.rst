@@ -2,9 +2,17 @@
 Changelog
 =========
 
-Unreleased
-==========
+Version 2.1.1 (2026-09-01)
+==========================
 
+* fix: The admin style auto-detection rendered ``base.html`` against a synthetic
+  request with the host ``testserver``, which projects reject once ``DEBUG`` is
+  off. A ``base.html`` using ``request.build_absolute_uri`` (the django CMS
+  frontend base templates do, for the canonical link) then raised
+  ``DisallowedHost`` out of ``{% admin_theme_class %}`` and broke every admin
+  page. ``{% admin_theme_class %}`` now takes the template context and detects
+  against a copy of the real admin request, which carries a valid host, the
+  logged-in user and the session.
 * fix: ``.inline-changelink`` was missing its leading dot, so the icon
   adjustment never applied to inline change links.
 * fix: Remove a stray ``print()`` that wrote the django CMS version to stdout on
