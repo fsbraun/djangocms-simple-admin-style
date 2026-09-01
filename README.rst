@@ -12,6 +12,36 @@ behaviour.
 ``djangocms-simple-admin-style`` is included by the `official django CMS
 project template <https://docs.django-cms.org/en/latest/tutorials/00-installing-django-cms.html>`_.
 
+See the difference
+==================
+
+The comparisons below show the same django CMS admin dashboard with Django's
+native styling and with Django CMS Simple Admin Style.
+
+Light mode
+----------
+
+.. list-table::
+   :widths: 50 50
+   :header-rows: 1
+
+   * - Django admin
+     - Django CMS Simple Admin Style
+   * - |DjangoLight|
+     - |StyleLight|
+
+Dark mode
+---------
+
+.. list-table::
+   :widths: 50 50
+   :header-rows: 1
+
+   * - Django admin
+     - Django CMS Simple Admin Style
+   * - |DjangoDark|
+     - |StyleDark|
+
 Why use it?
 ===========
 
@@ -138,3 +168,19 @@ for details.
 .. |Tests| image:: https://github.com/fsbraun/djangocms-simple-admin-style/actions/workflows/tests.yml/badge.svg?branch=main
     :target: https://github.com/fsbraun/djangocms-simple-admin-style/actions/workflows/tests.yml
     :alt: Test status
+
+.. |DjangoLight| image:: https://raw.githubusercontent.com/fsbraun/djangocms-simple-admin-style/main/private/django-light.jpg
+    :alt: django CMS dashboard with native Django admin styling in light mode
+    :width: 100%
+
+.. |StyleLight| image:: https://raw.githubusercontent.com/fsbraun/djangocms-simple-admin-style/main/private/style-light.jpg
+    :alt: django CMS dashboard with Django CMS Simple Admin Style in light mode
+    :width: 100%
+
+.. |DjangoDark| image:: https://raw.githubusercontent.com/fsbraun/djangocms-simple-admin-style/main/private/django-dark.jpg
+    :alt: django CMS dashboard with native Django admin styling in dark mode
+    :width: 100%
+
+.. |StyleDark| image:: https://raw.githubusercontent.com/fsbraun/djangocms-simple-admin-style/main/private/style-dark.jpg
+    :alt: django CMS dashboard with Django CMS Simple Admin Style in dark mode
+    :width: 100%
