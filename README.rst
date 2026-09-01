@@ -36,22 +36,6 @@ can instead use MetaForX's `Django Unfold Extra
 integrates Unfold with django CMS, including the page tree, plugin forms,
 versioning, and light/dark theme synchronisation.
 
-Compatibility
-=============
-
-The currently supported release series are:
-
-================  ================================
-Component         Supported versions
-================  ================================
-Python            3.9 through 3.14
-Django            4.2, 5.0--5.2, 6.0, and 6.1
-django CMS        3.11, 4.0--4.1, and 5.0--5.1
-================  ================================
-
-The stylesheets use `CSS nesting <https://caniuse.com/css-nesting>`_ and
-therefore require a current browser. Internet Explorer is not supported.
-
 Installation
 ============
 
