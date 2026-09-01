@@ -224,18 +224,24 @@ class LegacyStyleDetectionRenderTests(SimpleTestCase):
     def test_a_failed_render_is_not_retried(self):
         """Regression: failures went uncached, so an unrenderable base.html was
         re-rendered -- and a traceback re-logged -- on every admin request."""
-        with fake_sekizai(), base_template("{% load i18n %}{% no_such_tag %}"):
-            with self.assertLogs("djangocms_simple_admin_style", "WARNING") as logs:
-                self.assertIs(_legacy_style_active(self.request), False)
-                self.assertIs(_legacy_style_active(self.request), False)
+        with (
+            fake_sekizai(),
+            base_template("{% load i18n %}{% no_such_tag %}"),
+            self.assertLogs("djangocms_simple_admin_style", "WARNING") as logs,
+        ):
+            self.assertIs(_legacy_style_active(self.request), False)
+            self.assertIs(_legacy_style_active(self.request), False)
         self.assertEqual(len(logs.records), 1)
 
     @override_settings(ALLOWED_HOSTS=[".beta-vm.de"])
     def test_a_base_template_we_cannot_render_is_not_fatal(self):
         """A tag needing state we cannot fake must degrade, not 500 the admin."""
-        with fake_sekizai(), base_template("{% load i18n %}{% no_such_tag %}"):
-            with self.assertLogs("djangocms_simple_admin_style", "WARNING"):
-                self.assertIs(_legacy_style_active(self.request), False)
+        with (
+            fake_sekizai(),
+            base_template("{% load i18n %}{% no_such_tag %}"),
+            self.assertLogs("djangocms_simple_admin_style", "WARNING"),
+        ):
+            self.assertIs(_legacy_style_active(self.request), False)
 
 
 class RenderUpdateNotificationTests(SimpleTestCase):
