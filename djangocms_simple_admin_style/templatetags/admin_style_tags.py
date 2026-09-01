@@ -4,6 +4,7 @@ import re
 
 from django import template
 from django.conf import settings
+from django.contrib.auth.models import AnonymousUser
 from django.template.loader import TemplateDoesNotExist, render_to_string
 from packaging.version import Version
 
@@ -107,6 +108,7 @@ def _legacy_style_active(request=None):
 
     try:
         from sekizai.context_processors import sekizai
+        from cms.toolbar.toolbar import CMSToolbar
 
         # Render against a copy: we run in the middle of the admin page's own
         # render, so nothing we set here may reach the live request. The toolbar
@@ -114,7 +116,8 @@ def _legacy_style_active(request=None):
         # `{% cms_toolbar %}` would otherwise populate and render the in-flight
         # request's own toolbar object a second time.
         request = copy.copy(request)
-        request.toolbar = None
+        request.user = AnonymousUser()
+        request.toolbar = CMSToolbar(request)
         # Tags such as `{% page_attribute %}` read request.current_page in
         # Python, where a missing attribute is a hard AttributeError rather than
         # an empty template variable. An admin request never went through the
