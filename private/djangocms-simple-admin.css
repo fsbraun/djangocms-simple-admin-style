@@ -384,6 +384,10 @@ form {
     display: flex;
     flex-direction: row-reverse;
     gap: 12px;
+    .closelink {
+        color: var(--dca-black);
+        background: var(--dca-white);
+    }
 }
 /* The delete-confirmation buttons live in a bare <form>, not a .submit-row, so
    they get no flex gap from Django — give them the same rhythm. */
@@ -399,10 +403,6 @@ form {
         margin-inline-end: auto;
         margin-inline-start: 0;
     }
-    a.closelink {
-        color: var(--dca-black);
-        background: var(--dca-white);
-    }
     a.cancel-link {
         /* Floats are ignored on flex items; auto-margin keeps it at the end */
         margin-inline-start: auto;
@@ -415,11 +415,10 @@ a.button,
 .submit-row input[type="submit"],
 .delete-confirmation form input[type="submit"],
 .delete-confirmation form .deletelink,
-.delete-confirmation form .closelink,
+.submit-row .closelink,
 .delete-confirmation form .cancel-link,
 form .submit-row input[type="submit"],
 form .submit-row .deletelink,
-form .submit-row .closelink,
 form .submit-row .cancel-link {
     font-size: 14px;
     padding: 10px 15px;
@@ -531,21 +530,30 @@ p.datetime label {
     padding: 0;
 }
 
-/* Put the date and time pickers on one line on wide screens (Django stacks them
-   with a <br>). The extra trailing margin separates the two groups. */
-@media (min-width: 1024px) {
-    .form-row p.datetime {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 6px;
-    }
-    .form-row p.datetime br {
-        display: none;
-    }
-    .form-row p.datetime .datetimeshortcuts:first-of-type {
-        margin-inline-end: 1.25em;
-    }
+/* Put the date and time pickers on one line (Django stacks them with a <br>).
+   The extra trailing margin separates the two groups. This must not be gated
+   behind a min-width query: the django CMS modal sizes its iframe to
+   `window width - 300`, so it sits below a 1024px breakpoint on any screen
+   narrower than ~1324px and the widget would fall back to Django's stack.
+   `flex-wrap` takes care of the narrow case instead. */
+.form-row p.datetime {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    /* The surrounding column flex-container aligns items to flex-start, which
+       would shrink-wrap this row; Chrome sizes a wrapping flex container to its
+       widest item rather than the sum, so the clock shortcut wrapped away even
+       with room to spare. Claim the whole row instead. */
+    width: 100%;
+}
+
+.form-row p.datetime br {
+    display: none;
+}
+
+.form-row p.datetime .datetimeshortcuts:first-of-type {
+    margin-inline-end: 1.25em;
 }
 
 /* Recolour the calendar/clock picker icons with the CMS colour. Django paints

@@ -120,7 +120,7 @@ Legacy django CMS styling
 
 The package automatically uses the legacy visual language with django CMS
 versions earlier than 5.1, or when the project's ``base.html`` contains
-``<html data-cms-theme="4">``.
+``<html data-cms-theme="3">`` or ``<html data-cms-theme="4">``.
 
 Set ``CMS_LEGACY_STYLE`` to override detection:
 
