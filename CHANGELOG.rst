@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 2.1.2 (2026-09-04)
+==========================
+
+* fix: Detect the legacy theme from the source of ``base.html`` instead of
+  rendering the project's frontend template from an admin request. This avoids
+  executing template tags that require page, toolbar, or middleware state and
+  removes the spurious auto-detection warning. Both ``data-cms-theme="3"`` and
+  ``data-cms-theme="4"`` select the legacy style.
+
 Version 2.1.1 (2026-09-01)
 ==========================
 

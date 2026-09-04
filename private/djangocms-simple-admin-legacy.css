@@ -397,16 +397,16 @@ form {
     background: var(--dca-white);
     display: flex;
     flex-direction: row-reverse;
+    .closelink {
+        color: var(--dca-black);
+        background: var(--dca-white);
+    }
 }
 .delete-confirmation, .submit-row {
     a.deletelink {
         color: white;
         margin-inline-end: auto;
         margin-inline-start: 0;
-    }
-    a.closelink {
-        color: var(--dca-black);
-        background: var(--dca-white);
     }
     a.cancel-link {
         float: inline-end;
@@ -419,11 +419,10 @@ a.button,
 .submit-row input[type="submit"],
 .delete-confirmation form input[type="submit"],
 .delete-confirmation form .deletelink,
-.delete-confirmation form .closelink,
+.closelink,
 .delete-confirmation form .cancel-link,
 form .submit-row input[type="submit"],
 form .submit-row .deletelink,
-form .submit-row .closelink,
 form .submit-row .cancel-link {
     font-size: 14px;
     padding: 10px 15px;
@@ -455,6 +454,16 @@ form .submit-row .cancel-link {
     color: var(--body-fg);
     font-weight: 600;
     line-height: 1.6em;
+    /* Django 6.0 wraps multiwidget fields (a split date/time, say) in
+       <fieldset><legend> and floats that legend beside a 160px column. Widening
+       it to the full row without dropping the float leaves a 100%-wide float:
+       the sibling .flex-container establishes its own formatting context, so it
+       may not overlap the float, and with an auto width it shrinks to nothing
+       and lands past the float's right edge instead of below it. (6.1 escapes
+       this because `.aligned fieldset > div` gives that container a definite
+       width there — 6.0 spends that rule on an extra wrapper div.) Labels above
+       fields want no float anyway. */
+    float: none;
 }
 
 .aligned .checkbox-row label {

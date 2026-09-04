@@ -60,31 +60,6 @@ def fake_cms(version):
 
 
 @contextmanager
-def fake_sekizai():
-    """Provide the sekizai context processor that the style detection imports.
-
-    sekizai comes with django CMS, which the test environment deliberately does
-    not install; without this stub the detection bails out at the import and
-    never reaches the base.html render the tests below are about.
-    """
-    package = types.ModuleType("sekizai")
-    processors = types.ModuleType("sekizai.context_processors")
-    processors.sekizai = lambda request: {}
-    package.context_processors = processors
-    names = ("sekizai", "sekizai.context_processors")
-    originals = {name: sys.modules.get(name) for name in names}
-    sys.modules.update(zip(names, (package, processors)))
-    try:
-        yield
-    finally:
-        for name, module in originals.items():
-            if module is None:
-                del sys.modules[name]
-            else:
-                sys.modules[name] = module
-
-
-@contextmanager
 def base_template(html):
     """Make ``base.html`` with the given contents resolvable by the loaders."""
     with tempfile.TemporaryDirectory() as directory:
@@ -136,21 +111,19 @@ class LegacyStyleActiveTests(SimpleTestCase):
     def test_setting_takes_precedence(self):
         self.assertIs(_legacy_style_active(), True)
 
-    def test_without_a_request_nothing_is_detected(self):
-        """No request, nothing to render against: not legacy, and not cached."""
-        with fake_sekizai(), base_template(LEGACY_BASE):
-            self.assertIs(_legacy_style_active(), False)
-            self.assertIs(_legacy_style_active(self.request), True)
+    def test_detection_does_not_need_a_request(self):
+        with base_template(LEGACY_BASE):
+            self.assertIs(_legacy_style_active(), True)
 
     @override_settings(CMS_LEGACY_STYLE=True)
     def test_the_setting_wins_over_the_base_template(self):
         """The setting is documented to skip auto-detection, not to seed it."""
-        with fake_sekizai(), base_template(CURRENT_BASE):
+        with base_template(CURRENT_BASE):
             self.assertIs(_legacy_style_active(self.request), True)
 
     @override_settings(CMS_LEGACY_STYLE=False)
     def test_the_setting_can_override_a_legacy_base_template(self):
-        with fake_sekizai(), base_template(LEGACY_BASE):
+        with base_template(LEGACY_BASE):
             self.assertIs(_legacy_style_active(self.request), False)
 
     @override_settings(CMS_LEGACY_STYLE=True)
@@ -161,30 +134,19 @@ class LegacyStyleActiveTests(SimpleTestCase):
         self.assertIs(_legacy_style_active(self.request), True)
         self.assertIs(_legacy_style_active(self.request), True)
 
-    def test_the_render_gets_a_prepared_copy_of_the_request(self):
-        """The live request is mid-render in the admin, so it must come out
-        untouched -- while the copy carries what a CMS base.html reads:
-        `{% page_attribute %}` reads request.current_page in Python, where a
-        missing attribute is a hard AttributeError."""
-        self.request.toolbar = object()
-        captured = {}
-
-        def capture(template_name, context):
-            captured["request"] = context["request"]
-            return ""
-
-        with fake_sekizai(), patch.object(admin_style_tags, "render_to_string", capture):
-            _legacy_style_active(self.request)
-
-        self.assertIsNot(captured["request"], self.request)
-        self.assertIsNone(captured["request"].current_page)
-        self.assertIsNone(captured["request"].toolbar)
-        self.assertFalse(hasattr(self.request, "current_page"))
-        self.assertIsNotNone(self.request.toolbar)
+    def test_base_template_is_not_rendered(self):
+        """Regression for #41: detection must not execute frontend tags."""
+        html = '<html data-cms-theme="4">{% url "missing-url-name" %}</html>'
+        with base_template(html):
+            self.assertIs(_legacy_style_active(self.request), True)
 
     def test_missing_base_template_is_not_an_error(self):
-        """No base.html and no sekizai: the tag must fall back, not raise."""
+        """No base.html: the tag must fall back, not raise."""
         self.assertIs(_legacy_style_active(self.request), False)
+
+    def test_invalid_base_template_is_not_an_error(self):
+        with base_template("{% no_such_tag %}"):
+            self.assertIs(_legacy_style_active(self.request), False)
 
     @override_settings(CMS_LEGACY_STYLE=True)
     def test_result_is_cached(self):
@@ -195,52 +157,22 @@ class LegacyStyleActiveTests(SimpleTestCase):
             self.assertIs(_legacy_style_active(), True)
 
 
-class LegacyStyleDetectionRenderTests(SimpleTestCase):
-    """End-to-end detection against a base.html that needs a valid host.
-
-    The django CMS frontend base templates render ``request.build_absolute_uri``
-    for the canonical link, which calls ``get_host()``. Rendering against the
-    admin request means that host is the real one and passes ALLOWED_HOSTS --
-    a synthetic request used to raise DisallowedHost with DEBUG off and report
-    "not legacy" for every project on the legacy style.
-    """
-
+class LegacyStyleDetectionTests(SimpleTestCase):
     def setUp(self):
         clear_style_cache()
         self.addCleanup(clear_style_cache)
         self.request = RequestFactory(SERVER_NAME="beta-vm.de").get("/admin/")
 
-    @override_settings(ALLOWED_HOSTS=[".beta-vm.de"])
     def test_legacy_marker_is_found(self):
-        with fake_sekizai(), base_template(LEGACY_BASE):
+        with base_template(LEGACY_BASE):
             self.assertIs(_legacy_style_active(self.request), True)
 
-    @override_settings(ALLOWED_HOSTS=[".beta-vm.de"])
+    def test_theme_3_marker_is_also_legacy(self):
+        with base_template("<html data-cms-theme='3'></html>"):
+            self.assertIs(_legacy_style_active(self.request), True)
+
     def test_without_the_marker_the_current_style_wins(self):
-        with fake_sekizai(), base_template(CURRENT_BASE):
-            self.assertIs(_legacy_style_active(self.request), False)
-
-    @override_settings(ALLOWED_HOSTS=[".beta-vm.de"])
-    def test_a_failed_render_is_not_retried(self):
-        """Regression: failures went uncached, so an unrenderable base.html was
-        re-rendered -- and a traceback re-logged -- on every admin request."""
-        with (
-            fake_sekizai(),
-            base_template("{% load i18n %}{% no_such_tag %}"),
-            self.assertLogs("djangocms_simple_admin_style", "WARNING") as logs,
-        ):
-            self.assertIs(_legacy_style_active(self.request), False)
-            self.assertIs(_legacy_style_active(self.request), False)
-        self.assertEqual(len(logs.records), 1)
-
-    @override_settings(ALLOWED_HOSTS=[".beta-vm.de"])
-    def test_a_base_template_we_cannot_render_is_not_fatal(self):
-        """A tag needing state we cannot fake must degrade, not 500 the admin."""
-        with (
-            fake_sekizai(),
-            base_template("{% load i18n %}{% no_such_tag %}"),
-            self.assertLogs("djangocms_simple_admin_style", "WARNING"),
-        ):
+        with base_template(CURRENT_BASE):
             self.assertIs(_legacy_style_active(self.request), False)
 
 
