@@ -98,7 +98,7 @@ def _legacy_style_active(request=None):
         base_template = get_template("base.html")
         source = base_template.template.source
         _legacy_style_cache = bool(re.search(r'<html[^>]*\bdata-cms-theme=["\'][34]["\']', source))
-    except (TemplateDoesNotExist, TemplateSyntaxError, AttributeError):
-        # No usable base.html, or a non-Django backend without source access.
+    except Exception:
+        # Template lookup/source inspection is best effort; fall back on any failure.
         _legacy_style_cache = False
     return _legacy_style_cache
