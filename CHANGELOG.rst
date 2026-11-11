@@ -2,8 +2,12 @@
 Changelog
 =========
 
-Unreleased
-==========
+Version 6.2.0 (unreleased)
+==========================
+
+* Develop the Django 6.2 series on ``main`` and test against Django's
+  ``main`` branch. Keep only the Django 6.2 stylesheet and remove Django
+  version checks.
 
 * Adopt ``x.y.z`` versioning: ``x.y`` matches Django's major and minor version
   and ``z`` is this package's independent patch version, starting at ``0``.

@@ -49,8 +49,7 @@ Why use it?
   visual language, including light and dark colour schemes.
 * **Conservative:** small, targeted overrides leave Django's admin styling and
   behaviour intact.
-* **Compatible:** dedicated stylesheets support both the established admin
-  markup and the redesigned forms introduced in Django 6.1.
+* **Compatible:** this release series provides a stylesheet for Django 6.2.
 * **Compact:** each production stylesheet is a single minified CSS file under
   16 kB.
 * **Tested:** CI renders real admin pages and checks that CSS rules still match
@@ -96,7 +95,8 @@ use the ``5.2.z`` series with Django 5.2 and the ``6.0.z`` series with Django
 
 Each series starts at patch version ``0`` and is maintained on its
 ``release/x.y.x`` branch: ``release/5.2.x``, ``release/6.0.x``, and
-``release/6.1.x``. This policy replaces the previous ``2.x`` numbering.
+``release/6.1.x``. The ``main`` branch develops the future ``6.2.z`` series
+against Django's ``main`` branch. This policy replaces the previous ``2.x`` numbering.
 
 Configuration
 =============

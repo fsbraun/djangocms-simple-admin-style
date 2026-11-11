@@ -1,8 +1,7 @@
 """Minimal Django project used by the test suite.
 
-Deliberately does *not* install django CMS: the stylesheet split is driven by
-``django.VERSION`` alone, so the CI matrix stays a pure Django matrix and is not
-constrained by which django CMS release supports which Django. The templatetags
+Deliberately does *not* install django CMS, so the test environment is not
+constrained by which django CMS release supports this Django series. The templatetags
 all guard their ``cms`` imports with ``try/except ImportError``; the tests that
 need a ``cms`` module inject a fake one via ``sys.modules``.
 """

@@ -13,22 +13,12 @@ jobs:
   test:
     name: Django ${{ matrix.django }} / Python ${{ matrix.python }}
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          # One job per supported Django series: the selector coverage test only
-          # means something when it runs against each admin it claims to style.
-          - { django: "4.2", python: "3.9" }
-          - { django: "4.2", python: "3.12" }
-          - { django: "5.0", python: "3.12" }
-          - { django: "5.1", python: "3.13" }
-          - { django: "5.2", python: "3.13" }
-          - { django: "6.0", python: "3.12" }
-          - { django: "6.1", python: "3.14" }
-          # Early warning when Django main renames admin markup. Advisory only.
-          - { django: "main", python: "3.14", experimental: true }
+          - { django: "main", python: "3.12" }
+          - { django: "main", python: "3.14" }
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -44,11 +34,7 @@ jobs:
           # which pins Django and would collapse this matrix. The test settings
           # run a plain Django admin and stub `cms` where it is needed.
           pip install beautifulsoup4 soupsieve packaging
-          if [ "${{ matrix.django }}" = "main" ]; then
-            pip install "https://github.com/django/django/archive/refs/heads/main.tar.gz"
-          else
-            pip install "Django~=${{ matrix.django }}.0"
-          fi
+          pip install "https://github.com/django/django/archive/refs/heads/main.tar.gz"
       - name: Show versions
         run: python -c "import django; print('Django', django.get_version())"
       - name: Run tests
