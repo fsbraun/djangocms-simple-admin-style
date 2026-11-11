@@ -65,17 +65,8 @@ CSS
 Always edit the readable stylesheets in ``private/``; never edit the generated
 ``*.min.css`` files directly.
 
-``private/djangocms-simple-admin.css``
-    Served with Django 6.1 and later. It builds on Django's native forms, which
-    stack inputs beneath their labels.
-
-``private/djangocms-simple-admin-legacy.css``
-    Served with Django 6.0 and earlier. It provides the labels-above layout
-    itself.
-
-The ``{% admin_style_css %}`` template tag selects the appropriate stylesheet
-from ``django.VERSION``. A change that is not specific to one admin generation
-usually belongs in both source files.
+``private/djangocms-simple-admin.css`` contains the styles for Django 6.0.
+This release branch ships only that stylesheet.
 
 After changing CSS, lint and rebuild it::
 
@@ -101,9 +92,7 @@ Run all configured pre-commit hooks::
 
     pre-commit run --all-files
 
-CI tests Django 4.2, 5.0, 5.1, 5.2, 6.0, 6.1, and Django's ``main`` branch.
-The ``main`` job is advisory so upcoming admin markup changes can be found
-before the next Django release.
+CI tests Django 6.0 on Python 3.12 and 3.14.
 
 How the test suite works
 ========================
@@ -117,19 +106,14 @@ Django changes its admin markup, the CSS remains syntactically valid, but a
 selector stops applying.
 
 Coverage is measured per CSS rule rather than per individual selector. A rule
-containing selectors for multiple Django versions is live when at least one of
-them matches.
+containing several selectors is live when at least one of them matches.
 
 Some rules cannot match the server-rendered plain-Django fixture. Exceptions
-are documented, with a reason for every entry, in three collections:
+are documented, with a reason for every entry, in two collections:
 
 ``NOT_SERVER_RENDERED``
     Markup created by JavaScript or supplied by another package, including
     django CMS, django-parler, and django-select2.
-
-``VERSION_GATED``
-    Markup introduced by a newer Django version and correctly absent from
-    earlier versions.
 
 ``KNOWN_STALE``
     Pre-existing dead rules kept visible as cleanup tasks. New dead rules
@@ -141,14 +125,14 @@ remain after their associated rules are deleted.
 ``tests/test_stylesheet_sanity.py``
 -----------------------------------
 
-These structural checks run against both source stylesheets. In particular,
+These structural checks run against the source stylesheet. In particular,
 they reject unknown type selectors, which are usually class selectors that
 lost their leading ``.`` and would otherwise fail silently.
 
 ``tests/test_templatetags.py``
 ------------------------------
 
-These unit tests cover stylesheet selection, legacy-style detection, fallbacks,
+These unit tests cover the release stylesheet, legacy-style detection, fallbacks,
 and update-notification rendering. django CMS is stubbed where required so the
 test matrix can choose its Django version independently.
 
@@ -202,8 +186,7 @@ Before submitting a pull request:
 
 * keep the change focused and explain the user-visible effect;
 * add a test or explain why one is not practical;
-* update both source stylesheets when the change applies to both admin
-  generations;
+* apply stylesheet fixes to each affected release branch;
 * rebuild and commit minified CSS after a stylesheet change;
 * update ``CHANGELOG.rst`` for user-visible changes; and
 * run the relevant Python, CSS, and pre-commit checks.

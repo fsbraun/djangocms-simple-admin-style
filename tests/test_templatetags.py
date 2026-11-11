@@ -61,7 +61,7 @@ def fake_cms(version):
 
 @contextmanager
 def fake_sekizai():
-    """Provide the sekizai context processor that the style detection imports.
+    """Provide the sekizai processor and CMS toolbar used by style detection.
 
     sekizai comes with django CMS, which the test environment deliberately does
     not install; without this stub the detection bails out at the import and
@@ -71,9 +71,11 @@ def fake_sekizai():
     processors = types.ModuleType("sekizai.context_processors")
     processors.sekizai = lambda request: {}
     package.context_processors = processors
-    names = ("sekizai", "sekizai.context_processors")
+    toolbar = types.ModuleType("cms.toolbar.toolbar")
+    toolbar.CMSToolbar = lambda request: types.SimpleNamespace(request=request)
+    names = ("sekizai", "sekizai.context_processors", "cms.toolbar.toolbar")
     originals = {name: sys.modules.get(name) for name in names}
-    sys.modules.update(zip(names, (package, processors)))
+    sys.modules.update(zip(names, (package, processors, toolbar)))
     try:
         yield
     finally:
@@ -178,7 +180,7 @@ class LegacyStyleActiveTests(SimpleTestCase):
 
         self.assertIsNot(captured["request"], self.request)
         self.assertIsNone(captured["request"].current_page)
-        self.assertIsNone(captured["request"].toolbar)
+        self.assertIs(captured["request"].toolbar.request, captured["request"])
         self.assertFalse(hasattr(self.request, "current_page"))
         self.assertIsNotNone(self.request.toolbar)
 
@@ -296,6 +298,18 @@ class RenderUpdateNotificationTests(SimpleTestCase):
         with fake_cms("5.1.0"), patch("sys.stdout", new=StringIO()) as stdout:
             render_update_notification(self._context())
         self.assertEqual(stdout.getvalue(), "")
+
+
+class StylesheetTests(SimpleTestCase):
+    def test_release_stylesheet(self):
+        self.assertEqual(
+            admin_style_tags.admin_style_css(),
+            "djangocms_simple_admin_style/css/djangocms-simple-admin.min.css",
+        )
+        self.assertEqual(
+            sorted(p.name for p in (REPO_ROOT / "private").glob("*.css")),
+            ["djangocms-simple-admin.css"],
+        )
 
 
 class BaseSiteTemplateTests(TestCase):
