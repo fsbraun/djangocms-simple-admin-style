@@ -49,8 +49,7 @@ Why use it?
   visual language, including light and dark colour schemes.
 * **Conservative:** small, targeted overrides leave Django's admin styling and
   behaviour intact.
-* **Compatible:** dedicated stylesheets support both the established admin
-  markup and the redesigned forms introduced in Django 6.1.
+* **Compatible:** this release series provides a stylesheet for Django 5.2.
 * **Compact:** each production stylesheet is a single minified CSS file under
   16 kB.
 * **Tested:** CI renders real admin pages and checks that CSS rules still match

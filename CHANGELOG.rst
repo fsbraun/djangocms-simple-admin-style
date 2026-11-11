@@ -5,6 +5,8 @@ Changelog
 Unreleased
 ==========
 
+* Keep only the Django 5.2 stylesheet and remove Django version checks.
+
 * Adopt ``x.y.z`` versioning: ``x.y`` matches Django's major and minor version
   and ``z`` is this package's independent patch version, starting at ``0``.
   Maintain the Django 5.2, 6.0, and 6.1 series on ``release/5.2.x``,
