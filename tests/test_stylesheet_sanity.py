@@ -8,8 +8,7 @@ from django.test import SimpleTestCase
 from tests.cssflat import flatten
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-# Both stylesheets: these checks are structural, so they do not depend on which
-# one this Django version is served.
+# Check the release series stylesheet.
 STYLESHEETS = sorted((REPO_ROOT / "private").glob("*.css"))
 
 # Every element name the admin could plausibly render. A type selector outside

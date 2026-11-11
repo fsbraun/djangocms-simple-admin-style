@@ -587,9 +587,6 @@ div.form-row:not([hidden]) {
     margin-bottom: 1em;
 }
 
-fieldset.collapse.collapsed .form-row {
-    display: none;
-}
 
 .related-widget-wrapper {
     box-sizing: border-box;
@@ -620,7 +617,7 @@ fieldset.collapse.collapsed .form-row {
    FIXES & TRICKS
    ============================================================================= */
 
-/* Paginator current page (Django 6.0 renamed `.this-page` to `[aria-current="page"]`). */
+/* Paginator current page. */
 .paginator a[aria-current="page"] {
     background: var(--primary);
     color: var(--dca-white);
