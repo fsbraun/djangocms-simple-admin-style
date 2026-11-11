@@ -86,6 +86,18 @@ Then add it to ``INSTALLED_APPS`` immediately before
 Projects created with the official django CMS project template already include
 the package.
 
+Versioning
+==========
+
+Package versions follow ``x.y.z``: ``x.y`` matches Django's major and minor
+version, and ``z`` is this package's independent patch version. For example,
+use the ``5.2.z`` series with Django 5.2 and the ``6.0.z`` series with Django
+6.0. The package patch number does not need to match Django's patch number.
+
+Each series starts at patch version ``0`` and is maintained on its
+``release/x.y.x`` branch: ``release/5.2.x``, ``release/6.0.x``, and
+``release/6.1.x``. This policy replaces the previous ``2.x`` numbering.
+
 Configuration
 =============
 

@@ -181,6 +181,20 @@ To cover another admin state, add it to ``render_all()`` in ``tests/pages.py``.
 To exercise another widget, usually add a field to
 ``tests/testapp/models.py`` and configure it in ``tests/testapp/admin.py``.
 
+Releases
+========
+
+Versions use ``x.y.z``, where ``x.y`` matches the target Django major and minor
+version and ``z`` is this package's patch number. Patch numbers start at ``0``
+and advance independently for each Django series, regardless of Django's own
+patch releases.
+
+Maintain each series on ``release/x.y.x`` (currently ``release/5.2.x``,
+``release/6.0.x``, and ``release/6.1.x``), created from ``main``. Apply fixes
+to each affected release branch and increment its ``__version__`` in
+``djangocms_simple_admin_style/__init__.py`` when preparing a release. Record
+the changes in ``CHANGELOG.rst`` on that branch.
+
 Pull requests
 =============
 

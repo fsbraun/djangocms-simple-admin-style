@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Unreleased
+==========
+
+* Adopt ``x.y.z`` versioning: ``x.y`` matches Django's major and minor version
+  and ``z`` is this package's independent patch version, starting at ``0``.
+  Maintain the Django 5.2, 6.0, and 6.1 series on ``release/5.2.x``,
+  ``release/6.0.x``, and ``release/6.1.x``, respectively.
+
 Version 2.1.1 (2026-09-01)
 ==========================
 
