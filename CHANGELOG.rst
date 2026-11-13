@@ -9,8 +9,7 @@ Version 6.2.0 (unreleased)
   ``main`` branch. Keep only the Django 6.2 stylesheet and remove Django
   version checks.
 
-* Require Python 3.12 or newer, as Django 6.2 does, and drop the Django 5.2,
-  6.0, and 6.1 trove classifiers.
+* Require Python 3.12 or newer, as Django 6.2 does.
 
 * Override ``admin/base.html`` instead of ``admin/base_site.html``, which is
   now free for projects to override. A project whose own ``base_site.html``
