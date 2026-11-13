@@ -421,6 +421,10 @@ form {
     display: flex;
     flex-direction: row-reverse;
     gap: 12px;
+    a.closelink {
+        color: var(--dca-text);
+        background: var(--dca-bg);
+    }
 }
 /* The delete-confirmation buttons live in a bare <form>, not a .submit-row, so
    they get no flex gap from Django — give them the same rhythm. */
@@ -435,10 +439,6 @@ form {
         color: var(--dca-on-danger);
         margin-inline-end: auto;
         margin-inline-start: 0;
-    }
-    a.closelink {
-        color: var(--dca-text);
-        background: var(--dca-bg);
     }
     a.cancel-link {
         /* Floats are ignored on flex items; auto-margin keeps it at the end */
@@ -463,11 +463,10 @@ a.button,
 .submit-row input[type="submit"],
 .delete-confirmation form input[type="submit"],
 .delete-confirmation form .deletelink,
-.delete-confirmation form .closelink,
+.submit-row .closelink,
 .delete-confirmation form .cancel-link,
 form .submit-row input[type="submit"],
 form .submit-row .deletelink,
-form .submit-row .closelink,
 form .submit-row .cancel-link {
     font-size: 14px;
     padding: 10px 15px;
@@ -579,21 +578,24 @@ p.datetime label {
     padding: 0;
 }
 
-/* Put the date and time pickers on one line on wide screens (Django stacks them
-   with a <br>). The extra trailing margin separates the two groups. */
-@media (min-width: 1024px) {
-    .form-row p.datetime {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 6px;
-    }
-    .form-row p.datetime br {
-        display: none;
-    }
-    .form-row p.datetime .datetimeshortcuts:first-of-type {
-        margin-inline-end: 1.25em;
-    }
+/* Keep the date and time pickers side by side in CMS modal iframes too.
+   Their viewport can be below 1024px even on desktop; flex-wrap handles
+   narrower screens without a breakpoint. Use the full row so a wrapping flex
+   container does not shrink to its widest item and wrap the shortcuts early. */
+.form-row p.datetime {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+}
+
+.form-row p.datetime br {
+    display: none;
+}
+
+.form-row p.datetime .datetimeshortcuts:first-of-type {
+    margin-inline-end: 1.25em;
 }
 
 /* Recolour the calendar/clock picker icons with the CMS colour. Django paints
