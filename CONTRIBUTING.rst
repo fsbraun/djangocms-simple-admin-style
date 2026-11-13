@@ -30,9 +30,11 @@ Clone the repository and create a virtual environment::
     python -m venv .venv
     source .venv/bin/activate
 
-Install the Python test and lint tools::
+Install the Python test and lint tools. This series targets the future Django
+6.2, so install Django from its ``main`` branch (Python 3.12 or newer)::
 
-    python -m pip install django beautifulsoup4 soupsieve packaging "ruff~=0.16.0"
+    python -m pip install beautifulsoup4 soupsieve packaging "ruff~=0.16.0"
+    python -m pip install "https://github.com/django/django/archive/refs/heads/main.tar.gz"
 
 Install the pinned frontend tools. The repository's ``.nvmrc`` specifies the
 Node.js version used by the project::
@@ -46,9 +48,9 @@ Optionally install the pre-commit hooks::
     pre-commit install
 
 The Python suite deliberately runs against a plain Django admin and does not
-need django CMS. Do not install the package itself when checking a specific
-Django version: its ``django-cms`` dependency can constrain Django and defeat
-the purpose of the compatibility test.
+need django CMS. Do not install the package itself: its ``django-cms``
+dependency can constrain Django and replace the ``main`` checkout the suite is
+meant to run against.
 
 Making changes
 ==============

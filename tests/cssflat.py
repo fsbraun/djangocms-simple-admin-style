@@ -57,9 +57,9 @@ class Rule:
     """Index of the declaration block this selector came from.
 
     A rule written as `.a, .b { ... }` yields two Rules sharing one group. The
-    coverage test treats a group as live when *any* member matches: these
-    stylesheets intentionally list selectors for several Django versions side by
-    side, so a member that is dead on the Django under test is expected.
+    coverage test treats a group as live when *any* member matches: a selector
+    list often covers variants of one component, and not every variant appears
+    on the sampled pages.
     """
 
     def __str__(self):
