@@ -2,8 +2,14 @@
 Changelog
 =========
 
-Unreleased
+unreleased
 ==========
+
+* fix: Remove the float from full-width form legends so Django 5.2 multiwidget
+  fields, such as split date/time inputs, stay below their labels.
+
+5.1.0 (2026-11-12)
+==================
 
 * Keep only the Django 5.2 stylesheet and remove Django version checks.
 
