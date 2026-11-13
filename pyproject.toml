@@ -36,7 +36,7 @@ classifiers = [
 ]
 dynamic = [ "version" ]
 dependencies = [
-  "Django>=6.2.dev0,<6.3",
+  "django>=6.2.dev0,<6.3",
   "django-cms",
 ]
 # The test suite runs a plain Django admin and stubs `cms`, so django-cms is
