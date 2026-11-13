@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% load static admin_style_tags %}
+
+{% comment %}
+  Extends Django's own admin/base.html (the template loader skips this file when
+  resolving the parent), so admin/base_site.html stays free for the project.
+
+  The stylesheet goes at the end of the `responsive` block: that is the last
+  stylesheet Django loads, so our rules win over responsive.css at equal
+  specificity instead of having to out-specify it.
+{% endcomment %}
+{% block responsive %}
+{{ block.super }}
+{% admin_style_css as admin_style_css_path %}
+<link rel="stylesheet" href="{% static admin_style_css_path %}">
+{% block admin_style_extra %}{% include "admin/inc/extrastyle.html" %}{% endblock %}
+{% endblock responsive %}
+
+{% block bodyclass %}{% admin_theme_class %}{% if block.super %} {{ block.super }}{% endif %}{% endblock %}
+
+{% block content_subtitle %}{{ block.super }}
+{% if request.user.is_superuser %}{% render_update_notification %}{% endif %}
+{% endblock %}

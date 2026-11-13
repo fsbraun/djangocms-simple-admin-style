@@ -49,10 +49,11 @@ Why use it?
   visual language, including light and dark colour schemes.
 * **Conservative:** small, targeted overrides leave Django's admin styling and
   behaviour intact.
-* **Compatible:** dedicated stylesheets support both the established admin
-  markup and the redesigned forms introduced in Django 6.1.
-* **Compact:** each production stylesheet is a single minified CSS file under
-  16 kB.
+* **Compatible:** this release series provides a stylesheet for Django 6.2.
+* **Compact:** one readable stylesheet, served as written with no build step,
+  about 8 kB gzipped.
+* **Accessible:** a visible keyboard focus ring on every control, and a print
+  layout that leaves out navigation and form controls.
 * **Tested:** CI renders real admin pages and checks that CSS rules still match
   across supported Django versions.
 
@@ -85,6 +86,19 @@ Then add it to ``INSTALLED_APPS`` immediately before
 
 Projects created with the official django CMS project template already include
 the package.
+
+Versioning
+==========
+
+Package versions follow ``x.y.z``: ``x.y`` matches Django's major and minor
+version, and ``z`` is this package's independent patch version. For example,
+use the ``5.2.z`` series with Django 5.2 and the ``6.0.z`` series with Django
+6.0. The package patch number does not need to match Django's patch number.
+
+Each series starts at patch version ``0`` and is maintained on its
+``release/x.y.x`` branch: ``release/5.2.x``, ``release/6.0.x``, and
+``release/6.1.x``. The ``main`` branch develops the future ``6.2.z`` series
+against Django's ``main`` branch. This policy replaces the previous ``2.x`` numbering.
 
 Configuration
 =============
@@ -131,9 +145,22 @@ Set ``CMS_LEGACY_STYLE`` to override detection:
 Custom styling
 --------------
 
-The package overrides ``admin/base_site.html``. To add project-specific CSS,
-create ``templates/admin/inc/extrastyle.html`` in your project; that template
-is included in the admin's ``extrastyle`` block.
+The package overrides ``admin/base.html`` and leaves ``admin/base_site.html``
+alone, so you can override ``base_site.html`` in your project to brand the
+admin as Django documents.
+
+To add project-specific CSS, create ``templates/admin/inc/extrastyle.html`` in
+your project and put ``<link>`` or ``<style>`` elements in it. It is included
+directly after this package's stylesheet, so your rules win at equal
+specificity. A project that has its own ``admin/base.html`` can fill the
+``admin_style_extra`` block instead.
+
+Colours are CSS custom properties. Override the palette (``--dca-primary``,
+``--dca-secondary``, ``--dca-dark``, ``--dca-light``, ...) to recolour the
+theme, and use the semantic aliases in your own rules: ``--dca-bg``,
+``--dca-text``, ``--dca-muted``, ``--dca-surface``, ``--dca-border``,
+``--dca-on-primary``, ``--dca-on-dark``, and ``--dca-on-danger``. The keyboard
+focus ring uses ``--dca-focus-ring``.
 
 Contributing
 ============

@@ -61,7 +61,7 @@ def fake_cms(version):
 
 @contextmanager
 def fake_sekizai():
-    """Provide the sekizai context processor that the style detection imports.
+    """Provide the sekizai processor and CMS toolbar used by style detection.
 
     sekizai comes with django CMS, which the test environment deliberately does
     not install; without this stub the detection bails out at the import and
@@ -71,9 +71,11 @@ def fake_sekizai():
     processors = types.ModuleType("sekizai.context_processors")
     processors.sekizai = lambda request: {}
     package.context_processors = processors
-    names = ("sekizai", "sekizai.context_processors")
+    toolbar = types.ModuleType("cms.toolbar.toolbar")
+    toolbar.CMSToolbar = lambda request: types.SimpleNamespace(request=request)
+    names = ("sekizai", "sekizai.context_processors", "cms.toolbar.toolbar")
     originals = {name: sys.modules.get(name) for name in names}
-    sys.modules.update(zip(names, (package, processors)))
+    sys.modules.update(zip(names, (package, processors, toolbar)))
     try:
         yield
     finally:
@@ -85,14 +87,25 @@ def fake_sekizai():
 
 
 @contextmanager
-def base_template(html):
-    """Make ``base.html`` with the given contents resolvable by the loaders."""
+def project_template(name, html):
+    """Make a project-level template with the given contents resolvable.
+
+    It goes in ``DIRS``, which the loaders search before any app's templates --
+    the same precedence a real project's own templates directory has.
+    """
     with tempfile.TemporaryDirectory() as directory:
-        (Path(directory) / "base.html").write_text(html)
+        path = Path(directory) / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(html)
         templates = copy.deepcopy(settings.TEMPLATES)
         templates[0]["DIRS"] = [directory]
         with override_settings(TEMPLATES=templates):
             yield
+
+
+def base_template(html):
+    """Make ``base.html`` with the given contents resolvable by the loaders."""
+    return project_template("base.html", html)
 
 
 class AdminThemeClassTests(SimpleTestCase):
@@ -178,7 +191,7 @@ class LegacyStyleActiveTests(SimpleTestCase):
 
         self.assertIsNot(captured["request"], self.request)
         self.assertIsNone(captured["request"].current_page)
-        self.assertIsNone(captured["request"].toolbar)
+        self.assertIs(captured["request"].toolbar.request, captured["request"])
         self.assertFalse(hasattr(self.request, "current_page"))
         self.assertIsNotNone(self.request.toolbar)
 
@@ -298,17 +311,52 @@ class RenderUpdateNotificationTests(SimpleTestCase):
         self.assertEqual(stdout.getvalue(), "")
 
 
-class BaseSiteTemplateTests(TestCase):
+class StylesheetTests(SimpleTestCase):
+    def test_release_stylesheet(self):
+        self.assertEqual(
+            admin_style_tags.admin_style_css(),
+            "djangocms_simple_admin_style/css/djangocms-simple-admin.css",
+        )
+        css_dir = REPO_ROOT / "djangocms_simple_admin_style" / "static" / "djangocms_simple_admin_style" / "css"
+        self.assertEqual(sorted(p.name for p in css_dir.glob("*.css")), ["djangocms-simple-admin.css"])
+
+
+class BaseTemplateTests(TestCase):
     def test_stylesheet_link_points_at_a_file_that_exists(self):
         """Catches a renamed or unbuilt stylesheet, which no other test would."""
         self.client.force_login(User.objects.create_superuser("admin", "admin@example.com", "password"))
         html = self.client.get(reverse("admin:index")).content.decode()
         hrefs = re.findall(r'href="([^"]*djangocms-simple-admin[^"]*\.css)"', html)
-        self.assertTrue(hrefs, "base_site.html rendered no link to our stylesheet")
+        self.assertTrue(hrefs, "base.html rendered no link to our stylesheet")
         for href in hrefs:
             relative = href.split("/static/", 1)[-1]
             path = REPO_ROOT / "djangocms_simple_admin_style" / "static" / relative
             self.assertTrue(path.is_file(), f"{href} does not exist at {path}")
+
+    def test_stylesheet_loads_after_the_admin_responsive_styles(self):
+        """Ours must be the last admin stylesheet, so it wins at equal specificity."""
+        self.client.force_login(User.objects.create_superuser("admin", "admin@example.com", "password"))
+        html = self.client.get(reverse("admin:index")).content.decode()
+        hrefs = re.findall(r'<link rel="stylesheet" href="([^"]*)"', html)
+        ours = [i for i, href in enumerate(hrefs) if "djangocms-simple-admin" in href]
+        self.assertEqual(len(ours), 1, hrefs)
+        self.assertEqual(ours[0], len(hrefs) - 1, hrefs)
+        self.assertIn("admin/css/responsive.css", hrefs[ours[0] - 1])
+
+    def test_project_styles_load_after_the_theme(self):
+        """admin/inc/extrastyle.html is the project hook; it must follow our link."""
+        self.client.force_login(User.objects.create_superuser("admin", "admin@example.com", "password"))
+        marker = '<link rel="stylesheet" href="/static/project.css">'
+        with project_template("admin/inc/extrastyle.html", marker):
+            html = self.client.get(reverse("admin:index")).content.decode()
+        self.assertIn(marker, html)
+        self.assertGreater(html.index(marker), html.index("djangocms-simple-admin.css"))
+
+    def test_base_site_is_left_to_the_project(self):
+        """Overriding admin/base_site.html is how projects brand the admin."""
+        shipped = REPO_ROOT / "djangocms_simple_admin_style" / "templates" / "admin"
+        self.assertTrue((shipped / "base.html").is_file())
+        self.assertFalse((shipped / "base_site.html").exists())
 
     def test_body_carries_the_theme_class(self):
         template = Template("{% load admin_style_tags %}{% admin_theme_class %}")

@@ -5,19 +5,35 @@
 :root, body {
     --font-family-primary: Helvetica, Arial, sans-serif;
 
+    /* Semantic aliases for the palette below. The palette names are historical
+       and literal -- in dark mode --dca-white is black and --dca-black is
+       light -- so rules should prefer these role names. They are aliases, not
+       replacements: overriding a palette colour still changes its role.
+       Declared on :root *and* body so they re-resolve against palette
+       overrides made on either element (the django CMS 4 theme uses body). */
+    --dca-bg: var(--dca-white);              /* page background */
+    --dca-text: var(--dca-black);            /* body text */
+    --dca-muted: var(--dca-gray);            /* secondary text */
+    --dca-surface: var(--dca-gray-lightest); /* raised or tinted panels */
+    --dca-border: var(--dca-gray-lighter);
+    --dca-on-primary: var(--dca-white);      /* text on --dca-primary */
+    --dca-on-dark: #fff;                     /* text on --dca-dark (the header), which does not flip */
+    --dca-on-danger: #fff;                   /* text on --dca-red */
+    --dca-focus-ring: var(--dca-primary);
+
     --button-radius: var(--dca-btn-radius);
     --cards-border-radius: var(--dca-border-radius);
 
     --primary: var(--dca-primary);
     --secondary: var(--dca-white);
     --accent: var(--dca-action-bg);
-    --primary-fg: var(--dca-white);
+    --primary-fg: var(--dca-on-primary);
 
-    --body-fg: var(--dca-black);
-    --body-bg: var(--dca-white);
+    --body-fg: var(--dca-text);
+    --body-bg: var(--dca-bg);
 
     --header-color: #f7f7f7;
-    --header-branding-color: white;
+    --header-branding-color: var(--dca-on-dark);
     --header-bg: var(--dca-secondary);
     --header-link-color: var(--dca-black);
 
@@ -37,12 +53,11 @@
     --message-success-bg: var(--dca-secondary);
     --message-warning-bg: light-dark(#fff7e6, #4d3a00);
     --message-error-bg: light-dark(#fde8e8, #4a1414);
-    /* New in Django 6.0 — ignored on 5.2 */
     --message-debug-bg: var(--dca-gray-lightest);
     --message-info-bg: color-mix(in srgb, var(--dca-secondary) 50%, var(--dca-white));
     --error-fg: var(--dca-red);
 
-    --darkened-bg: var(--dca-gray-lightest); /* A bit darker than --body-bg */
+    --darkened-bg: var(--dca-secondary); /* A bit darker than --body-bg */
     /*--selected-bg: #e4e4e4; !* E.g. selected table cells *!*/
     --selected-row: var(--dca-secondary);
 
@@ -175,7 +190,7 @@ a.addlink {
 #header {
     background: var(--dca-dark);
     a:link, a:visited, #logout-form button {
-        color: white;
+        color: var(--dca-on-dark);
     }
     #site-name a:link, #site-name a:visited {
         font-size: 1.2rem;
@@ -183,10 +198,18 @@ a.addlink {
     }
 }
 
-/* Full width dashboard */
+/* Breadcrumbs — Django 6.1 changed `div.breadcrumbs` to `ol.breadcrumbs` */
+ol.breadcrumbs {
+    list-style: none;
+    margin: 0;
+}
 
-.dashboard #content {
-    width: calc(100% - 340px);
+/* Full width dashboard. Desktop only: below 1025px Django stacks the "recent
+   actions" column under the app list and lets #content span the page. */
+@media (min-width: 1025px) {
+    .dashboard #content {
+        width: calc(100% - 340px);
+    }
 }
 
 /* Changelists */
@@ -217,7 +240,7 @@ a.jstree-anchor {
 /* Pagetree dropdowns */
 .cms-pagetree-dropdown-menu li {
     a:link, a:visited {
-        color: var(--dca-gray);
+        color: var(--dca-muted);
     }
 }
 
@@ -228,10 +251,10 @@ a.jstree-anchor {
 }
 .module .fieldset-heading, .module fieldset details > summary {
     background: var(--dca-primary);
-    color: var(--dca-white);
+    color: var(--dca-on-primary);
     border-radius: 5px;
     #changelist-filter &::before {
-        color: var(--dca-white);
+        color: var(--dca-on-primary);
     }
 }
 
@@ -250,7 +273,7 @@ a.jstree-anchor {
     & .section:visited,
     & .current-app .section:link,
     & .current-app .section:visited {
-        color: var(--dca-white);
+        color: var(--dca-on-primary);
     }
 
     a {
@@ -285,17 +308,18 @@ a.jstree-anchor {
     }
 }
 
-/* Django 5.2/6.0 emit `<h1>` and `<ul.object-tools>` as siblings (6.1 wraps
-   them in a flex `.titles-and-tools` container). Float the tools so they sit
-   next to the title. */
-#content > .object-tools,
-#content-main > .object-tools {
-    float: inline-end;
-    margin: 0 0 15px;
+/* Django 6.1 wraps the title and object-tools in a flex container. */
+.titles-and-tools {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.titles {
+    flex-grow: 1;
+}
+.titles-and-tools .object-tools {
+    margin: 0;
     padding: 0;
-    text-align: end;
-    position: relative;
-    margin-block-start: -2.5rem;
 }
 
 
@@ -310,19 +334,31 @@ a.jstree-anchor {
     letter-spacing: var(--dca-default-spacing);
 }
 
+/* Keyboard focus. Django only changes a border or background colour on focus;
+   one visible ring for every interactive element is easier to follow.
+   :focus-visible keeps it off mouse clicks. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.button:focus-visible {
+    outline: 2px solid var(--dca-focus-ring);
+    outline-offset: 2px;
+}
+/* The header is --dca-dark in both colour schemes; ring in its text colour. */
+#header a:focus-visible,
+#header button:focus-visible {
+    outline-color: var(--dca-on-dark);
+}
+
 /* =============================================================================
    FORMS & INPUTS
    ============================================================================= */
 
 
 form {
-    .wide p,
-    .wide ul.errorlist,
-    .wide input + p.help,
-    .wide input + div.help {
-        margin-inline-start: 0;
-        padding-inline-start: 0;
-    }
     button {
         padding: 5px 6px;
         vertical-align: middle;
@@ -333,14 +369,6 @@ form {
         color: var(--default-button-fg);
         border: 1px solid var(--default-button-bg);
         border-radius: var(--button-radius);
-    }
-
-    .aligned :is(label, input, textarea, select) + :is(p, div.help, p.help, div.readonly),
-    .aligned p.help,
-    .aligned div.help,
-    .aligned ul {
-        margin-inline-start: 0;
-        padding-inline-start: 0;
     }
 
     input, textarea, select, .form-row, .button {
@@ -355,8 +383,7 @@ form {
     .selector label {
         float: inline-start;
     }
-    /* "Choose all" / "Remove all" became real buttons in Django 6.0;
-       theme them consistently (5.2 ships them as icon links). */
+    /* "Choose all" / "Remove all" became real buttons in Django 6.0 */
     .selector-chooseall,
     .selector-clearall {
         border: 1px solid var(--dca-gray);
@@ -365,10 +392,10 @@ form {
         color: var(--button-fg);
         padding: 4px 10px;
         font-size: 0.8125rem;
+        height: unset;
         &:hover {
             background: var(--button-hover-bg);
         }
-        height: unset;
     }
     .collapse summary .fieldset-heading, .collapse summary .inline-heading {
         margin-inline-start: 0.4em;
@@ -382,10 +409,6 @@ form {
 
     fieldset {
         margin-bottom: 1em;
-        & .collapse-toggle {
-            /* Collapse link toggle*/
-            color: var(--dca-primary);
-        }
     }
 }
 
@@ -394,24 +417,45 @@ form {
 .submit-row {
     border: none;
     padding: 0;
-    background: var(--dca-white);
+    background: var(--dca-bg);
     display: flex;
     flex-direction: row-reverse;
+    gap: 12px;
+}
+/* The delete-confirmation buttons live in a bare <form>, not a .submit-row, so
+   they get no flex gap from Django — give them the same rhythm. */
+.delete-confirmation form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
 }
 .delete-confirmation, .submit-row {
     a.deletelink {
-        color: white;
+        color: var(--dca-on-danger);
         margin-inline-end: auto;
         margin-inline-start: 0;
     }
     a.closelink {
-        color: var(--dca-black);
-        background: var(--dca-white);
+        color: var(--dca-text);
+        background: var(--dca-bg);
     }
     a.cancel-link {
-        float: inline-end;
-        color: var(--dca-black);
-        background: var(--dca-white);
+        /* Floats are ignored on flex items; auto-margin keeps it at the end */
+        margin-inline-start: auto;
+        color: var(--dca-text);
+        background: var(--dca-bg);
+    }
+}
+/* On phones Django stacks the submit row into full-width buttons. This
+   stylesheet loads after responsive.css, so hand that layout back explicitly. */
+@media (max-width: 767px) {
+    .submit-row {
+        flex-direction: column;
+    }
+    .submit-row a.deletelink,
+    .submit-row a.cancel-link {
+        margin-inline: 0;
     }
 }
 
@@ -429,6 +473,9 @@ form .submit-row .cancel-link {
     padding: 10px 15px;
     border: 1px solid var(--dca-gray);
     border-radius: var(--button-radius);
+    /* Vertical only: inline spacing is handled by the flex gap, and inline
+       margins would fight the auto-margins that pin Delete/Cancel to the edge. */
+    margin-block: 3px;
 }
 
 /* Hide cancel-link in delete confirmation when in popup or modal */
@@ -438,9 +485,9 @@ form .submit-row .cancel-link {
 }
 
 
-/* Make delete confirmation button text white */
+/* Delete confirmation button: same text colour as the .deletelink button */
 .delete-confirmation form input[type="submit"] {
-    color: var(--dca-white);
+    color: var(--dca-on-danger);
 }
 
 
@@ -451,57 +498,40 @@ form .submit-row .cancel-link {
 
 .aligned .flex-container > label:not(.btn), .aligned .flex-container > legend,
 .aligned fieldset > label:not(.btn), .aligned fieldset > legend {
+    /* Django's column flex-container uses align-items: flex-start, which shrinks
+       labels to their text. Make them span the row so they sit above the input. */
     width: 100%;
     color: var(--body-fg);
     font-weight: 600;
-    line-height: 1.6em;
 }
 
-.aligned .checkbox-row label {
-    width: auto;
-    display: inline;
+/* Forms
+
+   Django 6.1+ already stacks inputs beneath their labels (#34643), so the
+   layout machinery the legacy stylesheet needs is gone. We only stretch the
+   text-like inputs to full width — Django keeps numeric/date fields at their
+   natural size, which we leave alone — and add the required marker. */
+
+/* Checkbox rows: Django renders <div class="checkbox"> as a flex row but leaves
+   the box top-aligned with its label. Center them, and tint the native control
+   with the CMS colour. */
+.flex-container div.checkbox {
+    align-items: center;
 }
 
-/* Forms */
-
-/* Force labels above fields: 5.2/6.0 default to a flex row with a 160-px
-   label column. */
-.form-row .flex-container {
-    margin-left: 0;
-    margin-right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 4px;
-    /* Checkbox row stays inline */
-    &:has(> input[type="checkbox"]) {
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-    }
-    > input[type="checkbox"] {
-        &::before {
-            background-color: var(--primary);
-        }
-        vertical-align: middle;  /* works better for no particular reason */
-    }
-}
-.flex-container.form-multiline {
-    display: flex;
-    flex-direction: row;  /* override the column default above */
-    flex-wrap: wrap;
-    & > div {
-        flex: 1 0 0;
-        margin-inline-end: 20px;
-    }
-}
-.form-multiline > div:last-child .fieldBox {
-    margin-inline-end: 0;
+input[type="checkbox"], input[type="radio"] {
+    accent-color: var(--primary);
 }
 
-.aligned .vCheckboxLabel {
-    vertical-align: 0;
-    max-width: calc(100% - 20px);
+/* Fields shown on the same line share the width equally */
+.flex-container.form-multiline > div {
+    flex: 1 0 0;
+}
+
+/* Django emits help text before the field; the column flex-container lets us
+   move it below the input without touching the markup. */
+.form-row .flex-container > .help {
+    order: 1;
 }
 
 .required label:not(.vCheckboxLabel):after,
@@ -514,16 +544,23 @@ label.required:not(.vCheckboxLabel):after {
     font-size: 14px;
 }
 
-input[type="text"], input[type="url"], input[type="email"], .vLargeTextField, .vXMLLargeTextField, .vTextField, .vUUIDField,
-.colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField, .vURLField,
-textarea {
-    width: calc(100% - 14px);  /* 2x10px padding + 2px border */
+/* Full-width text inputs. We set border-box ourselves because Django only
+   applies it below 1024px, so width:100% stays honest on the desktop layout. */
+.form-row input[type="text"],
+.form-row input[type="url"],
+.form-row input[type="email"],
+.form-row input[type="password"],
+.form-row input[type="tel"],
+.form-row textarea,
+.vTextField, .vUUIDField, .vURLField,
+.vLargeTextField, .vXMLLargeTextField,
+.colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField,
+.colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField {
+    box-sizing: border-box;
+    width: 100%;
 }
 
-input[type=text], input[type=password], input[type=email], input[type=url], input[type=number], input[type=tel], textarea, select, .vTextField {
-    padding: 6px;
-}
-
+/* Date/time inputs keep their natural width */
 .datetime input, .form-row .datetime input.vDateField, .form-row .datetime input.vTimeField {
     margin-inline-start: 0;
     width: unset;
@@ -536,52 +573,101 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
     padding-bottom: 0;
 }
 
+/* Django 6.1 made `p.datetime label` block — keep date+time side by side. */
+p.datetime label {
+    display: inline;
+    padding: 0;
+}
+
+/* Put the date and time pickers on one line on wide screens (Django stacks them
+   with a <br>). The extra trailing margin separates the two groups. */
+@media (min-width: 1024px) {
+    .form-row p.datetime {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+    }
+    .form-row p.datetime br {
+        display: none;
+    }
+    .form-row p.datetime .datetimeshortcuts:first-of-type {
+        margin-inline-end: 1.25em;
+    }
+}
+
+/* Recolour the calendar/clock picker icons with the CMS colour. Django paints
+   them as background-image SVG sprites, so we mask an inline icon and fill it
+   with --dca-primary (a static path/colour swap could not follow the theme). */
+.datetimeshortcuts .date-icon,
+.datetimeshortcuts .clock-icon {
+    background: var(--dca-primary);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: 18px 18px;
+    mask-size: 18px 18px;
+}
+.datetimeshortcuts .date-icon {
+    -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z'/><path d='M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z'/></svg>");
+    mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z'/><path d='M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z'/></svg>");
+}
+.datetimeshortcuts .clock-icon {
+    -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'/><path d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z'/></svg>");
+    mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'/><path d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z'/></svg>");
+}
+.datetimeshortcuts button:focus .date-icon,
+.datetimeshortcuts button:hover .date-icon,
+.datetimeshortcuts button:focus .clock-icon,
+.datetimeshortcuts button:hover .clock-icon {
+    background: color-mix(in srgb, var(--dca-primary), black 20%);
+}
+
 #changelist-search input[type="text"] {
     width: unset;
 }
 
-/* Reset some django styles */
-input, textarea, select, .form-row p, form .button {
-    font-family: unset;
-    margin-top: 0;
-}
-
+/* Flush form rows left; keep overflow visible so date/related popups aren't clipped */
 div.form-row:not([hidden]) {
     padding-inline: 0;
     overflow: unset;
     margin-bottom: 1em;
 }
 
-/* Except user-auth change form */
-.auth-user.change-form div.form-row:not([hidden]) {
-    display: block;
-}
-
-div.form-row > div:not(.help) {
-    flex: 1 0 0;
-    width: 100%;
-    margin-inline-end: 10px;
-}
-
-.form-row > ul.errorlist {
-    width: 100%;
-}
-
-fieldset.collapse.collapsed .form-row {
-    display: none;
-}
 
 .related-widget-wrapper {
+    box-sizing: border-box;
     width: 100%;
 }
 
 .change-form select, .change-form .select2-container {
+    box-sizing: border-box;
     width: 100%;
     li {
         padding-top: 0;
         padding-bottom: 0;
         font-size: 0.875rem;
     }
+}
+
+/* Compact choose/remove arrows between the two boxes of a filter_horizontal
+   selector. The minifier this project used to ship through merged
+   .related-widget-wrapper into the rule above, nested `li` included, and these
+   were the only list items that reached; this states that rendering on purpose. */
+.related-widget-wrapper .selector-chooser li {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 0.875rem;
+}
+
+/* filter_vertical: the stacked selector fills the row here, but Django keeps
+   its two boxes at 480px, which leaves the arrows it centres between them
+   (margin: auto since Django 6.2) hanging off to the right. Let the boxes fill
+   the row like every other field. */
+.selector.stacked .selector-available,
+.selector.stacked .selector-chosen {
+    width: auto;
 }
 
 .change-form .related-widget-wrapper > select,
@@ -598,23 +684,23 @@ fieldset.collapse.collapsed .form-row {
    FIXES & TRICKS
    ============================================================================= */
 
-/* Paginator current page. Django 6.0 renamed `.this-page` to `[aria-current="page"]`. */
-.paginator a[aria-current="page"],
-.paginator .this-page {
+/* Paginator current page. */
+.paginator a[aria-current="page"] {
     background: var(--primary);
-    color: var(--dca-white);
+    color: var(--dca-on-primary);
     border-radius: var(--button-radius);
-    padding: 2px 8px;
     text-decoration: none;
     cursor: default;
+}
+/* Phones keep Django's larger touch targets for every paginator link. */
+@media (min-width: 768px) {
+    .paginator a[aria-current="page"] {
+        padding: 2px 8px;
+    }
 }
 
 select {
     min-width: 10em;
-}
-
-.colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField {
-    width: unset;
 }
 
 /* Remove wrong additional separator line for responsive display */
@@ -665,19 +751,12 @@ select {
 }
 
 .cms-admin-sideframe {
-    margin-top: 46px;
+    margin-top: 0;
     #header {
         display: none;
     }
     &:not(.delete-confirmation) #content > h2 {
         display: none;
-    }
-    #container {
-        padding-top: 0;
-    }
-    .object-tools:not(:empty) {
-        margin-top: -58px;
-        /* margin-inline-end: 92px;  Space for cms navigation butons */
     }
 }
 
@@ -688,7 +767,7 @@ nav .module {
     }
 
     & th, & td {
-        border-bottom: 1px solid var(--dca-gray-lighter);
+        border-bottom: 1px solid var(--dca-border);
     }
 
     & th {
@@ -716,14 +795,13 @@ nav .module {
         padding: 5px 15px;
         &:not(.selected):hover {
             color: var(--body-fg);
-            background-color: var(--dca-gray-lightest);
+            background-color: var(--dca-surface);
         }
         &.notfilled {
             font-weight: normal;
         }
         &:focus {
             background-color: inherit;
-            outline: none;
         }
     }
 }
@@ -744,7 +822,7 @@ nav .module {
 
 #page_form_lang_tabs input[type="button"].language_button.selected,
 .djangocms-simple-admin-style .parler-language-tabs span.current {
-    color: var(--dca-white);
+    color: var(--dca-on-primary);
     background-color: var(--primary);
     border-color: var(--primary);
 }
@@ -761,7 +839,7 @@ nav .module {
 /* CMS buttons */
 
 .cms-btn-group, .cms-btn {
-    border: 1px solid var(--dca-gray-lighter);
+    border: 1px solid var(--dca-border);
     display: inline-block;
     background: var(--button-bg);
     color: var(--button-fg);
@@ -811,7 +889,7 @@ span.cms-empty-action:empty {
 
 
 /* Icon adjustments */
-.changelink, .inline-changelink, .viewlink, .inline-viewlink, .hidelink, .inline-hidelink {
+.changelink, .viewlink, .hidelink {
     background-position-y: 3px;  /* Move down smaller icons */
 }
 a.related-widget-wrapper-link > img {
@@ -832,7 +910,7 @@ a.related-widget-wrapper-link > img {
 }
 
 .theme-toggle svg.theme-icon-when-auto, .theme-toggle svg.theme-icon-when-dark, .theme-toggle svg.theme-icon-when-light {
-    fill: white;
+    fill: var(--dca-on-dark);
     color: var(--dca-dark);
 }
 
@@ -860,5 +938,64 @@ body.app-auth.model-user.change-form #id_password {
 @media (max-width: 767px) {
     .aligned label:after {
         max-height: unset;
+    }
+}
+
+/* =============================================================================
+   PRINT
+   ============================================================================= */
+
+/* Print the content, not the application around it: drop navigation, filters
+   and controls, and let the content use the full page width. */
+@media print {
+    #header,
+    #nav-sidebar,
+    #toggle-nav-sidebar,
+    .breadcrumbs,
+    #footer,
+    .skip-to-content-link,
+    .messagelist,
+    .object-tools,
+    #changelist-filter,
+    #changelist #toolbar,
+    #changelist .toplinks,
+    #changelist .actions,
+    .action-checkbox,
+    .action-checkbox-column,
+    .paginator a:not([aria-current="page"]),
+    .submit-row,
+    .related-widget-wrapper-link,
+    .datetimeshortcuts,
+    .add-row,
+    .inline-deletelink,
+    .cms-update-notification {
+        /* !important: several of these are shown by more specific Django rules
+           (`.inline-group div.add-row`), and none may survive onto paper. */
+        display: none !important;
+    }
+
+    #container,
+    #main,
+    .main > #nav-sidebar + .content,
+    .main.shifted > #nav-sidebar + .content,
+    #content,
+    .dashboard #content {
+        width: auto;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* The results no longer need to leave room for the filter sidebar. */
+    #changelist .changelist-form-container:has(#changelist-filter) > div {
+        max-width: none;
+    }
+
+    /* Repeat table headers on every page and keep rows whole. */
+    thead {
+        display: table-header-group;
+    }
+    tr, .form-row {
+        break-inside: avoid;
     }
 }

@@ -1,7 +1,6 @@
 """A small CSS reader that flattens nested rules into plain selectors.
 
-The stylesheets in ``private/`` use native CSS nesting (``&``), and the minifier
-preserves it, so neither the source nor the built file can be handed to a flat
+The stylesheet uses native CSS nesting (``&``), so it cannot be handed to a flat
 selector parser. This module walks the rule tree and resolves nesting so the
 coverage test can match each selector against rendered admin HTML.
 
@@ -44,8 +43,12 @@ STATE_PSEUDO_CLASSES = (
 # still use (`label:after`).
 LEGACY_PSEUDO_ELEMENTS = ("before", "after", "first-line", "first-letter", "marker", "selection")
 
-_STATE_RE = re.compile(r":(?:{})\b(?!\()".format("|".join(STATE_PSEUDO_CLASSES)))
-_PSEUDO_ELEMENT_RE = re.compile(r"::[a-zA-Z-]+(?:\([^)]*\))?|:(?:{})\b(?!\()".format("|".join(LEGACY_PSEUDO_ELEMENTS)))
+# `(?![\w-])` rather than `\b`: a hyphen is a word boundary, so `\b` would let
+# `:focus` match the front of `:focus-visible` and leave `-visible` behind.
+_STATE_RE = re.compile(r":(?:{})(?![\w-])(?!\()".format("|".join(STATE_PSEUDO_CLASSES)))
+_PSEUDO_ELEMENT_RE = re.compile(
+    r"::[a-zA-Z-]+(?:\([^)]*\))?|:(?:{})(?![\w-])(?!\()".format("|".join(LEGACY_PSEUDO_ELEMENTS))
+)
 _EMPTY_FUNCTIONAL_RE = re.compile(r":[a-zA-Z-]+\(\s*\)")
 
 
@@ -57,9 +60,9 @@ class Rule:
     """Index of the declaration block this selector came from.
 
     A rule written as `.a, .b { ... }` yields two Rules sharing one group. The
-    coverage test treats a group as live when *any* member matches: these
-    stylesheets intentionally list selectors for several Django versions side by
-    side, so a member that is dead on the Django under test is expected.
+    coverage test treats a group as live when *any* member matches: a selector
+    list often covers variants of one component, and not every variant appears
+    on the sampled pages.
     """
 
     def __str__(self):

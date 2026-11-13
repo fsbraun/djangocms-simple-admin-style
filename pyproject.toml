@@ -13,21 +13,18 @@ maintainers = [
 authors = [
   { name = "Fabian Braun", email = "fsbraun@gmx.de" },
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Web Environment",
   "Framework :: Django",
-  "Framework :: Django :: 4.2",
-  "Framework :: Django :: 5.0",
-  "Framework :: Django :: 5.1",
   "Framework :: Django :: 5.2",
   "Framework :: Django :: 6.0",
   "Framework :: Django :: 6.1",
+  # The Django classifiers list every series the project supports; each is
+  # served by its own release branch, while `dependencies` pins this one.
+  # Add "Framework :: Django :: 6.2" once PyPI registers that classifier.
   "Framework :: Django CMS",
-  "Framework :: Django CMS :: 3.11",
-  "Framework :: Django CMS :: 4.0",
-  "Framework :: Django CMS :: 4.1",
   "Framework :: Django CMS :: 5.0",
   "Framework :: Django CMS :: 5.1",
   "Intended Audience :: Developers",
@@ -35,9 +32,6 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
@@ -48,6 +42,7 @@ classifiers = [
 ]
 dynamic = [ "version" ]
 dependencies = [
+  "django>=6.2.dev0,<6.3",
   "django-cms",
 ]
 # The test suite runs a plain Django admin and stubs `cms`, so django-cms is

@@ -20,19 +20,8 @@ register = template.Library()
 
 @register.simple_tag
 def admin_style_css():
-    """Return the admin stylesheet matching the running Django version.
-
-    Django 6.1 redesigned admin forms to stack inputs beneath their labels
-    (ticket #34643). From 6.1 on we ship a lean stylesheet that builds on that
-    native layout; for 6.0 and earlier we keep the original stylesheet that
-    forces the labels-above layout itself.
-    """
-    import django
-
-    base = "djangocms_simple_admin_style/css/"
-    if django.VERSION >= (6, 1):
-        return base + "djangocms-simple-admin.min.css"
-    return base + "djangocms-simple-admin-legacy.min.css"
+    """Return the stylesheet for this release series."""
+    return "djangocms_simple_admin_style/css/djangocms-simple-admin.css"
 
 
 @register.simple_tag(takes_context=True)
@@ -107,8 +96,8 @@ def _legacy_style_active(request=None):
         return False
 
     try:
-        from sekizai.context_processors import sekizai
         from cms.toolbar.toolbar import CMSToolbar
+        from sekizai.context_processors import sekizai
 
         # Render against a copy: we run in the middle of the admin page's own
         # render, so nothing we set here may reach the live request. The toolbar

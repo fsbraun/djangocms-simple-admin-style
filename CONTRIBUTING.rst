@@ -30,9 +30,11 @@ Clone the repository and create a virtual environment::
     python -m venv .venv
     source .venv/bin/activate
 
-Install the Python test and lint tools::
+Install the Python test and lint tools. This series targets the future Django
+6.2, so install Django from its ``main`` branch (Python 3.12 or newer)::
 
-    python -m pip install django beautifulsoup4 soupsieve packaging "ruff~=0.16.0"
+    python -m pip install beautifulsoup4 soupsieve packaging "ruff~=0.16.0"
+    python -m pip install "https://github.com/django/django/archive/refs/heads/main.tar.gz"
 
 Install the pinned frontend tools. The repository's ``.nvmrc`` specifies the
 Node.js version used by the project::
@@ -46,9 +48,9 @@ Optionally install the pre-commit hooks::
     pre-commit install
 
 The Python suite deliberately runs against a plain Django admin and does not
-need django CMS. Do not install the package itself when checking a specific
-Django version: its ``django-cms`` dependency can constrain Django and defeat
-the purpose of the compatibility test.
+need django CMS. Do not install the package itself: its ``django-cms``
+dependency can constrain Django and replace the ``main`` checkout the suite is
+meant to run against.
 
 Making changes
 ==============
@@ -62,29 +64,24 @@ in ``tests/test_templatetags.py``. Add or update tests for any behaviour change.
 CSS
 ---
 
-Always edit the readable stylesheets in ``private/``; never edit the generated
-``*.min.css`` files directly.
+``djangocms_simple_admin_style/static/djangocms_simple_admin_style/css/djangocms-simple-admin.css``
+contains the styles for Django 6.2. It is served as written: there is no build
+or minification step, so the file you edit is the file that ships.
 
-``private/djangocms-simple-admin.css``
-    Served with Django 6.1 and later. It builds on Django's native forms, which
-    stack inputs beneath their labels.
+After changing CSS, lint it::
 
-``private/djangocms-simple-admin-legacy.css``
-    Served with Django 6.0 and earlier. It provides the labels-above layout
-    itself.
+    npx stylelint "djangocms_simple_admin_style/static/**/*.css"
 
-The ``{% admin_style_css %}`` template tag selects the appropriate stylesheet
-from ``django.VERSION``. A change that is not specific to one admin generation
-usually belongs in both source files.
+The stylesheet is linked at the end of Django's ``responsive`` block, after
+``responsive.css``, so a rule wins over Django's at equal specificity. Because
+that includes Django's phone and tablet rules, scope a rule to a breakpoint
+when it should not replace a responsive layout (see the ``.submit-row`` and
+``.dashboard #content`` rules for examples).
 
-After changing CSS, lint and rebuild it::
-
-    npx stylelint "private/*.css"
-    ./minify-css
-
-Commit the corresponding generated files under
-``djangocms_simple_admin_style/static/djangocms_simple_admin_style/css/``.
-CI rebuilds them and fails if they are stale.
+Prefer the semantic colour tokens (``--dca-bg``, ``--dca-text``,
+``--dca-muted``, ``--dca-surface``, ``--dca-border``, ``--dca-on-primary``,
+``--dca-on-dark``, ``--dca-on-danger``) over the literal palette names and
+over hard-coded colours. ``--dca-white`` is black in dark mode.
 
 Running checks
 ==============
@@ -101,9 +98,7 @@ Run all configured pre-commit hooks::
 
     pre-commit run --all-files
 
-CI tests Django 4.2, 5.0, 5.1, 5.2, 6.0, 6.1, and Django's ``main`` branch.
-The ``main`` job is advisory so upcoming admin markup changes can be found
-before the next Django release.
+CI tests Django's ``main`` branch (the future Django 6.2) on Python 3.12 and 3.14.
 
 How the test suite works
 ========================
@@ -117,19 +112,14 @@ Django changes its admin markup, the CSS remains syntactically valid, but a
 selector stops applying.
 
 Coverage is measured per CSS rule rather than per individual selector. A rule
-containing selectors for multiple Django versions is live when at least one of
-them matches.
+containing several selectors is live when at least one of them matches.
 
 Some rules cannot match the server-rendered plain-Django fixture. Exceptions
-are documented, with a reason for every entry, in three collections:
+are documented, with a reason for every entry, in two collections:
 
 ``NOT_SERVER_RENDERED``
     Markup created by JavaScript or supplied by another package, including
     django CMS, django-parler, and django-select2.
-
-``VERSION_GATED``
-    Markup introduced by a newer Django version and correctly absent from
-    earlier versions.
 
 ``KNOWN_STALE``
     Pre-existing dead rules kept visible as cleanup tasks. New dead rules
@@ -141,14 +131,14 @@ remain after their associated rules are deleted.
 ``tests/test_stylesheet_sanity.py``
 -----------------------------------
 
-These structural checks run against both source stylesheets. In particular,
+These structural checks run against the source stylesheet. In particular,
 they reject unknown type selectors, which are usually class selectors that
 lost their leading ``.`` and would otherwise fail silently.
 
 ``tests/test_templatetags.py``
 ------------------------------
 
-These unit tests cover stylesheet selection, legacy-style detection, fallbacks,
+These unit tests cover the release stylesheet, legacy-style detection, fallbacks,
 and update-notification rendering. django CMS is stubbed where required so the
 test matrix can choose its Django version independently.
 
@@ -181,6 +171,24 @@ To cover another admin state, add it to ``render_all()`` in ``tests/pages.py``.
 To exercise another widget, usually add a field to
 ``tests/testapp/models.py`` and configure it in ``tests/testapp/admin.py``.
 
+Releases
+========
+
+The ``main`` branch develops the future ``6.2.z`` series and runs its tests
+against Django's ``main`` branch. Development versions use ``6.2.0.devN``
+until the first release is ready.
+
+Versions use ``x.y.z``, where ``x.y`` matches the target Django major and minor
+version and ``z`` is this package's patch number. Patch numbers start at ``0``
+and advance independently for each Django series, regardless of Django's own
+patch releases.
+
+Maintain each series on ``release/x.y.x`` (currently ``release/5.2.x``,
+``release/6.0.x``, and ``release/6.1.x``), created from ``main``. Apply fixes
+to each affected release branch and increment its ``__version__`` in
+``djangocms_simple_admin_style/__init__.py`` when preparing a release. Record
+the changes in ``CHANGELOG.rst`` on that branch.
+
 Pull requests
 =============
 
@@ -188,9 +196,8 @@ Before submitting a pull request:
 
 * keep the change focused and explain the user-visible effect;
 * add a test or explain why one is not practical;
-* update both source stylesheets when the change applies to both admin
-  generations;
-* rebuild and commit minified CSS after a stylesheet change;
+* apply stylesheet fixes to each affected release branch;
+* lint the stylesheet after changing it;
 * update ``CHANGELOG.rst`` for user-visible changes; and
 * run the relevant Python, CSS, and pre-commit checks.
 
