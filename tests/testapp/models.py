@@ -38,6 +38,8 @@ class Widget(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="d")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
+    # A second many-to-many so the admin can show both selector layouts.
+    related_tags = models.ManyToManyField(Tag, blank=True, related_name="+")
     identifier = models.UUIDField(default=uuid.uuid4, editable=False)
 
     def __str__(self):

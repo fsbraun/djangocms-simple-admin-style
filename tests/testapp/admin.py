@@ -22,6 +22,7 @@ class WidgetAdmin(admin.ModelAdmin):
     search_fields = ("title", "description")
     date_hierarchy = "published_at"
     filter_horizontal = ("tags",)  # renders the .selector / .selector-chooseall widget
+    filter_vertical = ("related_tags",)  # the same widget in its .selector.stacked layout
     readonly_fields = ("identifier",)
     list_per_page = 5  # small enough that the fixtures span several paginator pages
     actions = ["mark_active"]
@@ -40,7 +41,7 @@ class WidgetAdmin(admin.ModelAdmin):
         # A tuple inside `fields` renders .form-multiline / .fieldBox
         ("Numbers", {"fields": (("quantity", "price"),)}),
         ("Dates", {"fields": ("published_at", "available_on"), "classes": ("collapse",)}),
-        ("Flags", {"fields": ("is_active", "tags", "identifier")}),
+        ("Flags", {"fields": ("is_active", "tags", "related_tags", "identifier")}),
     )
     inlines = [NoteInline, AttachmentInline]
 

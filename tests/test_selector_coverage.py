@@ -128,6 +128,18 @@ class SelectorCoverageTests(TestCase):
             "These NOT_SERVER_RENDERED tokens appear in no stylesheet; delete them.",
         )
 
+    def test_sample_pages_carry_both_selector_layouts(self):
+        """The selector is built in the browser, so its rules are excused above.
+
+        What can be checked here is that the fixture still asks for it, in both
+        layouts: SelectFilter2.js turns `selectfilter` into `.selector` and
+        `selectfilterstacked` into `.selector.stacked`. Without the stacked one
+        nothing renders the layout the `.selector.stacked` rules are for.
+        """
+        soup = self.soups["change"]
+        self.assertIsNotNone(soup.select_one("select.selectfilter"))
+        self.assertIsNotNone(soup.select_one("select.selectfilterstacked"))
+
     def test_sample_pages_render(self):
         """Guards the fixture itself: an empty page set would make coverage vacuous."""
         self.assertGreaterEqual(len(self.pages), 17)

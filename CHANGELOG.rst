@@ -31,6 +31,12 @@ Version 6.2.0 (unreleased)
 
 * Add print styles that hide navigation, filters, and form controls.
 
+* fix: ``filter_vertical`` selectors fill the row, so the arrows between the
+  two boxes are centred under Django 6.2.
+
+* fix: The search, view, and hide icons were black and so invisible in dark
+  mode; they are now a mid grey that reads on both backgrounds.
+
 * fix: The delete-confirmation button text was black in dark mode; it is now
   white like the other delete buttons.
 
