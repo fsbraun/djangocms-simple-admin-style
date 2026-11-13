@@ -441,6 +441,8 @@ form .submit-row .cancel-link {
 
 .aligned .flex-container > label:not(.btn), .aligned .flex-container > legend,
 .aligned fieldset > label:not(.btn), .aligned fieldset > legend {
+    /* Keep direct labels full-width when their float is removed below. */
+    display: block;
     width: 100%;
     color: var(--body-fg);
     font-weight: 600;
