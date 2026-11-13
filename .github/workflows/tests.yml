@@ -53,15 +53,4 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - name: Lint stylesheets
-        run: npx stylelint "private/*.css"
-      - name: Rebuild the minified stylesheets
-        run: ./minify-css
-      - name: Check the committed build is up to date
-        # The served CSS is the built file, so a source edit without a rebuild
-        # ships nothing. `npm ci` pins the minifier and its browserslist data,
-        # so the output is reproducible.
-        run: |
-          if ! git diff --exit-code -- djangocms_simple_admin_style/static; then
-            echo "::error::The minified CSS is stale. Run ./minify-css and commit the result."
-            exit 1
-          fi
+        run: npx stylelint "djangocms_simple_admin_style/static/**/*.css"

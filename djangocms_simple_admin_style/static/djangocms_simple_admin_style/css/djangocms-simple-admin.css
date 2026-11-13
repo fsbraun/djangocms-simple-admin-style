@@ -5,19 +5,35 @@
 :root, body {
     --font-family-primary: Helvetica, Arial, sans-serif;
 
+    /* Semantic aliases for the palette below. The palette names are historical
+       and literal -- in dark mode --dca-white is black and --dca-black is
+       light -- so rules should prefer these role names. They are aliases, not
+       replacements: overriding a palette colour still changes its role.
+       Declared on :root *and* body so they re-resolve against palette
+       overrides made on either element (the django CMS 4 theme uses body). */
+    --dca-bg: var(--dca-white);              /* page background */
+    --dca-text: var(--dca-black);            /* body text */
+    --dca-muted: var(--dca-gray);            /* secondary text */
+    --dca-surface: var(--dca-gray-lightest); /* raised or tinted panels */
+    --dca-border: var(--dca-gray-lighter);
+    --dca-on-primary: var(--dca-white);      /* text on --dca-primary */
+    --dca-on-dark: #fff;                     /* text on --dca-dark (the header), which does not flip */
+    --dca-on-danger: #fff;                   /* text on --dca-red */
+    --dca-focus-ring: var(--dca-primary);
+
     --button-radius: var(--dca-btn-radius);
     --cards-border-radius: var(--dca-border-radius);
 
     --primary: var(--dca-primary);
     --secondary: var(--dca-white);
     --accent: var(--dca-action-bg);
-    --primary-fg: var(--dca-white);
+    --primary-fg: var(--dca-on-primary);
 
-    --body-fg: var(--dca-black);
-    --body-bg: var(--dca-white);
+    --body-fg: var(--dca-text);
+    --body-bg: var(--dca-bg);
 
     --header-color: #f7f7f7;
-    --header-branding-color: white;
+    --header-branding-color: var(--dca-on-dark);
     --header-bg: var(--dca-secondary);
     --header-link-color: var(--dca-black);
 
@@ -174,7 +190,7 @@ a.addlink {
 #header {
     background: var(--dca-dark);
     a:link, a:visited, #logout-form button {
-        color: white;
+        color: var(--dca-on-dark);
     }
     #site-name a:link, #site-name a:visited {
         font-size: 1.2rem;
@@ -188,10 +204,12 @@ ol.breadcrumbs {
     margin: 0;
 }
 
-/* Full width dashboard */
-
-.dashboard #content {
-    width: calc(100% - 340px);
+/* Full width dashboard. Desktop only: below 1025px Django stacks the "recent
+   actions" column under the app list and lets #content span the page. */
+@media (min-width: 1025px) {
+    .dashboard #content {
+        width: calc(100% - 340px);
+    }
 }
 
 /* Changelists */
@@ -222,7 +240,7 @@ a.jstree-anchor {
 /* Pagetree dropdowns */
 .cms-pagetree-dropdown-menu li {
     a:link, a:visited {
-        color: var(--dca-gray);
+        color: var(--dca-muted);
     }
 }
 
@@ -233,10 +251,10 @@ a.jstree-anchor {
 }
 .module .fieldset-heading, .module fieldset details > summary {
     background: var(--dca-primary);
-    color: var(--dca-white);
+    color: var(--dca-on-primary);
     border-radius: 5px;
     #changelist-filter &::before {
-        color: var(--dca-white);
+        color: var(--dca-on-primary);
     }
 }
 
@@ -255,7 +273,7 @@ a.jstree-anchor {
     & .section:visited,
     & .current-app .section:link,
     & .current-app .section:visited {
-        color: var(--dca-white);
+        color: var(--dca-on-primary);
     }
 
     a {
@@ -314,6 +332,25 @@ a.jstree-anchor {
     color: var(--dca-action-text);
     transition: filter 0.15s;
     letter-spacing: var(--dca-default-spacing);
+}
+
+/* Keyboard focus. Django only changes a border or background colour on focus;
+   one visible ring for every interactive element is easier to follow.
+   :focus-visible keeps it off mouse clicks. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.button:focus-visible {
+    outline: 2px solid var(--dca-focus-ring);
+    outline-offset: 2px;
+}
+/* The header is --dca-dark in both colour schemes; ring in its text colour. */
+#header a:focus-visible,
+#header button:focus-visible {
+    outline-color: var(--dca-on-dark);
 }
 
 /* =============================================================================
@@ -380,7 +417,7 @@ form {
 .submit-row {
     border: none;
     padding: 0;
-    background: var(--dca-white);
+    background: var(--dca-bg);
     display: flex;
     flex-direction: row-reverse;
     gap: 12px;
@@ -395,19 +432,30 @@ form {
 }
 .delete-confirmation, .submit-row {
     a.deletelink {
-        color: white;
+        color: var(--dca-on-danger);
         margin-inline-end: auto;
         margin-inline-start: 0;
     }
     a.closelink {
-        color: var(--dca-black);
-        background: var(--dca-white);
+        color: var(--dca-text);
+        background: var(--dca-bg);
     }
     a.cancel-link {
         /* Floats are ignored on flex items; auto-margin keeps it at the end */
         margin-inline-start: auto;
-        color: var(--dca-black);
-        background: var(--dca-white);
+        color: var(--dca-text);
+        background: var(--dca-bg);
+    }
+}
+/* On phones Django stacks the submit row into full-width buttons. This
+   stylesheet loads after responsive.css, so hand that layout back explicitly. */
+@media (max-width: 767px) {
+    .submit-row {
+        flex-direction: column;
+    }
+    .submit-row a.deletelink,
+    .submit-row a.cancel-link {
+        margin-inline: 0;
     }
 }
 
@@ -437,9 +485,9 @@ form .submit-row .cancel-link {
 }
 
 
-/* Make delete confirmation button text white */
+/* Delete confirmation button: same text colour as the .deletelink button */
 .delete-confirmation form input[type="submit"] {
-    color: var(--dca-white);
+    color: var(--dca-on-danger);
 }
 
 
@@ -603,6 +651,16 @@ div.form-row:not([hidden]) {
     }
 }
 
+/* Compact choose/remove arrows between the two boxes of a filter_horizontal
+   selector. The minifier this project used to ship through merged
+   .related-widget-wrapper into the rule above, nested `li` included, and these
+   were the only list items that reached; this states that rendering on purpose. */
+.related-widget-wrapper .selector-chooser li {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 0.875rem;
+}
+
 .change-form .related-widget-wrapper > select,
 .related-widget-wrapper > .select2-container {
     width: calc(100% - 120px);
@@ -620,11 +678,16 @@ div.form-row:not([hidden]) {
 /* Paginator current page. */
 .paginator a[aria-current="page"] {
     background: var(--primary);
-    color: var(--dca-white);
+    color: var(--dca-on-primary);
     border-radius: var(--button-radius);
-    padding: 2px 8px;
     text-decoration: none;
     cursor: default;
+}
+/* Phones keep Django's larger touch targets for every paginator link. */
+@media (min-width: 768px) {
+    .paginator a[aria-current="page"] {
+        padding: 2px 8px;
+    }
 }
 
 select {
@@ -695,7 +758,7 @@ nav .module {
     }
 
     & th, & td {
-        border-bottom: 1px solid var(--dca-gray-lighter);
+        border-bottom: 1px solid var(--dca-border);
     }
 
     & th {
@@ -723,14 +786,13 @@ nav .module {
         padding: 5px 15px;
         &:not(.selected):hover {
             color: var(--body-fg);
-            background-color: var(--dca-gray-lightest);
+            background-color: var(--dca-surface);
         }
         &.notfilled {
             font-weight: normal;
         }
         &:focus {
             background-color: inherit;
-            outline: none;
         }
     }
 }
@@ -751,7 +813,7 @@ nav .module {
 
 #page_form_lang_tabs input[type="button"].language_button.selected,
 .djangocms-simple-admin-style .parler-language-tabs span.current {
-    color: var(--dca-white);
+    color: var(--dca-on-primary);
     background-color: var(--primary);
     border-color: var(--primary);
 }
@@ -768,7 +830,7 @@ nav .module {
 /* CMS buttons */
 
 .cms-btn-group, .cms-btn {
-    border: 1px solid var(--dca-gray-lighter);
+    border: 1px solid var(--dca-border);
     display: inline-block;
     background: var(--button-bg);
     color: var(--button-fg);
@@ -839,7 +901,7 @@ a.related-widget-wrapper-link > img {
 }
 
 .theme-toggle svg.theme-icon-when-auto, .theme-toggle svg.theme-icon-when-dark, .theme-toggle svg.theme-icon-when-light {
-    fill: white;
+    fill: var(--dca-on-dark);
     color: var(--dca-dark);
 }
 
@@ -867,5 +929,64 @@ body.app-auth.model-user.change-form #id_password {
 @media (max-width: 767px) {
     .aligned label:after {
         max-height: unset;
+    }
+}
+
+/* =============================================================================
+   PRINT
+   ============================================================================= */
+
+/* Print the content, not the application around it: drop navigation, filters
+   and controls, and let the content use the full page width. */
+@media print {
+    #header,
+    #nav-sidebar,
+    #toggle-nav-sidebar,
+    .breadcrumbs,
+    #footer,
+    .skip-to-content-link,
+    .messagelist,
+    .object-tools,
+    #changelist-filter,
+    #changelist #toolbar,
+    #changelist .toplinks,
+    #changelist .actions,
+    .action-checkbox,
+    .action-checkbox-column,
+    .paginator a:not([aria-current="page"]),
+    .submit-row,
+    .related-widget-wrapper-link,
+    .datetimeshortcuts,
+    .add-row,
+    .inline-deletelink,
+    .cms-update-notification {
+        /* !important: several of these are shown by more specific Django rules
+           (`.inline-group div.add-row`), and none may survive onto paper. */
+        display: none !important;
+    }
+
+    #container,
+    #main,
+    .main > #nav-sidebar + .content,
+    .main.shifted > #nav-sidebar + .content,
+    #content,
+    .dashboard #content {
+        width: auto;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* The results no longer need to leave room for the filter sidebar. */
+    #changelist .changelist-form-container:has(#changelist-filter) > div {
+        max-width: none;
+    }
+
+    /* Repeat table headers on every page and keep rows whole. */
+    thead {
+        display: table-header-group;
+    }
+    tr, .form-row {
+        break-inside: avoid;
     }
 }
