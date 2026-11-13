@@ -447,6 +447,9 @@ form .submit-row .cancel-link {
     color: var(--body-fg);
     font-weight: 600;
     line-height: 1.6em;
+}
+
+.aligned .flex-container > legend, .aligned fieldset > legend {
     /* Django 6.0 floats multiwidget legends beside the inputs. A full-width
        float pushes the sibling flex container out of the row; clear the float
        so the legend sits above the fields. */
