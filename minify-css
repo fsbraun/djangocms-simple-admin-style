@@ -1,2 +1,0 @@
-npx css-minify -d private -o djangocms_simple_admin_style/static/djangocms_simple_admin_style/css
-ls -l djangocms_simple_admin_style/static/djangocms_simple_admin_style/css/*
