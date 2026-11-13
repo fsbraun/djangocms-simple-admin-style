@@ -661,6 +661,15 @@ div.form-row:not([hidden]) {
     font-size: 0.875rem;
 }
 
+/* filter_vertical: the stacked selector fills the row here, but Django keeps
+   its two boxes at 480px, which leaves the arrows it centres between them
+   (margin: auto since Django 6.2) hanging off to the right. Let the boxes fill
+   the row like every other field. */
+.selector.stacked .selector-available,
+.selector.stacked .selector-chosen {
+    width: auto;
+}
+
 .change-form .related-widget-wrapper > select,
 .related-widget-wrapper > .select2-container {
     width: calc(100% - 120px);
