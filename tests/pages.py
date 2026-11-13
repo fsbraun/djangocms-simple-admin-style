@@ -61,8 +61,8 @@ def log_admin_action(user, widget):
 
     The index renders `<span class="mini quiet">` per logged action; with an
     empty log it shows "None available" instead, and nothing else in the admin
-    uses `.mini`. Rows are created directly because the signature of
-    `LogEntry.objects.log_action()` differs across the supported Django versions.
+    uses `.mini`. Rows are created directly: the test needs a log row, not the
+    admin's logging API.
     """
     LogEntry.objects.create(
         user=user,

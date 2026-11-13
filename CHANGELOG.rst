@@ -9,6 +9,12 @@ Version 6.2.0 (unreleased)
   ``main`` branch. Keep only the Django 6.2 stylesheet and remove Django
   version checks.
 
+* Require Python 3.12 or newer, as Django 6.2 does, and drop the Django 5.2,
+  6.0, and 6.1 trove classifiers.
+
+* Drop django CMS 3.11, 4.0, and 4.1; the series supports django CMS 5.0 and
+  5.1.
+
 * Adopt ``x.y.z`` versioning: ``x.y`` matches Django's major and minor version
   and ``z`` is this package's independent patch version, starting at ``0``.
   Maintain the Django 5.2, 6.0, and 6.1 series on ``release/5.2.x``,
