@@ -57,6 +57,7 @@ KNOWN_STALE = {
     ),
 }
 
+
 def _excused(selector):
     return any(token in selector for token in NOT_SERVER_RENDERED)
 

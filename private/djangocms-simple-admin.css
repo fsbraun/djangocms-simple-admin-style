@@ -449,6 +449,13 @@ form .submit-row .cancel-link {
     line-height: 1.6em;
 }
 
+.aligned .flex-container > legend, .aligned fieldset > legend {
+    /* Django 6.0 floats multiwidget legends beside the inputs. A full-width
+       float pushes the sibling flex container out of the row; clear the float
+       so the legend sits above the fields. */
+    float: none;
+}
+
 .aligned .checkbox-row label {
     width: auto;
     display: inline;
