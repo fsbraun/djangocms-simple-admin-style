@@ -10,11 +10,11 @@ from tests.cssflat import flatten, for_matching
 from tests.pages import create_fixtures, login_superuser, render_all
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-PRIVATE = REPO_ROOT / "private"
-ALL_STYLESHEETS = sorted(PRIVATE.glob("*.css"))
+CSS_DIR = REPO_ROOT / "djangocms_simple_admin_style" / "static" / "djangocms_simple_admin_style" / "css"
+ALL_STYLESHEETS = sorted(CSS_DIR.glob("*.css"))
 
 
-STYLESHEET = PRIVATE / "djangocms-simple-admin.css"
+STYLESHEET = CSS_DIR / "djangocms-simple-admin.css"
 
 # Markup that a server-rendered, plain-Django admin can never contain: either a
 # script builds it in the browser, or another package ships it. Verified against

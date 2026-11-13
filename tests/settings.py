@@ -12,7 +12,7 @@ USE_TZ = True
 ROOT_URLCONF = "tests.urls"
 
 INSTALLED_APPS = [
-    # Must precede django.contrib.admin so admin/base_site.html is overridden.
+    # Must precede django.contrib.admin so admin/base.html is overridden.
     "djangocms_simple_admin_style",
     "django.contrib.admin",
     "django.contrib.auth",

@@ -9,8 +9,33 @@ Version 6.2.0 (unreleased)
   ``main`` branch. Keep only the Django 6.2 stylesheet and remove Django
   version checks.
 
-* Require Python 3.12 or newer, as Django 6.2 does, and drop the Django 5.2,
-  6.0, and 6.1 trove classifiers.
+* Require Python 3.12 or newer, as Django 6.2 does.
+
+* Override ``admin/base.html`` instead of ``admin/base_site.html``, which is
+  now free for projects to override. A project whose own ``base_site.html``
+  extends ``admin/base.html`` keeps the theme.
+
+* Load the stylesheet after Django's ``responsive.css`` (it used to load
+  before), and include ``admin/inc/extrastyle.html`` after the stylesheet
+  rather than before it, so project CSS no longer has to out-specify the theme.
+  On tablets and phones the theme's button sizes, submit-row spacing, small
+  text size, and natural-width date/time inputs now apply as on desktop;
+  Django's stacked phone layouts are kept.
+
+* Add semantic colour aliases (``--dca-bg``, ``--dca-text``, ``--dca-muted``,
+  ``--dca-surface``, ``--dca-border``, ``--dca-on-primary``, ``--dca-on-dark``,
+  ``--dca-on-danger``). The existing palette variables are unchanged.
+
+* Add a keyboard focus ring (``--dca-focus-ring``) and stop removing the focus
+  outline from the page form's language tabs.
+
+* Add print styles that hide navigation, filters, and form controls.
+
+* fix: The delete-confirmation button text was black in dark mode; it is now
+  white like the other delete buttons.
+
+* Ship the stylesheet unminified as ``djangocms-simple-admin.css`` and remove
+  the minification step; ``djangocms-simple-admin.min.css`` is gone.
 
 * Drop django CMS 3.11, 4.0, and 4.1; the series supports django CMS 5.0 and
   5.1.

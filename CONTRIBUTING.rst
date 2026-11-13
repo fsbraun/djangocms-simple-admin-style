@@ -64,20 +64,24 @@ in ``tests/test_templatetags.py``. Add or update tests for any behaviour change.
 CSS
 ---
 
-Always edit the readable stylesheets in ``private/``; never edit the generated
-``*.min.css`` files directly.
+``djangocms_simple_admin_style/static/djangocms_simple_admin_style/css/djangocms-simple-admin.css``
+contains the styles for Django 6.2. It is served as written: there is no build
+or minification step, so the file you edit is the file that ships.
 
-``private/djangocms-simple-admin.css`` contains the styles for Django 6.2.
-This release branch ships only that stylesheet.
+After changing CSS, lint it::
 
-After changing CSS, lint and rebuild it::
+    npx stylelint "djangocms_simple_admin_style/static/**/*.css"
 
-    npx stylelint "private/*.css"
-    ./minify-css
+The stylesheet is linked at the end of Django's ``responsive`` block, after
+``responsive.css``, so a rule wins over Django's at equal specificity. Because
+that includes Django's phone and tablet rules, scope a rule to a breakpoint
+when it should not replace a responsive layout (see the ``.submit-row`` and
+``.dashboard #content`` rules for examples).
 
-Commit the corresponding generated files under
-``djangocms_simple_admin_style/static/djangocms_simple_admin_style/css/``.
-CI rebuilds them and fails if they are stale.
+Prefer the semantic colour tokens (``--dca-bg``, ``--dca-text``,
+``--dca-muted``, ``--dca-surface``, ``--dca-border``, ``--dca-on-primary``,
+``--dca-on-dark``, ``--dca-on-danger``) over the literal palette names and
+over hard-coded colours. ``--dca-white`` is black in dark mode.
 
 Running checks
 ==============
@@ -193,7 +197,7 @@ Before submitting a pull request:
 * keep the change focused and explain the user-visible effect;
 * add a test or explain why one is not practical;
 * apply stylesheet fixes to each affected release branch;
-* rebuild and commit minified CSS after a stylesheet change;
+* lint the stylesheet after changing it;
 * update ``CHANGELOG.rst`` for user-visible changes; and
 * run the relevant Python, CSS, and pre-commit checks.
 

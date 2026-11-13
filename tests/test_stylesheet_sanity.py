@@ -9,7 +9,9 @@ from tests.cssflat import flatten
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 # Check the release series stylesheet.
-STYLESHEETS = sorted((REPO_ROOT / "private").glob("*.css"))
+STYLESHEETS = sorted(
+    (REPO_ROOT / "djangocms_simple_admin_style" / "static" / "djangocms_simple_admin_style" / "css").glob("*.css")
+)
 
 # Every element name the admin could plausibly render. A type selector outside
 # this set is almost always a class selector that lost its leading dot -- the
@@ -172,7 +174,7 @@ class StylesheetSanityTests(SimpleTestCase):
 
     def test_stylesheet_parses_to_rules(self):
         """A parse failure would make every other check vacuously pass."""
-        self.assertTrue(STYLESHEETS, "no stylesheets found in private/")
+        self.assertTrue(STYLESHEETS, "no stylesheets found in the static css directory")
         for stylesheet in STYLESHEETS:
             rules = flatten(stylesheet.read_text())
             self.assertGreater(len(rules), 100, stylesheet.name)

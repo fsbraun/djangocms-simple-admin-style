@@ -21,7 +21,7 @@ register = template.Library()
 @register.simple_tag
 def admin_style_css():
     """Return the stylesheet for this release series."""
-    return "djangocms_simple_admin_style/css/djangocms-simple-admin.min.css"
+    return "djangocms_simple_admin_style/css/djangocms-simple-admin.css"
 
 
 @register.simple_tag(takes_context=True)
