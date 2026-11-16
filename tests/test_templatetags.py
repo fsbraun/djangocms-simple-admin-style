@@ -161,15 +161,23 @@ class LegacyStyleActiveTests(SimpleTestCase):
         """No base.html: the tag must fall back, not raise."""
         self.assertIs(_legacy_style_active(self.request), False)
 
-    def test_invalid_base_template_is_not_an_error(self):
-        with base_template("{% no_such_tag %}"):
+    def test_missing_base_template_is_not_logged(self):
+        with self.assertNoLogs("djangocms_simple_admin_style", "WARNING"):
             self.assertIs(_legacy_style_active(self.request), False)
 
-    def test_failed_source_lookup_is_cached(self):
-        with patch.object(admin_style_tags, "get_template", side_effect=RuntimeError("loader unavailable")) as lookup:
+    def test_invalid_base_template_is_not_an_error(self):
+        with base_template("{% no_such_tag %}"), self.assertLogs("djangocms_simple_admin_style", "WARNING"):
+            self.assertIs(_legacy_style_active(self.request), False)
+
+    def test_failed_source_lookup_is_cached_and_logged_once(self):
+        with (
+            patch.object(admin_style_tags, "get_template", side_effect=RuntimeError("loader unavailable")) as lookup,
+            self.assertLogs("djangocms_simple_admin_style", "WARNING") as logs,
+        ):
             self.assertIs(_legacy_style_active(), False)
             self.assertIs(_legacy_style_active(), False)
         lookup.assert_called_once_with("base.html")
+        self.assertEqual(len(logs.records), 1)
 
     @override_settings(CMS_LEGACY_STYLE=True)
     def test_result_is_cached(self):
@@ -193,6 +201,13 @@ class LegacyStyleDetectionTests(SimpleTestCase):
     def test_theme_3_marker_is_also_legacy(self):
         with base_template("<html data-cms-theme='3'></html>"):
             self.assertIs(_legacy_style_active(self.request), True)
+
+    def test_marker_matching_follows_html_attribute_syntax(self):
+        """Tag and attribute names are case-insensitive; "=" may be padded."""
+        for html in ('<HTML DATA-CMS-THEME="4">', '<html lang="en" data-cms-theme = "3">'):
+            with self.subTest(html=html), base_template(html):
+                clear_style_cache()
+                self.assertIs(_legacy_style_active(self.request), True)
 
     def test_without_the_marker_the_current_style_wins(self):
         with base_template(CURRENT_BASE):

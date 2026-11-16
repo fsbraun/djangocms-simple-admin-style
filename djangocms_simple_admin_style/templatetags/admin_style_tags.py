@@ -1,7 +1,9 @@
+import logging
 import re
 
 from django import template
 from django.conf import settings
+from django.template import TemplateDoesNotExist
 from django.template.loader import get_template, render_to_string
 from packaging.version import Version
 
@@ -11,6 +13,11 @@ from packaging.version import Version
 VALID_VERSION_CHECK_TYPES = ("minor", "patch")
 
 register = template.Library()
+
+logger = logging.getLogger(__name__)
+
+# HTML attribute names are case-insensitive and allow whitespace around "=".
+LEGACY_MARKER = re.compile(r'<html[^>]*\bdata-cms-theme\s*=\s*["\'][34]["\']', re.IGNORECASE)
 
 
 @register.simple_tag
@@ -82,11 +89,21 @@ def _legacy_style_active(request=None):
         _legacy_style_cache = bool(settings.CMS_LEGACY_STYLE)
         return _legacy_style_cache
 
+    # Failures are cached too: retrying (and re-logging) on every admin request
+    # would not make an unusable base.html any more usable.
     try:
         base_template = get_template("base.html")
         source = base_template.template.source
-        _legacy_style_cache = bool(re.search(r'<html[^>]*\bdata-cms-theme=["\'][34]["\']', source))
-    except Exception:  # noqa: BLE001 -- frontend template loaders must never break admin rendering.
-        # Template lookup/source inspection is best effort; fall back on any failure.
+        _legacy_style_cache = bool(LEGACY_MARKER.search(source))
+    except TemplateDoesNotExist:
+        # Projects without a base.html are perfectly normal.
+        _legacy_style_cache = False
+    except Exception:
+        # Frontend template loaders must never break admin rendering.
+        logger.warning(
+            "Could not inspect base.html for a legacy django CMS theme marker; "
+            "using the current style. Set CMS_LEGACY_STYLE to skip detection.",
+            exc_info=True,
+        )
         _legacy_style_cache = False
     return _legacy_style_cache
