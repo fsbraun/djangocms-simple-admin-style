@@ -5,6 +5,15 @@ Changelog
 Version 6.2.0 (unreleased)
 ==========================
 
+* Detect legacy django CMS themes 3 and 4 from the source of ``base.html``
+  without rendering frontend tags that require page or toolbar state.
+
+* Keep split date/time inputs side by side in narrower CMS modal iframes,
+  wrapping as needed on small screens.
+
+* Apply close-link colours and button sizing consistently within submit rows,
+  including read-only change forms.
+
 * Develop the Django 6.2 series on ``main`` and test against Django's
   ``main`` branch. Keep only the Django 6.2 stylesheet and remove Django
   version checks.
